@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X, Laptop } from "lucide-react";
+import { IoPersonCircleOutline } from "react-icons/io5";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,7 +12,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-background">
+    <header className="bg-background relative z-10 ">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
@@ -54,7 +55,10 @@ const Header = () => {
           </nav>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <button>
-              <Link href="/signin">Sign in</Link>
+              <Link href="/signin">
+                {" "}
+                <IoPersonCircleOutline className="w-20 h-7" />
+              </Link>
             </button>
           </div>
         </div>
