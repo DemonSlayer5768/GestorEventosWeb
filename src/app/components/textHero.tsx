@@ -1,7 +1,7 @@
 export default function TextHero() {
   return (
     <div>
-      <div className="relative z-10 mx-auto px-6 lg:px-8 py-16 sm:py-24 lg:py-56">
+      <div className="mx-auto px-6 lg:px-8 py-16 sm:py-24 lg:py-56">
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
             Bienvenido a Eventify
@@ -20,7 +20,10 @@ export default function TextHero() {
             >
               Crea tu evento
             </a>
-            <a href="#" className="text-sm font-semibold leading-6 text-white">
+            <a
+              href="#"
+              className="text-sm font-semibold leading-6 text-white hover:text-blue-400"
+            >
               Saber mas <span aria-hidden="true">→</span>
             </a>
           </div>

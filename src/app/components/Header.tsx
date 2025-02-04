@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X, Laptop } from "lucide-react";
 import { IoPersonCircleOutline } from "react-icons/io5";
+import Image from "next/image";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,15 +13,18 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-background relative z-10 ">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10">
+    <header>
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 ">
+        <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10 h-20">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link href="/" className="flex items-center">
-              <Laptop className="h-8 w-auto sm:h-10 text-primary" />
-              <span className="ml-2 text-xl font-bold text-primary">
-                Eventify
-              </span>
+              <Image
+                src="/logoEventify.svg"
+                alt="Eventify Logo"
+                width={320}
+                height={160}
+                className="w-80 h-40 "
+              />
             </Link>
           </div>
           <div className="-mr-2 -my-2 md:hidden">
@@ -36,28 +40,27 @@ const Header = () => {
           <nav className="hidden md:flex space-x-10">
             <Link
               href="/features"
-              className="text-base font-medium text-gray-500 hover:text-gray-900"
+              className="text-base font-medium text-white hover:text-blue-400"
             >
-              Features
+              Sobre Nosotros
             </Link>
             <Link
               href="/pricing"
-              className="text-base font-medium text-gray-500 hover:text-gray-900"
+              className="text-base font-medium text-white hover:text-blue-400"
             >
-              Pricing
+              Precios
             </Link>
             <Link
               href="/about"
-              className="text-base font-medium text-gray-500 hover:text-gray-900"
+              className="text-base font-medium text-white hover:text-blue-400"
             >
-              About
+              Servicios
             </Link>
           </nav>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <button>
               <Link href="/signin">
-                {" "}
-                <IoPersonCircleOutline className="w-20 h-7" />
+                <IoPersonCircleOutline className="w-20 h-7  hover:text-blue-400 " />
               </Link>
             </button>
           </div>
@@ -84,19 +87,19 @@ const Header = () => {
                 <nav className="grid gap-y-8">
                   <Link
                     href="/features"
-                    className="text-base font-medium text-gray-900 hover:text-gray-700"
+                    className="text-base font-medium text-white hover:text-blue-400"
                   >
                     Features
                   </Link>
                   <Link
                     href="/pricing"
-                    className="text-base font-medium text-gray-900 hover:text-gray-700"
+                    className="text-base font-medium text-white hover:text-blue-400"
                   >
                     Pricing
                   </Link>
                   <Link
                     href="/about"
-                    className="text-base font-medium text-gray-900 hover:text-gray-700"
+                    className="text-base font-medium text-white hover:text-blue-400"
                   >
                     About
                   </Link>
