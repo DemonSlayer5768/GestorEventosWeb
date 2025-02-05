@@ -10,7 +10,7 @@ const tiers = [
     description: "paquete de evento basico",
     features: [
       "5 servicios incluidos",
-      "",
+      "horario de servicio 24/7",
       "Advanced analytics",
       "24-hour support response time",
     ],
