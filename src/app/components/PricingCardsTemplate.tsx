@@ -3,15 +3,14 @@ import { FaCheck } from "react-icons/fa";
 
 const tiers = [
   {
-    name: "Hobby",
-    id: "tier-hobby",
+    name: "Basico",
+    id: "tier-basic",
     href: "#",
-    priceMonthly: "$29",
-    description:
-      "The perfect plan if you're just getting started with our product.",
+    priceMonthly: "$2,000.00",
+    description: "paquete de evento basico",
     features: [
-      "25 products",
-      "Up to 10,000 subscribers",
+      "5 servicios incluidos",
+      "",
       "Advanced analytics",
       "24-hour support response time",
     ],
@@ -101,9 +100,7 @@ export default function PricingCards() {
                   tier.featured ? "text-gray-400" : "text-gray-500",
                   "text-base"
                 )}
-              >
-                /month
-              </span>
+              ></span>
             </p>
             <p
               className={classNames(
