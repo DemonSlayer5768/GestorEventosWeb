@@ -2,9 +2,10 @@
 import React, { useRef } from "react";
 import Header from "./components/Header";
 import Footer from "./components/footer";
-import HeroSectionBoda from "./components/HeroSectionBoda";
 import TextHero from "./components/textHero";
-import PricingCards from "./components/PricingCardsTemplate";
+import Pricing from "./components/PricingCardsTemplate";
+import AboutUs from "./components/AboutUs";
+import ViewServicesHero from "./components/Services";
 
 export default function Home() {
   const aboutRef = useRef<HTMLDivElement | null>(null);
@@ -34,34 +35,22 @@ export default function Home() {
           <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
         </div>
 
-        <div className="relative z-10">
-          <Header scrollToSection={scrollToSection} />
+        <Header scrollToSection={scrollToSection} />
+        <div className="relative z-10 p-40">
           <TextHero />
         </div>
       </div>
 
-      <div
-        ref={packagesRef}
-        className="container mx-auto px-4 py-16 sm:py-24 lg:py-32 "
-      >
-        <PricingCards />
+      <div ref={aboutRef}>
+        <AboutUs />
       </div>
 
-      <div
-        ref={aboutRef}
-        className="container mx-auto px-4 py-16 sm:py-24 lg:py-32"
-      >
-        <h2 className="text-3xl font-bold">Sobre Nosotros</h2>
-        <p>Información sobre la empresa...</p>
+      <div ref={servicesRef}>
+        <ViewServicesHero />
       </div>
 
-      <div
-        ref={servicesRef}
-        className="container mx-auto px-4 py-16 sm:py-24 lg:py-32 "
-      >
-        <h2 className="text-3xl font-bold">Servicios</h2>
-        <p>Detalles de nuestros servicios...</p>
-        <HeroSectionBoda />
+      <div ref={packagesRef}>
+        <Pricing />
       </div>
 
       <Footer />
