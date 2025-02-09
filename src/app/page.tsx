@@ -5,7 +5,7 @@ import Footer from "./components/Principal/footer";
 import TextHero from "./components/Principal/textHero";
 import Pricing from "./components/Principal/PricingCardsTemplate";
 import AboutUs from "./components/Principal/AboutUs";
-// import ViewServicesHero from "./components/Principal/viewServicesHero";
+import Services from "./components/Principal/Services";
 
 export default function Home() {
   const aboutRef = useRef<HTMLDivElement | null>(null);
@@ -45,9 +45,11 @@ export default function Home() {
         <AboutUs />
       </div>
 
-      <div ref={servicesRef}>{/* <ViewServicesHero /> */}</div>
+      <div ref={servicesRef}>
+        <Services />
+      </div>
 
-      <div ref={packagesRef} className="z-10">
+      <div ref={packagesRef}>
         <Pricing />
       </div>
 

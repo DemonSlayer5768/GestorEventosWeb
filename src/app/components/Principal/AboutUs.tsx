@@ -1,10 +1,10 @@
 import React from "react";
 export default function AboutUs() {
   return (
-    <div className="w-full h-auto md:p-20 lg:p-40 min-h-screen md:py-24 px-4">
+    <div className="w-full h-auto md:p-20 lg:p-40 min-h-screen md:py-24 px-4 ">
       {/* Sección principal */}
       <section className="items-center justify-center md: mb-24 py-20">
-        <div className="text-center max-w-4xl mx-auto px-4 md:md:py-24 lg:py-32">
+        <div className="text-center max-w-4xl mx-auto px-4 md:md:py-24 lg:py-5 pt-20">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-light mb-4 tracking-tight">
             En <strong className="text-blue-400">Eventyfy</strong> te ayudaremos
             a organizar tu evento soñado
@@ -17,8 +17,11 @@ export default function AboutUs() {
             segundos.
           </p>
         </div>
-        <div className="max-w-6xl mx-auto text-center ">
-          <h2 className="text-2xl md:text-3xl font-light mb-6 md:mb-12">
+      </section>
+      {/* Sección de valores */}
+      <section className=" py-20">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-2xl  md:text-3xl lg:text-4xl font-light mb-4 tracking-tight">
             Nuestros Valores
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
@@ -59,7 +62,6 @@ export default function AboutUs() {
           </div>
         </div>
       </section>
-      {/* Sección de valores */}
     </div>
   );
 }
