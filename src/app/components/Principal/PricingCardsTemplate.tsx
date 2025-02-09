@@ -44,22 +44,27 @@ const tiers = [
 
 const Pricing = () => {
   return (
-    <div className="min-h-screen py-10 px-4 sm:px-8 lg:px-16">
-      <div className="mx-auto max-w-4xl text-center">
-        <p className="mt-2 text-5xl font-semibold tracking-tight text-balance text-white sm:text-6xl">
+    <div className="min-h-screen py-52 px-4 sm:px-6 lg:px-12 w-full max-w-7xl mx-auto">
+      <div className="text-center">
+        <p className="mt-2 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
           PAQUETES DISPONIBLES
         </p>
+        <p className="mx-auto mt-4 max-w-2xl text-center text-lg text-gray-300 sm:text-xl">
+          Paquetes de eventos predefinidos con sus servicios incluidos para
+          facilitar tu organización.
+        </p>
       </div>
-      <p className="mx-auto mt-6 max-w-2xl text-center text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">
-        Paquetes de eventos predefinidos con sus servicios para solicitar en la
-        brevedad y sin hacer nada mas.
-      </p>
-      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-10">
+
+      <div className="grid gap-6  md:grid-cols-2 lg:grid-cols-3 p-6 sm:p-10 mt-10 z-20 ">
         {tiers.map((tier) => (
           <div
             key={tier.id}
-            className={`rounded-2xl shadow-md p-6 transition-transform transform hover:scale-105 hover:shadow-xl`}
-            style={{ backgroundColor: tier.color, color: "#ffffff" }}
+            className="rounded-2xl shadow-lg p-6 sm:w-[90%] md:w-full mx-auto transition-transform transform hover:scale-105 hover:shadow-2xl"
+            style={{
+              backgroundColor: tier.color,
+              color: "#ffffff",
+              zIndex: 20,
+            }}
           >
             <h2 className="text-2xl font-semibold mb-2">{tier.name}</h2>
             <p className="text-lg mb-4">{tier.description}</p>

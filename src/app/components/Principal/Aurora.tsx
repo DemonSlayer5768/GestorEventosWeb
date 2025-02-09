@@ -1,7 +1,7 @@
 import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
 import { useEffect, useRef } from "react";
 
-import "../styles/Aurora.css";
+import "../../styles/Aurora.css";
 
 export interface CommonProps {
   onReady?: () => void;

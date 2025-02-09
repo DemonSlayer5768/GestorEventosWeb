@@ -9,7 +9,7 @@ import {
   Texture,
 } from "ogl";
 
-import "../styles/CircularGallery.css";
+import "../../styles/CircularGallery.css";
 
 type GL = Renderer["gl"];
 
@@ -531,36 +531,36 @@ class App {
         text: "",
       },
       {
-        image: `https://picsum.photos/seed/5/800/600?grayscale`,
-        text: "Deep Diving",
+        image: `/ImgsCarousel/ImgCumple2.jpg`,
+        text: "",
       },
       {
-        image: `https://picsum.photos/seed/16/800/600?grayscale`,
-        text: "Train Track",
+        image: `/ImgsCarousel/ImgCumple2.jpg`,
+        text: "",
       },
       {
-        image: `https://picsum.photos/seed/17/800/600?grayscale`,
-        text: "Santorini",
+        image: `/ImgsCarousel/ImgCumple2.jpg`,
+        text: "",
       },
       {
-        image: `https://picsum.photos/seed/8/800/600?grayscale`,
-        text: "Blurry Lights",
+        image: `/ImgsCarousel/ImgCumple2.jpg`,
+        text: "",
       },
       {
-        image: `https://picsum.photos/seed/9/800/600?grayscale`,
-        text: "New York",
+        image: `/ImgsCarousel/ImgCumple2.jpg`,
+        text: "",
       },
       {
-        image: `https://picsum.photos/seed/10/800/600?grayscale`,
-        text: "Good Boy",
+        image: `/ImgsCarousel/ImgCumple2.jpg`,
+        text: "",
       },
       {
-        image: `https://picsum.photos/seed/21/800/600?grayscale`,
-        text: "Coastline",
+        image: `/ImgsCarousel/ImgCumple2.jpg`,
+        text: "",
       },
       {
-        image: `https://picsum.photos/seed/12/800/600?grayscale`,
-        text: "Palm Trees",
+        image: `/ImgsCarousel/ImgCumple2.jpg`,
+        text: "",
       },
     ];
     const galleryItems = items && items.length ? items : defaultItems;

@@ -13,6 +13,7 @@ const Header = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -24,15 +25,24 @@ const Header = ({
       setIsScrolled(window.scrollY > 0); // Si el scroll está en la parte superior, será false
     };
 
+    const handleScrollMobile = () => {
+      setIsMobile(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScrollMobile);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollMobile);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
     <header
       className={`fixed w-full z-50 transition duration-300 ${
         isScrolled ? "shadow-md bg-none" : "bg-transparent"
-      }`}
+      } ${isMobile ? "bg-[#021024] text-white" : " bg-transparent"}`}
     >
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10 h-20">
@@ -42,7 +52,8 @@ const Header = ({
                 src="/logoEventify.svg"
                 alt="Eventify Logo"
                 width={220}
-                height={160}
+                height={0}
+                quality={100}
               />
             </Link>
           </div>
@@ -64,7 +75,7 @@ const Header = ({
 
           <nav
             className={`hidden md:flex space-x-10 ${
-              isScrolled ? " bg-[#ffff] px-2 py-2 rounded-xl text-black " : ""
+              isScrolled ? "  px-2 py-2 rounded-xl text-white  " : ""
             }`}
           >
             <button
@@ -97,7 +108,7 @@ const Header = ({
 
       {/* Menú Móvil */}
       {isMenuOpen && (
-        <div className="md:hidden w-64 bg-[#021024]  text-white shadow-md fixed top-20 right-0  z-50">
+        <div className="md:hidden w-64  bg-[#021024] text-white shadow-md fixed top-20 right-0 z-50">
           <div className=" px-4 pt-4 pb-2 space-y-3 ">
             <Link
               href="/signin"
