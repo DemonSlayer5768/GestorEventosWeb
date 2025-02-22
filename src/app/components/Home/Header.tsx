@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-// import React from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { IoPersonCircleOutline } from "react-icons/io5";
@@ -40,9 +39,9 @@ const Header = ({
 
   return (
     <header
-      className={`fixed w-full z-50 transition duration-300 ${
-        isScrolled ? "shadow-md bg-none" : "bg-transparent"
-      } ${isMobile ? "bg-[#021024] text-white" : " bg-transparent"}`}
+      className={`fixed w-full z-50 transition duration-300
+         ${isScrolled ? "shadow-md bg-none" : "bg-transparent"}
+       ${isMobile ? "bg-[#021024] text-white" : " bg-transparent"}`}
     >
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10 h-20">
@@ -99,7 +98,7 @@ const Header = ({
           </nav>
 
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-            <Link href="/signin">
+            <Link href="/SignIn">
               <IoPersonCircleOutline className="w-8 h-8 hover:text-[#c1e8ff] transition duration-300" />
             </Link>
           </div>
@@ -111,7 +110,7 @@ const Header = ({
         <div className="md:hidden w-64  bg-[#021024] text-white shadow-md fixed top-20 right-0 z-50">
           <div className=" px-4 pt-4 pb-2 space-y-3 ">
             <Link
-              href="/signin"
+              href="/SignIn"
               onClick={toggleMenu}
               className="flex items-center gap-2 py-2 hover:bg-[#7da0ca] rounded-md transition"
             >
