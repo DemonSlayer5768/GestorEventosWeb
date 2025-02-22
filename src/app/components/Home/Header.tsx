@@ -24,16 +24,27 @@ const Header = ({
       setIsScrolled(window.scrollY > 0); // Si el scroll está en la parte superior, será false
     };
 
-    const handleScrollMobile = () => {
-      setIsMobile(window.scrollY > 0);
-    };
-
-    window.addEventListener("scroll", handleScrollMobile);
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScrollMobile);
       window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Detectar el tamaño de la pantalla
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // 768px es el breakpoint típico para móvil
+    };
+
+    // Ejecutar al montar el componente
+    handleResize();
+
+    // Escuchar cambios en el tamaño de la pantalla
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -41,7 +52,7 @@ const Header = ({
     <header
       className={`fixed w-full z-50 transition duration-300
          ${isScrolled ? "shadow-md bg-none" : "bg-transparent"}
-       ${isMobile ? "bg-[#021024] text-white" : " bg-transparent"}`}
+         ${isMobile ? "bg-[#021024] text-white" : "bg-transparent"}`}
     >
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10 h-20">
@@ -74,7 +85,9 @@ const Header = ({
 
           <nav
             className={`hidden md:flex space-x-10 ${
-              isScrolled ? "  px-2 py-2 rounded-xl text-white  " : ""
+              isScrolled
+                ? " bg-gray-600  px-2 py-2 rounded-xl text-white  "
+                : ""
             }`}
           >
             <button
