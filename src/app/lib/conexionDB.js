@@ -1,4 +1,3 @@
-// db.js
 import mysql from "mysql2/promise";
 
 // Crea una conexión a la base de datos con promesas

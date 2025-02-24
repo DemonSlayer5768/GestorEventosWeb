@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"node server.js\" \"next dev --turbopack\"",
+    "dev": "concurrently \"node server.mjs\" \"next dev --turbopack\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
