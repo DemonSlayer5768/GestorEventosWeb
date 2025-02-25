@@ -5,13 +5,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { IoPersonCircle } from "react-icons/io5";
+import { useRoutes } from "@Hooks/useRoutes";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const routes = useRoutes();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -125,7 +126,7 @@ export default function LoginForm() {
           <p className="text-sm text-gray-600">
             No tienes cuenta?{" "}
             <Link
-              href="/register"
+              href={routes.register}
               className="font-medium text-blue-600 hover:text-blue-500"
             >
               Registrarse
