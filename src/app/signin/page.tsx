@@ -18,7 +18,7 @@ export default function LoginForm() {
     setError("");
 
     if (!email || !password) {
-      setError("Please fill in all fields");
+      setError("Porfavor llena todos los datos");
       return;
     }
 

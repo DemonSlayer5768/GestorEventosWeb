@@ -32,6 +32,12 @@
       "@Layouts/*": ["./src/app/layouts/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/app/lib/conexionDB.js"
+  ],
   "exclude": ["node_modules"]
 }

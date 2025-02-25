@@ -12,17 +12,36 @@ export default function RegisterForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
     if (!email || !password || !user || !phone) {
-      setError("Porfavor llena todos los datos");
+      setError("Por favor llena todos los datos");
       return;
     }
 
-    // Here you would typically handle the login logic
-    console.log("Register attempt with:", { email, password, user, phone });
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user, email, phone, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Error al registrar usuario");
+      }
+
+      console.log("Usuario registrado:", data);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Error desconocido");
+      }
+    }
   };
 
   return (
