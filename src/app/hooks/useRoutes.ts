@@ -13,9 +13,9 @@ export const useRoutes = (): Routes => {
   return {
     home: "/",
     login: "/signin",
-    register: "@Pages/register",
-    admin: "@Pages/admin",
-    proveedores: "@Pages/proveedores",
-    usuarios: "@Pages/users",
+    register: "/register",
+    admin: "/admin",
+    proveedores: "/proveedores",
+    usuarios: "/users",
   };
 };
