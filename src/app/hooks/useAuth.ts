@@ -1,13 +1,46 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+export function useAuth() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter(); // Inicializa el router
 
   useEffect(() => {
-    // Lógica para verificar si el usuario está autenticado
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setLoading(false);
   }, []);
 
-  return { isAuthenticated };
-};
+  async function login(email: string, password: string) {
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+
+      setUser(data);
+      localStorage.setItem("user", JSON.stringify(data));
+
+      // 🔹 Redirigir a la página principal
+      router.push("/users");
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  function logout() {
+    setUser(null);
+    localStorage.removeItem("user");
+  }
+
+  return { user, login, logout, loading };
+}

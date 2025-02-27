@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { IoPersonCircle } from "react-icons/io5";
 import { useRoutes } from "@Hooks/useRoutes";
+import { useAuth } from "@Hooks/useAuth";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,17 +14,26 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const routes = useRoutes();
-  const handleSubmit = (e: React.FormEvent) => {
+  const { login } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
     if (!email || !password) {
-      setError("Porfavor llena todos los datos");
+      setError("Por favor, llena todos los datos");
       return;
     }
 
-    // Here you would typically handle the login logic
-    console.log("Login attempt with:", { email, password });
+    try {
+      await login(email, password);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message || "Error al iniciar sesión");
+      } else {
+        setError("Error al iniciar sesión");
+      }
+    }
   };
 
   return (
