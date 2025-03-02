@@ -114,8 +114,11 @@ const Header = ({
           </nav>
 
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-            <Link href={routes.login}>
-              <IoPersonCircleOutline className="w-8 h-8 hover:text-[#c1e8ff] transition duration-300" />
+            <Link href={routes.login} className="flex items-center gap-2">
+              <h1 className="text-center hover:text-blue-600 transition duration-300">
+                Iniciar Sesión
+              </h1>
+              <IoPersonCircleOutline className="w-8 h-8" />
             </Link>
           </div>
         </div>
