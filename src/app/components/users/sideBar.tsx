@@ -9,8 +9,42 @@ import {
   Clock,
   Settings,
   HelpCircle,
+  Plus,
 } from "lucide-react";
 import Link from "next/link";
+
+interface SidebarItemProps {
+  href: string;
+  icon: React.ComponentType<{ size: number }>;
+  text: string;
+  isExpanded: boolean;
+}
+
+const SidebarItem = ({
+  href,
+  icon: Icon,
+  text,
+  isExpanded,
+}: SidebarItemProps) => {
+  return (
+    <li>
+      <Link
+        href={href}
+        className={`flex items-center  gap-2 p-2 rounded-lg hover:bg-gray-600 transition-all duration-300 ease-in-out
+    ${isExpanded ? "w-full justify-start" : "w-12 justify-center"}`}
+      >
+        <Icon size={24} />
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            isExpanded ? "max-w-xs opacity-100 ml-2" : "max-w-0 opacity-0"
+          }`}
+        >
+          <span className="whitespace-nowrap">{text}</span>
+        </div>
+      </Link>
+    </li>
+  );
+};
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -19,13 +53,13 @@ const Sidebar = () => {
     <div className="flex">
       {/* Sidebar */}
       <div
-        className={`bg-gray-900 text-white min-h-screen flex flex-col transition-all duration-300 ease-in-out 
-    ${isExpanded ? "w-64 p-5" : "w-20 p-2"}`}
+        className={`bg-gray-900 text-white min-h-screen flex flex-col transition-all duration-300 ease-in-out
+        ${isExpanded ? "w-64 p-5" : "w-14 p-2"}`}
       >
         {/* Toggle Button */}
         <div className="mt-4 pb-6">
           <button
-            className="p-2 rounded-md hover:bg-gray-700 transition"
+            className="p-2 rounded-lg hover:bg-gray-700 transition"
             onClick={() => setIsExpanded(!isExpanded)}
           >
             <Menu size={24} />
@@ -33,8 +67,16 @@ const Sidebar = () => {
         </div>
 
         {/* Navigation */}
-        <nav className="mt-4 flex-1">
-          <ul className="space-y-4">
+        <nav className="mt-6 flex-1">
+          <ul className="space-y-6">
+            <div className="bg-green-500 rounded-lg hover:bg-green-600 transition">
+              <SidebarItem
+                href="/crear-evento"
+                icon={Plus}
+                text="Crear Evento"
+                isExpanded={isExpanded}
+              />
+            </div>
             <SidebarItem
               href="/mis-eventos"
               icon={Calendar}
@@ -88,40 +130,6 @@ const Sidebar = () => {
         </div>
       </div>
     </div>
-  );
-};
-
-/* Componente Reutilizable para los Items del Sidebar */
-interface SidebarItemProps {
-  href: string;
-  icon: React.ComponentType<{ size: number }>;
-  text: string;
-  isExpanded: boolean;
-}
-
-const SidebarItem = ({
-  href,
-  icon: Icon,
-  text,
-  isExpanded,
-}: SidebarItemProps) => {
-  return (
-    <li>
-      <Link
-        href={href}
-        className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-800"
-      >
-        <Icon size={24} />
-        {/* Contenedor con transición para animar el texto */}
-        <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            isExpanded ? "max-w-xs opacity-100" : "max-w-0 opacity-0"
-          }`}
-        >
-          <span className="whitespace-nowrap">{text}</span>
-        </div>
-      </Link>
-    </li>
   );
 };
 

@@ -13,29 +13,19 @@ html {
   /* --background-image: #7da0ca; */
   /* --background-image: #c1e8ff; */
 
-  --background: linear-gradient(
+  /* --background: linear-gradient(
     90deg,
     rgba(2, 16, 36, 1) 19%,
     rgba(5, 38, 89, 1) 50%
-  );
-
-  --foreground: #171717;
+  ); */
+  --background: #ffffff;
+  --foreground: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: linear-gradient(
-      304deg,
-      rgba(2, 16, 36, 1) 19%,
-      rgba(5, 38, 89, 1) 50%
-    );
-    /* --background: #021024; */
-    /* --background-image: #052659; */
-    /* --background-image: #5483b3; */
-    /* --background-image: #7da0ca; */
-    /* --background-image: #c1e8ff; */
-
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #ffffff;
   }
 }
 
