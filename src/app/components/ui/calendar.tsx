@@ -3,7 +3,7 @@ import { Calendar as CalendarPrimitive } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 interface CalendarProps {
-  selected: Date;
+  selected: Date | null; // Permitir null
   onSelect: (value: Date | null) => void;
   disabled?: (args: { date: Date }) => boolean;
 }
