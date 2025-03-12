@@ -1,12 +1,13 @@
 "use client";
 import React, { useRef } from "react";
-import Header from "./components/Header";
-import Footer from "./components/footer";
-import HeroSectionBoda from "./components/HeroSectionBoda";
-import TextHero from "./components/textHero";
-import PricingCards from "./components/PricingCardsTemplate";
+import Header from "@Components/Home/Header";
+import Footer from "@Components/Home/footer";
+import TextHero from "@Components/Home/textHero";
+import Pricing from "@Components/Home/PricingCardsTemplate";
+import AboutUs from "@Components/Home/AboutUs";
+import Services from "@Components/Home/Services";
 
-export default function Home() {
+export default function HomeMain() {
   const aboutRef = useRef<HTMLDivElement | null>(null);
   const packagesRef = useRef<HTMLDivElement | null>(null);
   const servicesRef = useRef<HTMLDivElement | null>(null);
@@ -28,40 +29,28 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className="bg-gradient-to-r from-[#021024] via-[#052659] to-[#052659] h-full w-full">
       <div className="w-full h-dvh">
-        <div className="absolute inset-0 bg-[url('/Principaleventos.jpg')] bg-cover bg-center bg-no-repeat opacity-70">
+        <div className="absolute inset-0 bg-[url('/Principaleventos.jpg')] bg-cover md:bg-fixed bg-center bg-no-repeat opacity-70">
           <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
         </div>
 
-        <div className="relative z-10">
+        <div className="relative">
           <Header scrollToSection={scrollToSection} />
           <TextHero />
         </div>
       </div>
 
-      <div
-        ref={packagesRef}
-        className="container mx-auto px-4 py-16 sm:py-24 lg:py-32 "
-      >
-        <PricingCards />
+      <div ref={aboutRef}>
+        <AboutUs />
       </div>
 
-      <div
-        ref={aboutRef}
-        className="container mx-auto px-4 py-16 sm:py-24 lg:py-32"
-      >
-        <h2 className="text-3xl font-bold">Sobre Nosotros</h2>
-        <p>Información sobre la empresa...</p>
+      <div ref={servicesRef}>
+        <Services />
       </div>
 
-      <div
-        ref={servicesRef}
-        className="container mx-auto px-4 py-16 sm:py-24 lg:py-32 "
-      >
-        <h2 className="text-3xl font-bold">Servicios</h2>
-        <p>Detalles de nuestros servicios...</p>
-        <HeroSectionBoda />
+      <div ref={packagesRef}>
+        <Pricing />
       </div>
 
       <Footer />

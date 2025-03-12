@@ -21,9 +21,15 @@
     "baseUrl": ".",
     "paths": {
       "<webPage>/*": ["./src/*"],
-      "components/*": ["./src/components/*"],
-      "layouts/*": ["./src/layouts/*"],
-      "styles/*": ["./src/styles/*"]
+      "@Components/*": ["./src/app/components/*"],
+      "@Hooks/*": ["./src/app/hooks/*"],
+      "@Lib/*": ["./src/app/lib/*"],
+      "@Pages/*": ["./src/app/pages/*"],
+      "@Services/*": ["./src/app/services/*"],
+      "@Store/*": ["./src/app/store/*"],
+      "@Styles/*": ["./src/app/styles/*"],
+      "@Utils/*": ["./src/app/utils/*"],
+      "@Layouts/*": ["./src/app/layouts/*"]
     }
   },
   "include": [
@@ -31,7 +37,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/components/Carousel.js"
+    "src/app/lib/conexionDB.js"
   ],
   "exclude": ["node_modules"]
 }
