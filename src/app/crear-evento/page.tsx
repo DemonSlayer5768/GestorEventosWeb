@@ -1,10 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { useForm } from "react-hook-form";
-import { CalendarIcon, Clock } from "lucide-react";
 import { useState } from "react";
 import "@Styles/create-event.css";
 
@@ -26,7 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@Components/ui/select";
-import { Calendar } from "@Components/ui/calendar";
+import { DatePickerBasic } from "@Components/ui/DatePickerBasic";
+import { TimePickerBasic } from "@Components/ui/TimePickerBasic";
 import {
   Popover,
   PopoverContent,
@@ -96,6 +94,7 @@ export default function FormularioEvento() {
   }
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
 
   return (
     <div className="container mx-auto py-10">
@@ -128,17 +127,20 @@ export default function FormularioEvento() {
                         <FormLabel>Nombre</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Juan"
                             {...field}
                             value={
                               typeof field.value === "string" ? field.value : ""
                             }
                           />
                         </FormControl>
-                        <FormMessage>Este campo es obligatorio</FormMessage>
+
+                        <FormMessage>
+                          {form.formState.errors.nombre?.message}
+                        </FormMessage>
                       </FormItem>
                     )}
                   />
+
                   <FormField
                     control={form.control}
                     name="apellido"
@@ -156,7 +158,9 @@ export default function FormularioEvento() {
                             }
                           />
                         </FormControl>
-                        <FormMessage>Este campo es obligatorio</FormMessage>
+                        <FormMessage>
+                          {form.formState.errors.apellido?.message}
+                        </FormMessage>
                       </FormItem>
                     )}
                   />
@@ -177,7 +181,9 @@ export default function FormularioEvento() {
                             }
                           />
                         </FormControl>
-                        <FormMessage>Este campo es obligatorio</FormMessage>
+                        <FormMessage>
+                          {form.formState.errors.email?.message}
+                        </FormMessage>
                       </FormItem>
                     )}
                   />
@@ -198,7 +204,9 @@ export default function FormularioEvento() {
                             }
                           />
                         </FormControl>
-                        <FormMessage>Este campo es obligatorio</FormMessage>
+                        <FormMessage>
+                          {form.formState.errors.telefono?.message}
+                        </FormMessage>
                       </FormItem>
                     )}
                   />
@@ -229,7 +237,9 @@ export default function FormularioEvento() {
                             }
                           />
                         </FormControl>
-                        <FormMessage>Este campo es obligatorio</FormMessage>
+                        <FormMessage>
+                          {form.formState.errors.nombreEvento?.message}
+                        </FormMessage>
                       </FormItem>
                     )}
                   />
@@ -237,64 +247,55 @@ export default function FormularioEvento() {
                     <FormField
                       control={form.control}
                       name="fechaEvento"
-                      render={({ field }) => (
+                      render={() => (
                         <FormItem>
-                          <FormLabel>Fecha del Evento</FormLabel>
-                          <Popover
-                            content={
-                              <PopoverContent>
-                                <Calendar
-                                  selected={selectedDate}
-                                  onSelect={(date) => setSelectedDate(date)}
-                                  disabled={({ date }) => date < new Date()} // Acceder correctamente a 'date'
-                                />
-                              </PopoverContent>
-                            }
-                          >
+                          <FormLabel>fecha del Evento</FormLabel>
+                          <Popover>
                             <PopoverTrigger>
                               <FormControl>
-                                <Button
-                                  variant={"outline"}
-                                  className={`w-full pl-3 text-left font-normal ${
-                                    !field.value && "text-muted-foreground"
-                                  }`}
-                                >
-                                  {field.value ? (
-                                    format(field.value, "PPP", { locale: es })
-                                  ) : (
-                                    <span>Seleccione una fecha</span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
+                                <PopoverContent>
+                                  <DatePickerBasic
+                                    selected={selectedDate}
+                                    onSelect={(date: Date | null) =>
+                                      setSelectedDate(date)
+                                    }
+                                  />
+                                </PopoverContent>
                               </FormControl>
                             </PopoverTrigger>
                           </Popover>
 
-                          <FormMessage>Este campo es obligatorio</FormMessage>
+                          <FormMessage>
+                            {form.formState.errors.fechaEvento?.message}
+                          </FormMessage>
                         </FormItem>
                       )}
                     />
+
                     <FormField
                       control={form.control}
                       name="horaEvento"
-                      render={({ field }) => (
+                      render={() => (
                         <FormItem>
                           <FormLabel>Hora del Evento</FormLabel>
-                          <div className="relative">
-                            <FormControl>
-                              <Input
-                                type="string"
-                                {...field}
-                                value={
-                                  typeof field.value === "string"
-                                    ? field.value
-                                    : field.value.toISOString().split("T")[0]
-                                }
-                              />
-                            </FormControl>
-                            <Clock className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
-                          </div>
-                          <FormMessage>Este campo es obligatorio</FormMessage>
+                          <Popover>
+                            <PopoverTrigger>
+                              <FormControl>
+                                <PopoverContent>
+                                  <TimePickerBasic
+                                    selected={selectedTime}
+                                    oneChange={(time: Date | null) =>
+                                      setSelectedTime(time)
+                                    }
+                                  />
+                                </PopoverContent>
+                              </FormControl>
+                            </PopoverTrigger>
+                          </Popover>
+
+                          <FormMessage>
+                            {form.formState.errors.horaEvento?.message}
+                          </FormMessage>
                         </FormItem>
                       )}
                     />
@@ -316,7 +317,9 @@ export default function FormularioEvento() {
                             }
                           />
                         </FormControl>
-                        <FormMessage>Este campo es obligatorio</FormMessage>
+                        <FormMessage>
+                          {form.formState.errors.ubicacion?.message}
+                        </FormMessage>
                       </FormItem>
                     )}
                   />
@@ -346,7 +349,9 @@ export default function FormularioEvento() {
                             <SelectItem value="otro">Otro</SelectItem>
                           </SelectContent>
                         </Select>
-                        <FormMessage>Este campo es obligatorio</FormMessage>
+                        <FormMessage>
+                          {form.formState.errors.tipoEvento?.message}
+                        </FormMessage>
                       </FormItem>
                     )}
                   />
@@ -369,7 +374,9 @@ export default function FormularioEvento() {
                           />
                         </FormControl>
                         <FormDescription>Máximo 500 caracteres</FormDescription>
-                        <FormMessage>Este campo es obligatorio</FormMessage>
+                        <FormMessage>
+                          {form.formState.errors.descripcion?.message}
+                        </FormMessage>
                       </FormItem>
                     )}
                   />

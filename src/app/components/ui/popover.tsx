@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 interface PopoverProps {
   children: React.ReactNode;
-  content: React.ReactNode;
+  content?: React.ReactNode; // Hacerlo opcional
 }
 
 export const Popover: React.FC<PopoverProps> = ({ children, content }) => {
