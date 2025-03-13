@@ -16,13 +16,13 @@ import {
 } from "@Components/ui/card";
 import { Input } from "@Components/ui/input";
 import { Textarea } from "@Components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@Components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@Components/ui/select";
 import { DatePickerBasic } from "@Components/ui/DatePickerBasic";
 import { TimePickerBasic } from "@Components/ui/TimePickerBasic";
 import {
@@ -110,32 +110,164 @@ export default function FormularioEvento() {
         </CardHeader>
         <CardContent>
           <Form methods={form} onSubmit={onSubmit}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div>
-                <h3 className="text-lg font-medium">Datos Personales</h3>
-                <p className="text-sm text-muted-foreground">
-                  Ingrese sus datos de contacto para poder comunicarnos con
-                  usted.
-                </p>
-                <Separator />
+            <div>
+              <h3 className="text-lg font-medium">Datos Personales</h3>
+              <p className="text-sm text-muted-foreground">
+                Ingrese sus datos de contacto para poder comunicarnos con usted.
+              </p>
+              <Separator />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="nombre"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nombre</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          value={
+                            typeof field.value === "string" ? field.value : ""
+                          }
+                        />
+                      </FormControl>
+
+                      <FormMessage>
+                        {form.formState.errors.nombre?.message}
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="apellido"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Apellido</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="string"
+                          {...field}
+                          value={
+                            typeof field.value === "string"
+                              ? field.value
+                              : field.value.toISOString().split("T")[0]
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage>
+                        {form.formState.errors.apellido?.message}
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Correo Electrónico</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          {...field}
+                          value={
+                            typeof field.value === "string"
+                              ? field.value
+                              : field.value.toISOString().split("T")[0]
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage>
+                        {form.formState.errors.email?.message}
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="telefono"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Teléfono</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="tel"
+                          {...field}
+                          value={
+                            typeof field.value === "string"
+                              ? field.value.replace(/\D/g, "")
+                              : ""
+                          } // Elimina todo lo que no sea número
+                          onChange={(e) =>
+                            field.onChange(e.target.value.replace(/\D/g, ""))
+                          } // Evita caracteres no numéricos
+                        />
+                      </FormControl>
+                      <FormMessage>
+                        {form.formState.errors.telefono?.message}
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-medium">Detalles del Evento</h3>
+              <p className="text-sm text-muted-foreground">
+                Proporcione la información sobre el evento que desea crear.
+              </p>
+              <Separator />
+              <div className="grid grid-cols-1 gap-4">
+                <FormField
+                  control={form.control}
+                  name="nombreEvento"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nombre del Evento</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="string"
+                          {...field}
+                          value={
+                            typeof field.value === "string"
+                              ? field.value
+                              : field.value.toISOString().split("T")[0]
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage>
+                        {form.formState.errors.nombreEvento?.message}
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="nombre"
-                    render={({ field }) => (
+                    name="fechaEvento"
+                    render={() => (
                       <FormItem>
-                        <FormLabel>Nombre</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            value={
-                              typeof field.value === "string" ? field.value : ""
-                            }
-                          />
-                        </FormControl>
+                        <FormLabel>fecha del Evento</FormLabel>
+                        <Popover>
+                          <PopoverTrigger>
+                            <FormControl>
+                              <PopoverContent>
+                                <DatePickerBasic
+                                  selected={selectedDate}
+                                  onSelect={(date: Date | null) =>
+                                    setSelectedDate(date)
+                                  }
+                                />
+                              </PopoverContent>
+                            </FormControl>
+                          </PopoverTrigger>
+                        </Popover>
 
                         <FormMessage>
-                          {form.formState.errors.nombre?.message}
+                          {form.formState.errors.fechaEvento?.message}
                         </FormMessage>
                       </FormItem>
                     )}
@@ -143,187 +275,56 @@ export default function FormularioEvento() {
 
                   <FormField
                     control={form.control}
-                    name="apellido"
-                    render={({ field }) => (
+                    name="horaEvento"
+                    render={() => (
                       <FormItem>
-                        <FormLabel>Apellido</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="string"
-                            {...field}
-                            value={
-                              typeof field.value === "string"
-                                ? field.value
-                                : field.value.toISOString().split("T")[0]
-                            }
-                          />
-                        </FormControl>
+                        <FormLabel>Hora del Evento</FormLabel>
+                        <Popover>
+                          <PopoverTrigger>
+                            <FormControl>
+                              <PopoverContent>
+                                <TimePickerBasic
+                                  selected={selectedTime}
+                                  oneChange={(time: Date | null) =>
+                                    setSelectedTime(time)
+                                  }
+                                />
+                              </PopoverContent>
+                            </FormControl>
+                          </PopoverTrigger>
+                        </Popover>
+
                         <FormMessage>
-                          {form.formState.errors.apellido?.message}
-                        </FormMessage>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Correo Electrónico</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="email"
-                            {...field}
-                            value={
-                              typeof field.value === "string"
-                                ? field.value
-                                : field.value.toISOString().split("T")[0]
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage>
-                          {form.formState.errors.email?.message}
-                        </FormMessage>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="telefono"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Teléfono</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            {...field}
-                            value={
-                              typeof field.value === "string"
-                                ? field.value
-                                : field.value.toISOString().split("T")[0]
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage>
-                          {form.formState.errors.telefono?.message}
+                          {form.formState.errors.horaEvento?.message}
                         </FormMessage>
                       </FormItem>
                     )}
                   />
                 </div>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-medium">Detalles del Evento</h3>
-                <p className="text-sm text-muted-foreground">
-                  Proporcione la información sobre el evento que desea crear.
-                </p>
-                <Separator />
-                <div className="grid grid-cols-1 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="nombreEvento"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nombre del Evento</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="string"
-                            {...field}
-                            value={
-                              typeof field.value === "string"
-                                ? field.value
-                                : field.value.toISOString().split("T")[0]
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage>
-                          {form.formState.errors.nombreEvento?.message}
-                        </FormMessage>
-                      </FormItem>
-                    )}
-                  />
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="fechaEvento"
-                      render={() => (
-                        <FormItem>
-                          <FormLabel>fecha del Evento</FormLabel>
-                          <Popover>
-                            <PopoverTrigger>
-                              <FormControl>
-                                <PopoverContent>
-                                  <DatePickerBasic
-                                    selected={selectedDate}
-                                    onSelect={(date: Date | null) =>
-                                      setSelectedDate(date)
-                                    }
-                                  />
-                                </PopoverContent>
-                              </FormControl>
-                            </PopoverTrigger>
-                          </Popover>
-
-                          <FormMessage>
-                            {form.formState.errors.fechaEvento?.message}
-                          </FormMessage>
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="horaEvento"
-                      render={() => (
-                        <FormItem>
-                          <FormLabel>Hora del Evento</FormLabel>
-                          <Popover>
-                            <PopoverTrigger>
-                              <FormControl>
-                                <PopoverContent>
-                                  <TimePickerBasic
-                                    selected={selectedTime}
-                                    oneChange={(time: Date | null) =>
-                                      setSelectedTime(time)
-                                    }
-                                  />
-                                </PopoverContent>
-                              </FormControl>
-                            </PopoverTrigger>
-                          </Popover>
-
-                          <FormMessage>
-                            {form.formState.errors.horaEvento?.message}
-                          </FormMessage>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <FormField
-                    control={form.control}
-                    name="ubicacion"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Ubicación</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="string"
-                            {...field}
-                            value={
-                              typeof field.value === "string"
-                                ? field.value
-                                : field.value.toISOString().split("T")[0]
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage>
-                          {form.formState.errors.ubicacion?.message}
-                        </FormMessage>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
+                <FormField
+                  control={form.control}
+                  name="ubicacion"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Ubicación</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="string"
+                          {...field}
+                          value={
+                            typeof field.value === "string"
+                              ? field.value
+                              : field.value.toISOString().split("T")[0]
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage>
+                        {form.formState.errors.ubicacion?.message}
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
+                {/* <FormField
                     control={form.control}
                     name="tipoEvento"
                     render={({ field }) => (
@@ -354,45 +355,44 @@ export default function FormularioEvento() {
                         </FormMessage>
                       </FormItem>
                     )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="descripcion"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Descripción del Evento</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Describa los detalles de su evento, objetivos, público objetivo, etc."
-                            className="min-h-[120px]"
-                            {...field}
-                            value={
-                              typeof field.value === "string"
-                                ? field.value
-                                : field.value?.toString()
-                            }
-                          />
-                        </FormControl>
-                        <FormDescription>Máximo 500 caracteres</FormDescription>
-                        <FormMessage>
-                          {form.formState.errors.descripcion?.message}
-                        </FormMessage>
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                  /> */}
+                <FormField
+                  control={form.control}
+                  name="descripcion"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Descripción del Evento</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Describa los detalles de su evento, objetivos, público objetivo, etc."
+                          className="min-h-[120px]"
+                          {...field}
+                          value={
+                            typeof field.value === "string"
+                              ? field.value
+                              : field.value?.toString()
+                          }
+                        />
+                      </FormControl>
+                      <FormDescription>Máximo 500 caracteres</FormDescription>
+                      <FormMessage>
+                        {form.formState.errors.descripcion?.message}
+                      </FormMessage>
+                    </FormItem>
+                  )}
+                />
               </div>
-              <CardFooter className="flex justify-between px-0">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => form.reset()}
-                >
-                  Cancelar
-                </Button>
-                <Button type="submit">Enviar Formulario</Button>
-              </CardFooter>
-            </form>
+            </div>
+            <CardFooter className="flex justify-between px-0">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => form.reset()}
+              >
+                Cancelar
+              </Button>
+              <Button type="submit">Enviar Formulario</Button>
+            </CardFooter>
           </Form>
         </CardContent>
       </Card>

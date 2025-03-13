@@ -4,7 +4,7 @@ const ConexionDB = mysql.createPool({
   host: "127.0.0.1",
   port: 3306,
   user: "root",
-  password: "",
+  password: "12345",
   database: "gestor_eventos",
   waitForConnections: true,
   connectionLimit: 10,
