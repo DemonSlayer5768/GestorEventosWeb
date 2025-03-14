@@ -1,31 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Bell, User, Calendar } from "lucide-react";
+import { Bell, User } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="flex items-center justify-between bg-gray-900 text-white p-4 w-full">
-      {/* Buscador */}
-      <div className="flex items-center gap-2 bg-gray-800 p-2 rounded-md w-1/3">
-        <Search size={20} className="text-gray-400" />
-        <input
-          type="text"
-          placeholder="Buscar eventos..."
-          className="bg-transparent outline-none w-full text-white placeholder-gray-400"
-        />
-      </div>
-
-      {/* Date Picker */}
-      <div className="flex items-center gap-2 bg-gray-800 p-2 rounded-md">
-        <Calendar size={20} className="text-gray-400" />
-        <input type="date" className="bg-transparent outline-none text-white" />
-      </div>
-
-      {/* Iconos Derecha */}
-      <div className="flex items-center gap-4">
+    <header className="flex items-center bg-gray-900 text-white p-4 w-full z-10">
+      {/* Empujar Iconos a la Derecha */}
+      <div className="ml-auto flex items-center gap-4">
         {/* Notificaciones */}
         <button className="p-2 rounded-full hover:bg-gray-800">
           <Bell size={24} />

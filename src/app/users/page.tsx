@@ -1,5 +1,7 @@
 import Sidebar from "@Components/users/sideBar";
 import Header from "@Components/users/header";
+// import DataTable from "@Components/users/TableGrid";
+import TableButtons from "@Components/users/TableButtons";
 
 export default function Usuarios() {
   return (
@@ -8,11 +10,13 @@ export default function Usuarios() {
       <Sidebar />
 
       {/* CONTENIDO (HEADER Y DEMÁS) */}
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full h-screen overflow-hidden">
         <Header />
-        <div className="p-4">
-          {/* Aquí va el contenido de la página */}
-          <h1 className="text-2xl">Contenido principal</h1>
+
+        {/* Contenedor scrollable */}
+        <div className="flex-1 overflow-auto h-full">
+          {/* <DataTable /> */}
+          <TableButtons />
         </div>
       </div>
     </div>
