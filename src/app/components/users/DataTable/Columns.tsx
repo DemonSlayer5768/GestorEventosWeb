@@ -17,6 +17,7 @@ export const columns: GridColDef[] = [
     disableColumnMenu: true,
     disableReorder: true,
     resizable: false,
+    hideSortIcons: true,
     headerAlign: "center",
     align: "center",
   },
@@ -26,6 +27,7 @@ export const columns: GridColDef[] = [
     flex: 1.5,
     minWidth: 180,
     disableColumnMenu: true,
+    sortable: false,
   },
   {
     field: "tipoEvento",
@@ -33,6 +35,7 @@ export const columns: GridColDef[] = [
     flex: 1.5,
     minWidth: 140,
     disableColumnMenu: true,
+    sortable: false,
   },
   {
     field: "fechaCreacion",
@@ -40,6 +43,7 @@ export const columns: GridColDef[] = [
     flex: 1.5,
     minWidth: 140,
     disableColumnMenu: true,
+    sortable: false,
   },
   {
     field: "fechaFin",
@@ -47,6 +51,7 @@ export const columns: GridColDef[] = [
     flex: 1.5,
     minWidth: 140,
     disableColumnMenu: true,
+    sortable: false,
   },
   {
     field: "status",
@@ -76,16 +81,17 @@ export const columns: GridColDef[] = [
     disableColumnMenu: true,
     disableReorder: true,
     resizable: false,
+    sortable: false,
   },
   {
     field: "acciones",
     headerName: "",
     width: 80,
     disableColumnMenu: true,
-    disableReorder: true,
     resizable: false,
-    headerAlign: "center",
     align: "center",
+    sortable: false,
+    hideSortIcons: true,
     renderCell: (params) => <ActionMenu rowId={params.row.id} />,
   },
 ];
