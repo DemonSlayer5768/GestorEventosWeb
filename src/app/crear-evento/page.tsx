@@ -260,6 +260,7 @@ export default function FormularioEvento() {
                                   onSelect={(date: Date | null) =>
                                     setSelectedDate(date)
                                   }
+                                  myLabel="Fecha del Evento"
                                 />
                               </PopoverContent>
                             </FormControl>

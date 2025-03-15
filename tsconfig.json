@@ -29,6 +29,7 @@
       "@Store/*": ["./src/app/store/*"],
       "@Styles/*": ["./src/app/styles/*"],
       "@Utils/*": ["./src/app/utils/*"],
+      "@Data/*": ["./src/app/data/*"],
       "@Layouts/*": ["./src/app/layouts/*"]
     }
   },
