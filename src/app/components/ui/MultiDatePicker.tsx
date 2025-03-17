@@ -41,12 +41,12 @@ export default function MultiDatePicker({
     );
   };
 
-  // ✅ Usar useEffect para actualizar al padre cuando cambian las fechas seleccionadas
   useEffect(() => {
-    onDateChange(selectedDates.map((date) => date.format("YYYY-MM-DD")));
-  }, [selectedDates, onDateChange]);
+    onDateChange(selectedDates.map((date) => date.format("DD-MM-YYYY")));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDates]); // Ignorar la advertencia de onDateChange
 
-  const CustomDay = (props: PickersDayProps<Dayjs>) => {
+  const CustomDay = React.memo((props: PickersDayProps<Dayjs>) => {
     const { day, outsideCurrentMonth, ...other } = props;
     const isSelected = selectedDates.some((date) => date.isSame(day, "day"));
 
@@ -69,33 +69,35 @@ export default function MultiDatePicker({
         }}
       />
     );
-  };
+  });
+
+  CustomDay.displayName = "CustomDay"; // Asignar un displayName
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="flex items-center space-x-4 pt-2">
+      <div className="flex items-center space-x-1 pt-2">
         <div className="w-60">
           <DatePicker
             label="Selecciona Fechas"
             closeOnSelect={false}
-            value={value}
+            value={value ?? null}
             onChange={handleDateChange}
             shouldDisableDate={shouldDisableDate}
             slots={{ day: CustomDay }}
           />
         </div>
 
-        <FormControl className="w-1/4">
+        <FormControl className="w-16">
           <Select
+            value={
+              selectedDates.length > 0
+                ? selectedDates.map((date) => date.format("DD-MM-YYYY"))
+                : ""
+            }
             displayEmpty
             renderValue={() => (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center">
                 <CalendarToday fontSize="small" />
-                <span className="text-sm text-gray-500">
-                  {selectedDates.length > 0
-                    ? "Fechas seleccionadas"
-                    : "No hay fechas seleccionadas"}
-                </span>
               </div>
             )}
           >
@@ -104,8 +106,8 @@ export default function MultiDatePicker({
             ) : (
               selectedDates.map((date) => (
                 <MenuItem
-                  key={date.format("YYYY-MM-DD")}
-                  value={date.format("YYYY-MM-DD")}
+                  key={date.format("DD-MM-YYYY")}
+                  value={date.format("DD-MM-YYYY")}
                 >
                   {date.format("DD/MM/YYYY")}
                   <IconButton
