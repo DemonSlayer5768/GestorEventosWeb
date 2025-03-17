@@ -1,38 +1,40 @@
+"use client";
+
+import { useState } from "react";
 import * as React from "react";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs, { Dayjs } from "dayjs";
-import "dayjs/locale/es"; // Importa el idioma español
+import "dayjs/locale/es"; // Importa el locale de español
 
-interface CalendarProps {
-  selected: Date | null;
-  onSelect: (value: Date | null) => void;
-  myLabel: string;
+interface BasicDatePickerProps {
+  onDateChange: (date: string | null) => void;
 }
 
-export const DatePickerBasic: React.FC<CalendarProps> = ({
-  selected,
-  onSelect,
-  myLabel,
-}) => {
-  // Configurar Dayjs en español
-  React.useEffect(() => {
-    dayjs.locale("es");
-  }, []);
+export default function BasicDatePicker({
+  onDateChange,
+}: BasicDatePickerProps) {
+  const [value, setValue] = useState<import("dayjs").Dayjs | null>(null);
+
+  function handleDateChange(newValue: import("dayjs").Dayjs | null): void {
+    setValue(newValue);
+    onDateChange(newValue ? newValue.format("DD-MM-YYYY") : null);
+  }
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      {" "}
-      {/* Se ajusta el tamaño con Tailwind o CSS */}
-      <DatePicker
-        label={myLabel}
-        value={selected ? dayjs(selected) : null}
-        onChange={(value: Dayjs | null) =>
-          onSelect(value ? value.toDate() : null)
-        }
-        format="DD/MM/YYYY"
-      />
+    <LocalizationProvider
+      dateAdapter={AdapterDayjs}
+      adapterLocale="es" // Usar la localización en español
+    >
+      <DemoContainer components={["DatePicker"]}>
+        <DatePicker
+          label="Ingresa una Fecha"
+          value={value}
+          onChange={handleDateChange}
+          className="w-full"
+        />
+      </DemoContainer>
     </LocalizationProvider>
   );
-};
+}

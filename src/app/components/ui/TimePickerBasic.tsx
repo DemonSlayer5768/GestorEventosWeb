@@ -1,23 +1,53 @@
 import * as React from "react";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { Dayjs } from "dayjs";
 
-interface TimeProps {
-  selected: Date | null;
-  oneChange: (value: Date | null) => void;
+interface TimePickerFieldProps {
+  onTimeChange: (start: string | null, end: string | null) => void;
 }
 
-export const TimePickerBasic: React.FC<TimeProps> = ({ oneChange }) => {
+export default function BasicTimeRangeField({
+  onTimeChange,
+}: TimePickerFieldProps) {
+  // Inicializa las horas como null en lugar de valores predeterminados
+  const [startTime, setStartTime] = useState<Dayjs | null>(null);
+  const [endTime, setEndTime] = useState<Dayjs | null>(null);
+
+  const handleStartTimeChange = (newValue: Dayjs | null) => {
+    setStartTime(newValue);
+    onTimeChange(
+      newValue ? newValue.format("hh:mm A") : null,
+      endTime ? endTime.format("hh:mm A") : null
+    );
+  };
+
+  const handleEndTimeChange = (newValue: Dayjs | null) => {
+    setEndTime(newValue);
+    onTimeChange(
+      startTime ? startTime.format("hh:mm A") : null,
+      newValue ? newValue.format("hh:mm A") : null
+    );
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={["TimePicker"]}>
+      <div className="flex gap-2 pt-2">
         <TimePicker
-          label="Basic time picker"
-          onChange={(value) => oneChange(value ? value.toDate() : null)}
+          label="Inicio"
+          value={startTime}
+          onChange={handleStartTimeChange}
+          views={["hours"]}
         />
-      </DemoContainer>
+        <TimePicker
+          label="Final"
+          value={endTime}
+          onChange={handleEndTimeChange}
+          views={["hours"]}
+        />
+      </div>
     </LocalizationProvider>
   );
-};
+}

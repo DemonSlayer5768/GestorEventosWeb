@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface SelectProps {
   children: React.ReactNode;
@@ -13,43 +13,72 @@ export const Select: React.FC<SelectProps> = ({
   onChange,
   placeholder,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(value || "");
+
+  const handleOptionClick = (value: string) => {
+    setSelectedValue(value);
+    onChange?.(value);
+    setIsOpen(false);
+  };
+
   return (
-    <select
-      value={value}
-      onChange={(e) => onChange?.(e.target.value)}
-      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-    >
-      {placeholder && <option value="">{placeholder}</option>}
-      {children}
-    </select>
-  );
-};
+    <div className="relative w-2/6">
+      {/* Input que simula el select */}
+      <div
+        role="button"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span
+          className={selectedValue === "" ? "text-gray-400" : "text-gray-900"}
+        >
+          {selectedValue === "" ? placeholder : selectedValue}
+        </span>
+      </div>
 
-export const SelectTrigger: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  return <>{children}</>;
-};
-
-export const SelectValue: React.FC<{ placeholder?: string }> = ({
-  placeholder,
-}) => {
-  return <>{placeholder}</>;
-};
-
-export const SelectContent: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  return (
-    <div className="absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
-      {children}
+      {/* Menú desplegable */}
+      {isOpen && (
+        <div
+          role="listbox"
+          className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg"
+        >
+          {React.Children.map(children, (child) => {
+            if (React.isValidElement<SelectItemProps>(child)) {
+              return React.cloneElement(child, {
+                onClick: () => handleOptionClick(child.props.value),
+              });
+            }
+            return child;
+          })}
+        </div>
+      )}
     </div>
   );
 };
 
-export const SelectItem: React.FC<{
+interface SelectItemProps {
   value: string;
   children: React.ReactNode;
-}> = ({ value, children }) => {
-  return <option value={value}>{children}</option>;
+  onClick?: () => void; // Añade onClick a las props
+}
+
+export const SelectItem: React.FC<SelectItemProps> = ({
+  children,
+  onClick,
+  value,
+}) => {
+  return (
+    <div
+      role="option"
+      aria-selected={false}
+      className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+      onClick={onClick}
+    >
+      {children}
+      <h1>aqui ${value}</h1>
+    </div>
+  );
 };
