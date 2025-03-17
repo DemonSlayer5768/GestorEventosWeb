@@ -13,9 +13,10 @@ import {
 import { Input } from "@Components/ui/input";
 import { Textarea } from "@Components/ui/textarea";
 import { Select, SelectItem } from "@Components/ui/select";
-import DatePickerBasic from "@Components/ui/DatePickerBasic";
+// import DatePickerBasic from "@Components/ui/DatePickerBasic";
 import BasicTimeRangeField from "@Components/ui/TimePickerBasic";
 import BasicDateRangePicker from "@Components/ui/DateRangePicker";
+import MultiDatePicker from "@Components/ui/MultiDatePicker";
 import {
   Popover,
   PopoverContent,
@@ -37,7 +38,7 @@ export default function FormularioEvento() {
   const {
     form,
     handleOnChange,
-    setFecha,
+    setFechas,
     setFechaInicio,
     setFechaFin,
     setTimeInicio,
@@ -207,8 +208,10 @@ export default function FormularioEvento() {
                               <PopoverContent>
                                 {/* Mostrar DatePicker si NO está activado el rango */}
                                 {!isChecked && (
-                                  <DatePickerBasic
-                                    onDateChange={(date) => setFecha(date)}
+                                  <MultiDatePicker
+                                    onDateChange={(fechas) => {
+                                      setFechas(fechas || []);
+                                    }}
                                   />
                                 )}
 

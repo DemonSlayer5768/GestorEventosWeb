@@ -27,11 +27,7 @@ export default function BasicDateRangePicker({
 
   const today = dayjs();
   const shouldDisableDate = (date: Dayjs) => {
-    return (
-      date.day() === 0 || // Deshabilitar domingos
-      date.day() === 6 || // Deshabilitar sábados
-      date.isBefore(today, "day") // Deshabilitar fechas anteriores al día actual
-    );
+    return date.isBefore(today, "day"); // Deshabilitar fechas anteriores al día actual
   };
 
   function handleDateChange(newValue: [Dayjs | null, Dayjs | null]) {

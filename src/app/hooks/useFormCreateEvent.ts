@@ -55,7 +55,7 @@ export function useFormularioEvento() {
 
     if (!isChecked) {
       // Si activas el rango, borra la fecha única
-      setFecha(null);
+      setFechas([]);
     } else {
       // Si desactivas el rango, borra las fechas de inicio y fin
       setFechaInicio(null);
@@ -63,7 +63,9 @@ export function useFormularioEvento() {
     }
   };
 
-  const [fecha, setFecha] = useState<string | null>(null);
+  //   const [fecha, setFecha] = useState<string | null>(null);
+
+  const [fechas, setFechas] = useState<string[]>([]);
   const [fechaInicio, setFechaInicio] = useState<string | null>(null);
   const [fechaFin, setFechaFin] = useState<string | null>(null);
   const [timeInicio, setTimeInicio] = useState<string | null>(null);
@@ -72,13 +74,13 @@ export function useFormularioEvento() {
 
   function onSubmit(values: FormValues) {
     console.log(values);
-    // Aquí puedes agregar la lógica para enviar el formulario
+    console.log(fechas);
   }
 
   return {
     form,
     handleOnChange,
-    setFecha,
+    setFechas,
     setFechaInicio,
     setFechaFin,
     setTimeInicio,
