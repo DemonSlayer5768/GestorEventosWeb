@@ -1,6 +1,5 @@
 "use client";
 import "@Styles/create-event.css";
-
 import { Button } from "@Components/ui/button";
 import {
   Card,
@@ -12,10 +11,9 @@ import {
 } from "@Components/ui/card";
 import { Input } from "@Components/ui/input";
 import { Textarea } from "@Components/ui/textarea";
-import { Select, SelectItem } from "@Components/ui/select";
-// import DatePickerBasic from "@Components/ui/DatePickerBasic";
+// import { Select, MenuItem } from "@Components/ui/select";
+import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import BasicTimeRangeField from "@Components/ui/TimePickerBasic";
-import BasicDateRangePicker from "@Components/ui/DateRangePicker";
 import MultiDatePicker from "@Components/ui/MultiDatePicker";
 import {
   Popover,
@@ -24,7 +22,7 @@ import {
 } from "@Components/ui/popover";
 import {
   Form,
-  FormControl,
+  FormControlPrivate,
   FormDescription,
   FormField,
   FormItem,
@@ -35,22 +33,14 @@ import { Separator } from "@Components/ui/separator";
 import { useFormularioEvento } from "@Hooks/useFormCreateEvent";
 
 export default function FormularioEvento() {
-  const {
-    form,
-    handleOnChange,
-    setFechas,
-    setFechaInicio,
-    setFechaFin,
-    setTimeInicio,
-    setTimeFin,
-    isChecked,
-    onSubmit,
-  } = useFormularioEvento();
+  const { form, handleDateChange, setTimeInicio, setTimeFin, onSubmit } =
+    useFormularioEvento();
 
   return (
     <div className="container mx-auto py-10">
       <Card className="max-w-4xl mx-auto">
         <CardHeader className="space-y-1">
+          {/*  Titulo */}
           <CardTitle className="text-2xl font-bold text-center">
             Formulario de Evento
           </CardTitle>
@@ -61,27 +51,29 @@ export default function FormularioEvento() {
         </CardHeader>
         <CardContent>
           <Form methods={form} onSubmit={onSubmit}>
+            {/*  SECCION DE DATOS PERSONALES DEL USUARIO */}
             <div>
               <h3 className="text-lg font-medium">Datos Personales</h3>
               <p className="text-sm text-muted-foreground">
                 Ingrese sus datos de contacto para poder comunicarnos con usted.
               </p>
               <Separator />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-6">
                 <FormField
                   control={form.control}
                   name="nombre"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nombre</FormLabel>
-                      <FormControl>
+                      <FormLabel>Nombres</FormLabel>
+                      <FormControlPrivate>
                         <Input
                           {...field}
                           value={
                             typeof field.value === "string" ? field.value : ""
                           }
+                          placeholder="Ingresa tu nombre"
                         />
-                      </FormControl>
+                      </FormControlPrivate>
 
                       <FormMessage>
                         {form.formState.errors.nombre?.message}
@@ -95,8 +87,8 @@ export default function FormularioEvento() {
                   name="apellido"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Apellido</FormLabel>
-                      <FormControl>
+                      <FormLabel>Apellidos</FormLabel>
+                      <FormControlPrivate>
                         <Input
                           type="string"
                           {...field}
@@ -105,8 +97,9 @@ export default function FormularioEvento() {
                               ? field.value
                               : field.value.toISOString().split("T")[0]
                           }
+                          placeholder="Ingresa tu apellido"
                         />
-                      </FormControl>
+                      </FormControlPrivate>
                       <FormMessage>
                         {form.formState.errors.apellido?.message}
                       </FormMessage>
@@ -119,7 +112,7 @@ export default function FormularioEvento() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Correo Electrónico</FormLabel>
-                      <FormControl>
+                      <FormControlPrivate>
                         <Input
                           type="email"
                           {...field}
@@ -128,8 +121,9 @@ export default function FormularioEvento() {
                               ? field.value
                               : field.value.toISOString().split("T")[0]
                           }
+                          placeholder="Ingresa tu correo electronico"
                         />
-                      </FormControl>
+                      </FormControlPrivate>
                       <FormMessage>
                         {form.formState.errors.email?.message}
                       </FormMessage>
@@ -142,7 +136,7 @@ export default function FormularioEvento() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Teléfono</FormLabel>
-                      <FormControl>
+                      <FormControlPrivate>
                         <Input
                           type="tel"
                           {...field}
@@ -150,12 +144,13 @@ export default function FormularioEvento() {
                             typeof field.value === "string"
                               ? field.value.replace(/\D/g, "")
                               : ""
-                          } // Elimina todo lo que no sea número
+                          } // Elimina todo lo que no sea numero
                           onChange={(e) =>
                             field.onChange(e.target.value.replace(/\D/g, ""))
-                          } // Evita caracteres no numéricos
+                          } // Evita caracteres no numericos
+                          placeholder="Ingresa un telefono"
                         />
-                      </FormControl>
+                      </FormControlPrivate>
                       <FormMessage>
                         {form.formState.errors.telefono?.message}
                       </FormMessage>
@@ -164,8 +159,9 @@ export default function FormularioEvento() {
                 />
               </div>
             </div>
+            {/*  DETALLES DEL EVENTO */}
 
-            <div>
+            <div className="pb-6">
               <h3 className="text-lg font-medium">Detalles del Evento</h3>
               <p className="text-sm text-muted-foreground">
                 Proporcione la información sobre el evento que desea crear.
@@ -178,7 +174,7 @@ export default function FormularioEvento() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Nombre del Evento</FormLabel>
-                      <FormControl>
+                      <FormControlPrivate>
                         <Input
                           type="string"
                           {...field}
@@ -187,8 +183,9 @@ export default function FormularioEvento() {
                               ? field.value
                               : field.value.toISOString().split("T")[0]
                           }
+                          placeholder="Ingresa el nombre de tu evento"
                         />
-                      </FormControl>
+                      </FormControlPrivate>
                       <FormMessage>
                         {form.formState.errors.nombreEvento?.message}
                       </FormMessage>
@@ -204,41 +201,13 @@ export default function FormularioEvento() {
                         <FormLabel>Selecciona la fecha del evento </FormLabel>
                         <Popover>
                           <PopoverTrigger>
-                            <FormControl>
+                            <FormControlPrivate>
                               <PopoverContent>
-                                {/* Mostrar DatePicker si NO está activado el rango */}
-                                {!isChecked && (
-                                  <MultiDatePicker
-                                    onDateChange={(fechas) => {
-                                      setFechas(fechas || []);
-                                    }}
-                                  />
-                                )}
-
-                                {/* Mostrar DateRangePicker si está activado el rango */}
-                                {isChecked && (
-                                  <BasicDateRangePicker
-                                    onDateChange={(start, end) => {
-                                      setFechaInicio(start);
-                                      setFechaFin(end);
-                                    }}
-                                  />
-                                )}
-                                <div className="flex justify-start pt-4">
-                                  <input
-                                    type="checkbox"
-                                    checked={isChecked}
-                                    onChange={handleOnChange}
-                                    className="cursor-pointer" // Añadido cursor pointer aquí
-                                  />
-                                  <label className="text-gray-800 flex items-center">
-                                    <span className="ml-2">
-                                      Ingresar fecha por rango
-                                    </span>
-                                  </label>
-                                </div>
+                                <MultiDatePicker
+                                  onDateChange={handleDateChange}
+                                />
                               </PopoverContent>
-                            </FormControl>
+                            </FormControlPrivate>
                           </PopoverTrigger>
                         </Popover>
 
@@ -257,17 +226,16 @@ export default function FormularioEvento() {
                         <FormLabel>Selecciona la hora del Evento</FormLabel>
                         <Popover>
                           <PopoverTrigger>
-                            <FormControl>
+                            <FormControlPrivate>
                               <PopoverContent>
                                 <BasicTimeRangeField
                                   onTimeChange={(start, end) => {
-                                    // console.log("Evento recibido en Formulario:", start, end);
                                     setTimeInicio(start);
                                     setTimeFin(end);
                                   }}
                                 />
                               </PopoverContent>
-                            </FormControl>
+                            </FormControlPrivate>
                           </PopoverTrigger>
                         </Popover>
 
@@ -278,83 +246,269 @@ export default function FormularioEvento() {
                     )}
                   />
                 </div>
-                <FormField
-                  control={form.control}
-                  name="ubicacion"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Ubicación</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="string"
-                          {...field}
-                          value={
-                            typeof field.value === "string"
-                              ? field.value
-                              : field.value.toISOString().split("T")[0]
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage>
-                        {form.formState.errors.ubicacion?.message}
-                      </FormMessage>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="tipoEvento"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <FormLabel>Tipo de Evento</FormLabel>
-                        <Select
-                          placeholder="Seleccione un tipo de evento"
-                          onChange={(value) => field.onChange(value)}
-                          value={field.value as string | undefined}
-                        >
-                          <SelectItem value="conferencia">
-                            Conferencia
-                          </SelectItem>
-                          <SelectItem value="seminario">Seminario</SelectItem>
-                          <SelectItem value="taller">Taller</SelectItem>
-                          <SelectItem value="fiesta">Fiesta</SelectItem>
-                          <SelectItem value="reunion">Reunión</SelectItem>
-                          <SelectItem value="otro">Otro</SelectItem>
-                        </Select>
-                      </FormControl>
-                      <FormMessage>
-                        {form.formState.errors.tipoEvento?.message}
-                      </FormMessage>
-                    </FormItem>
-                  )}
-                />
+                <div className="grid grid-cols-3  md:grid-cols-3 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="tipoEvento"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl size="small" className=" w-full">
+                          <InputLabel>Tipo de Evento</InputLabel>
+                          <Select
+                            label="Tipo de Evento"
+                            onChange={(value) => field.onChange(value)}
+                            value={field.value as string | undefined}
+                          >
+                            <MenuItem value="publico">Publico</MenuItem>
+                            <MenuItem value="privado">Privado</MenuItem>
+                            <MenuItem value="otro">Otro</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormMessage>
+                          {form.formState.errors.tipoEvento?.message}
+                        </FormMessage>
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="descripcion"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Descripción del Evento</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Describa los detalles de su evento, objetivos, público objetivo, etc."
-                          className="min-h-[120px]"
-                          {...field}
-                          value={
-                            typeof field.value === "string"
-                              ? field.value
-                              : field.value?.toString()
-                          }
-                        />
-                      </FormControl>
-                      <FormDescription>Máximo 500 caracteres</FormDescription>
-                      <FormMessage>
-                        {form.formState.errors.descripcion?.message}
-                      </FormMessage>
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="categoria"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl size="small" className=" w-full ">
+                          <InputLabel>Categoria</InputLabel>
+                          <Select
+                            label="Categoria"
+                            onChange={(value) => field.onChange(value)}
+                            value={field.value as string | undefined}
+                          >
+                            <MenuItem value="conferencia">Conferencia</MenuItem>
+                            <MenuItem value="seminario">Seminario</MenuItem>
+                            <MenuItem value="taller">Taller</MenuItem>
+                            <MenuItem value="fiesta">Fiesta</MenuItem>
+                            <MenuItem value="reunion">Reunión</MenuItem>
+                            <MenuItem value="otro">Otro</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormMessage>
+                          {form.formState.errors.tipoEvento?.message}
+                        </FormMessage>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="modalidad"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl size="small" className=" w-full ">
+                          <InputLabel>Modalidad</InputLabel>
+                          <Select
+                            label="Modalidad"
+                            onChange={(value) => field.onChange(value)}
+                            value={field.value as string | undefined}
+                          >
+                            <MenuItem value="presencial">Presencial</MenuItem>
+                            <MenuItem value="virtual">Virtual</MenuItem>
+                            <MenuItem value="hibrido">Hibrido</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormMessage>
+                          {form.formState.errors.modalidad?.message}
+                        </FormMessage>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="descripcion"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Descripción del Evento</FormLabel>
+                        <FormControlPrivate>
+                          <Textarea
+                            placeholder="Describa los detalles de su evento, objetivos, público objetivo, etc."
+                            className="min-h-[120px] max-h-[120px] max-w-[full]"
+                            {...field}
+                            value={
+                              typeof field.value === "string"
+                                ? field.value
+                                : field.value?.toString()
+                            }
+                          />
+                        </FormControlPrivate>
+                        <FormDescription>Máximo 500 caracteres</FormDescription>
+                        <FormMessage>
+                          {form.formState.errors.descripcion?.message}
+                        </FormMessage>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* UBICACION DEL EVENTO */}
+                <div className="pb-6">
+                  <h3 className="text-lg font-medium">Ubicacion del evento</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Proporcione la ubicacion donde se hara el evento.
+                  </p>
+                  <Separator />
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="pais"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl size="small" className=" w-full ">
+                            <InputLabel>Pais</InputLabel>
+                            <Select
+                              label="Pais"
+                              onChange={(value) => field.onChange(value)}
+                              value={field.value as string | undefined}
+                            >
+                              <MenuItem value="mx">Mexico</MenuItem>
+                              <MenuItem value="us">Estados Unidos</MenuItem>
+                            </Select>
+                          </FormControl>
+                          <FormMessage>
+                            {form.formState.errors.pais?.message}
+                          </FormMessage>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="ciudad"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl size="small" className=" w-full ">
+                            <InputLabel>Ciudad</InputLabel>
+                            <Select
+                              label="ciudad"
+                              onChange={(value) => field.onChange(value)}
+                              value={field.value as string | undefined}
+                            >
+                              <MenuItem value="mx">Mexico</MenuItem>
+                              <MenuItem value="us">Estados Unidos</MenuItem>
+                            </Select>
+                          </FormControl>
+                          <FormMessage>
+                            {form.formState.errors.pais?.message}
+                          </FormMessage>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="colonia"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl size="small" className=" w-full ">
+                            <InputLabel>Colonia</InputLabel>
+                            <Select
+                              label="Colonia"
+                              onChange={(value) => field.onChange(value)}
+                              value={field.value as string | undefined}
+                            >
+                              <MenuItem value="mx">Olimpica</MenuItem>
+                              <MenuItem value="us">Estados Unidos</MenuItem>
+                            </Select>
+                          </FormControl>
+                          <FormMessage>
+                            {form.formState.errors.pais?.message}
+                          </FormMessage>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormControl>
+                      <FormField
+                        control={form.control}
+                        name="calle"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Calle</FormLabel>
+                            <FormControlPrivate>
+                              <Input
+                                type="string"
+                                {...field}
+                                value={
+                                  typeof field.value === "string"
+                                    ? field.value
+                                    : field.value.toISOString().split("T")[0]
+                                }
+                                placeholder="Ingresa la calle"
+                              />
+                            </FormControlPrivate>
+                            <FormMessage>
+                              {form.formState.errors.calle?.message}
+                            </FormMessage>
+                          </FormItem>
+                        )}
+                      />
+                    </FormControl>
+
+                    <FormControl>
+                      <FormField
+                        control={form.control}
+                        name="numeroExt"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Numero Exterior</FormLabel>
+                            <FormControlPrivate>
+                              <Input
+                                type="string"
+                                {...field}
+                                value={
+                                  typeof field.value === "string"
+                                    ? field.value
+                                    : field.value.toISOString().split("T")[0]
+                                }
+                                placeholder="Ingresa el numero exterior"
+                              />
+                            </FormControlPrivate>
+                            <FormMessage>
+                              {form.formState.errors.numeroExt?.message}
+                            </FormMessage>
+                          </FormItem>
+                        )}
+                      />
+                    </FormControl>
+
+                    <FormControl>
+                      <FormField
+                        control={form.control}
+                        name="numeroInt"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Numero Interior</FormLabel>
+                            <FormControlPrivate>
+                              <Input
+                                type="string"
+                                {...field}
+                                value={
+                                  typeof field.value === "string"
+                                    ? field.value
+                                    : field.value.toISOString().split("T")[0]
+                                }
+                                placeholder="Ingresa el numero interior"
+                              />
+                            </FormControlPrivate>
+                            <FormMessage>
+                              {form.formState.errors.numeroInt?.message}
+                            </FormMessage>
+                          </FormItem>
+                        )}
+                      />
+                    </FormControl>
+                  </div>
+                </div>
               </div>
             </div>
             <CardFooter className="flex justify-between px-0">

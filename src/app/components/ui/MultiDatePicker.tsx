@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -27,24 +25,34 @@ export default function MultiDatePicker({
 
     setSelectedDates((prevDates) => {
       const isDuplicate = prevDates.some((date) => date.isSame(newDate, "day"));
-      return isDuplicate
+      const updatedDates = isDuplicate
         ? prevDates.filter((date) => !date.isSame(newDate, "day"))
         : [...prevDates, newDate];
-    });
 
-    setValue(newDate);
+      setValue(
+        updatedDates.length > 0 ? updatedDates[updatedDates.length - 1] : null
+      );
+      return updatedDates;
+    });
   };
 
   const handleDeleteDate = (dateToDelete: Dayjs) => {
-    setSelectedDates((prevDates) =>
-      prevDates.filter((date) => !date.isSame(dateToDelete, "day"))
-    );
+    setSelectedDates((prevDates) => {
+      const updatedDates = prevDates.filter(
+        (date) => !date.isSame(dateToDelete, "day")
+      );
+
+      setValue(
+        updatedDates.length > 0 ? updatedDates[updatedDates.length - 1] : null
+      );
+      return updatedDates;
+    });
   };
 
+  // 🔹 Ejecutar `onDateChange` después de que `selectedDates` se haya actualizado
   useEffect(() => {
     onDateChange(selectedDates.map((date) => date.format("DD-MM-YYYY")));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDates]); // Ignorar la advertencia de onDateChange
+  }, [selectedDates, onDateChange]);
 
   const CustomDay = React.memo((props: PickersDayProps<Dayjs>) => {
     const { day, outsideCurrentMonth, ...other } = props;
@@ -71,14 +79,15 @@ export default function MultiDatePicker({
     );
   });
 
-  CustomDay.displayName = "CustomDay"; // Asignar un displayName
+  CustomDay.displayName = "CustomDay";
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="flex items-center space-x-1 pt-2">
         <div className="w-60">
           <DatePicker
-            label="Selecciona Fechas"
+            format="DD/MM/YYYY"
+            label="Selecciona Fecha"
             closeOnSelect={false}
             value={value ?? null}
             onChange={handleDateChange}

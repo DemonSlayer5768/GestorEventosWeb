@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 interface SelectProps {
   children: React.ReactNode;
@@ -68,7 +69,6 @@ interface SelectItemProps {
 export const SelectItem: React.FC<SelectItemProps> = ({
   children,
   onClick,
-  value,
 }) => {
   return (
     <div
@@ -78,7 +78,6 @@ export const SelectItem: React.FC<SelectItemProps> = ({
       onClick={onClick}
     >
       {children}
-      <h1>aqui ${value}</h1>
     </div>
   );
 };
