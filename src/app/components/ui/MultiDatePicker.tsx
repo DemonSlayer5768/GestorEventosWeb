@@ -99,8 +99,8 @@ export default function MultiDatePicker({
         <FormControl className="w-16">
           <Select
             value={
-              selectedDates.length > 0
-                ? selectedDates.map((date) => date.format("DD-MM-YYYY"))
+              selectedDates.length === 1
+                ? selectedDates[0].format("DD-MM-YYYY")
                 : ""
             }
             displayEmpty

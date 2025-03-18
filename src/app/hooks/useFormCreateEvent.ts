@@ -16,27 +16,30 @@ const formSchema = z.object({
   nombreEvento: z.string().min(3, {
     message: "El nombre del evento debe tener al menos 3 caracteres",
   }),
-  fechaEvento: z.date({ required_error: "La fecha es requerida" }),
-  horaEvento: z.string().min(1, { message: "La hora es requerida" }),
-  ubicacion: z
-    .string()
-    .min(3, { message: "La ubicación debe tener al menos 3 caracteres" }),
-  tipoEvento: z.string({ required_error: "Seleccione un tipo de evento" }),
-  categoria: z.string({ required_error: "error" }),
-  modalidad: z.string({ required_error: "Seleccione una modalidad" }),
+
+  // Corrección en fechas: Debe ser un array de strings con al menos un elemento
+  fechas: z
+    .array(z.string())
+    .min(1, { message: "Debe seleccionar al menos una fecha" }),
+
+  tipoEvento: z.string(), // Se elimina { required_error: "..."}
+  categoria: z.string(),
+  modalidad: z.string(),
 
   descripcion: z
     .string()
     .min(10, { message: "La descripción debe tener al menos 10 caracteres" })
     .max(500, { message: "La descripción no debe exceder los 500 caracteres" }),
-  fechaInicio: z.date({ required_error: "La fecha de inicio es requerida" }),
-  fechaFin: z.date({ required_error: "La fecha de fin es requerida" }),
-  pais: z.string({ required_error: "error" }),
-  ciudad: z.string({ required_error: "error" }),
-  colonia: z.string({ required_error: "La fecha de fin es requerida" }),
-  calle: z.string({ required_error: "La fecha de fin es requerida" }),
-  numeroExt: z.string({ required_error: "La fecha de fin es requerida" }),
-  numeroInt: z.string({ required_error: "La fecha de fin es requerida" }),
+
+  horaInicio: z.string().min(1, { message: "La hora de inicio es requerida" }),
+  horaFin: z.string().min(1, { message: "La hora de fin es requerida" }),
+
+  pais: z.string(),
+  ciudad: z.string(),
+  colonia: z.string(),
+  calle: z.string(),
+  numeroExt: z.string(),
+  numeroInt: z.string(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -50,9 +53,9 @@ export function useFormularioEvento() {
       email: "",
       telefono: "",
       nombreEvento: "",
-      fechaFin: new Date(),
-      fechaInicio: new Date(),
-      horaEvento: "",
+      fechas: [],
+      horaInicio: "",
+      horaFin: "",
       tipoEvento: "",
       categoria: "",
       modalidad: "",
@@ -67,28 +70,51 @@ export function useFormularioEvento() {
   });
 
   // 🔹 Memoizar la función para evitar renders innecesarios
-  const handleDateChange = useCallback((nuevasFechas: string[]) => {
-    console.log("Fechas seleccionadas:", nuevasFechas);
-    setFechas(nuevasFechas);
-  }, []);
+  const handleDateChange = useCallback(
+    (nuevasFechas: string[]) => {
+      setFechas(nuevasFechas);
+      form.setValue("fechas", nuevasFechas); // 🔹 Actualiza el formulario
+      form.trigger("fechas"); // 🔹 Dispara la validación manualmente
+      console.log("Fechas seleccionadas:", nuevasFechas);
+    },
+    [form] // 🔹 Se agrega `form` a las dependencias
+  );
+
+  const handleTimeChange = (start: string | null, end: string | null) => {
+    // Aquí puedes manejar los valores null si es necesario
+    console.log("Hora de inicio:", start);
+    console.log("Hora de fin:", end);
+
+    // Actualiza los valores en el formulario
+    form.setValue("horaInicio", start || "");
+    form.setValue("horaFin", end || "");
+  };
+
+  const {
+    formState: { errors },
+  } = form;
+
+  console.log(errors);
 
   const [fechas, setFechas] = useState<string[]>([]);
   const [timeInicio, setTimeInicio] = useState<string | null>(null);
   const [timeFin, setTimeFin] = useState<string | null>(null);
 
   function onSubmit(values: FormValues) {
+    console.log("debe de entrar");
     console.log(values);
   }
 
   return {
-    fechas,
-    timeInicio,
-    timeFin,
     form,
     handleDateChange,
+    handleTimeChange,
     setFechas,
     setTimeInicio,
     setTimeFin,
+    fechas,
+    timeInicio,
+    timeFin,
     onSubmit,
   };
 }

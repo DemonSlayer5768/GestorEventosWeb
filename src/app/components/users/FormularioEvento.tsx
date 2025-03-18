@@ -33,7 +33,7 @@ import { Separator } from "@Components/ui/separator";
 import { useFormularioEvento } from "@Hooks/useFormCreateEvent";
 
 export default function FormularioEvento() {
-  const { form, handleDateChange, setTimeInicio, setTimeFin, onSubmit } =
+  const { form, handleDateChange, handleTimeChange, onSubmit } =
     useFormularioEvento();
 
   return (
@@ -93,9 +93,11 @@ export default function FormularioEvento() {
                           type="string"
                           {...field}
                           value={
-                            typeof field.value === "string"
-                              ? field.value
-                              : field.value.toISOString().split("T")[0]
+                            field.value instanceof Date
+                              ? field.value.toISOString().split("T")[0] // Convierte a formato YYYY-MM-DD
+                              : Array.isArray(field.value)
+                              ? field.value.join(", ") // Si es un array, convierte a string
+                              : field.value // Si es string, úsalo directamente
                           }
                           placeholder="Ingresa tu apellido"
                         />
@@ -117,9 +119,11 @@ export default function FormularioEvento() {
                           type="email"
                           {...field}
                           value={
-                            typeof field.value === "string"
-                              ? field.value
-                              : field.value.toISOString().split("T")[0]
+                            field.value instanceof Date
+                              ? field.value.toISOString().split("T")[0] // Convierte a formato YYYY-MM-DD
+                              : Array.isArray(field.value)
+                              ? field.value.join(", ") // Si es un array, convierte a string
+                              : field.value // Si es string, úsalo directamente
                           }
                           placeholder="Ingresa tu correo electronico"
                         />
@@ -179,9 +183,11 @@ export default function FormularioEvento() {
                           type="string"
                           {...field}
                           value={
-                            typeof field.value === "string"
-                              ? field.value
-                              : field.value.toISOString().split("T")[0]
+                            field.value instanceof Date
+                              ? field.value.toISOString().split("T")[0] // Convierte a formato YYYY-MM-DD
+                              : Array.isArray(field.value)
+                              ? field.value.join(", ") // Si es un array, convierte a string
+                              : field.value // Si es string, úsalo directamente
                           }
                           placeholder="Ingresa el nombre de tu evento"
                         />
@@ -195,7 +201,7 @@ export default function FormularioEvento() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="fechaEvento"
+                    name="fechas"
                     render={() => (
                       <FormItem>
                         <FormLabel>Selecciona la fecha del evento </FormLabel>
@@ -212,7 +218,7 @@ export default function FormularioEvento() {
                         </Popover>
 
                         <FormMessage>
-                          {form.formState.errors.fechaEvento?.message}
+                          {form.formState.errors.fechas?.message}
                         </FormMessage>
                       </FormItem>
                     )}
@@ -220,7 +226,7 @@ export default function FormularioEvento() {
 
                   <FormField
                     control={form.control}
-                    name="horaEvento"
+                    name="horaInicio"
                     render={() => (
                       <FormItem>
                         <FormLabel>Selecciona la hora del Evento</FormLabel>
@@ -229,10 +235,7 @@ export default function FormularioEvento() {
                             <FormControlPrivate>
                               <PopoverContent>
                                 <BasicTimeRangeField
-                                  onTimeChange={(start, end) => {
-                                    setTimeInicio(start);
-                                    setTimeFin(end);
-                                  }}
+                                  onTimeChange={handleTimeChange}
                                 />
                               </PopoverContent>
                             </FormControlPrivate>
@@ -240,7 +243,8 @@ export default function FormularioEvento() {
                         </Popover>
 
                         <FormMessage>
-                          {form.formState.errors.horaEvento?.message}
+                          {form.formState.errors.horaInicio?.message}
+                          {form.formState.errors.horaFin?.message}
                         </FormMessage>
                       </FormItem>
                     )}
@@ -439,9 +443,11 @@ export default function FormularioEvento() {
                                 type="string"
                                 {...field}
                                 value={
-                                  typeof field.value === "string"
-                                    ? field.value
-                                    : field.value.toISOString().split("T")[0]
+                                  field.value instanceof Date
+                                    ? field.value.toISOString().split("T")[0] // Convierte a formato YYYY-MM-DD
+                                    : Array.isArray(field.value)
+                                    ? field.value.join(", ") // Si es un array, convierte a string
+                                    : field.value // Si es string, úsalo directamente
                                 }
                                 placeholder="Ingresa la calle"
                               />
@@ -466,9 +472,11 @@ export default function FormularioEvento() {
                                 type="string"
                                 {...field}
                                 value={
-                                  typeof field.value === "string"
-                                    ? field.value
-                                    : field.value.toISOString().split("T")[0]
+                                  field.value instanceof Date
+                                    ? field.value.toISOString().split("T")[0] // Convierte a formato YYYY-MM-DD
+                                    : Array.isArray(field.value)
+                                    ? field.value.join(", ") // Si es un array, convierte a string
+                                    : field.value // Si es string, úsalo directamente
                                 }
                                 placeholder="Ingresa el numero exterior"
                               />
@@ -493,9 +501,11 @@ export default function FormularioEvento() {
                                 type="string"
                                 {...field}
                                 value={
-                                  typeof field.value === "string"
-                                    ? field.value
-                                    : field.value.toISOString().split("T")[0]
+                                  field.value instanceof Date
+                                    ? field.value.toISOString().split("T")[0] // Convierte a formato YYYY-MM-DD
+                                    : Array.isArray(field.value)
+                                    ? field.value.join(", ") // Si es un array, convierte a string
+                                    : field.value // Si es string, úsalo directamente
                                 }
                                 placeholder="Ingresa el numero interior"
                               />

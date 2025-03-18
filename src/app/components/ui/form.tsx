@@ -64,11 +64,15 @@ export const FormField = <T extends FieldValues>({
 };
 
 // Componente FormControl
-export const FormControlPrivate: React.FC<{ children: React.ReactNode }> = ({
+export const FormControl: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   return <>{children}</>;
 };
+// Componente FormControlPrivate
+export const FormControlPrivate: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => <div className="flex flex-col space-y-2">{children}</div>;
 
 // Componente FormDescription
 export const FormDescription: React.FC<{ children: React.ReactNode }> = ({
@@ -89,7 +93,7 @@ export const FormLabel: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   return (
-    <label className="block text-sm font-medium text-gray-800">
+    <label className="block text-sm font-medium text-gray-700">
       {children}
     </label>
   );
@@ -99,5 +103,5 @@ export const FormLabel: React.FC<{ children: React.ReactNode }> = ({
 export const FormMessage: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  return <p className="text-lg text-red-500">{children}</p>;
+  return <p className="text-sm text-red-500">{children}</p>;
 };
