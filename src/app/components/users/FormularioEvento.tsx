@@ -33,8 +33,25 @@ import { Separator } from "@Components/ui/separator";
 import { useFormularioEvento } from "@Hooks/useFormCreateEvent";
 
 export default function FormularioEvento() {
-  const { form, handleDateChange, handleTimeChange, onSubmit } =
-    useFormularioEvento();
+  const {
+    form,
+    estados,
+    municipios,
+    colonias,
+    estadoSeleccionado,
+    setEstadoSeleccionado,
+    municipioSeleccionado,
+    setMunicipioSeleccionado,
+    handleDateChange,
+    handleTimeChange,
+    // setFechas,
+    // setTimeInicio,
+    // setTimeFin,
+    // fechas,
+    // timeInicio,
+    // timeFin,
+    onSubmit,
+  } = useFormularioEvento();
 
   return (
     <div className="container mx-auto py-10">
@@ -64,14 +81,14 @@ export default function FormularioEvento() {
                   name="nombre"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nombres</FormLabel>
+                      <FormLabel>Nombres *</FormLabel>
                       <FormControlPrivate>
                         <Input
                           {...field}
                           value={
                             typeof field.value === "string" ? field.value : ""
                           }
-                          placeholder="Ingresa tu nombre"
+                          placeholder="Jonathan Silvestre"
                         />
                       </FormControlPrivate>
 
@@ -87,7 +104,7 @@ export default function FormularioEvento() {
                   name="apellido"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Apellidos</FormLabel>
+                      <FormLabel>Apellidos *</FormLabel>
                       <FormControlPrivate>
                         <Input
                           type="string"
@@ -99,7 +116,7 @@ export default function FormularioEvento() {
                               ? field.value.join(", ") // Si es un array, convierte a string
                               : field.value // Si es string, úsalo directamente
                           }
-                          placeholder="Ingresa tu apellido"
+                          placeholder="Jaime Loza"
                         />
                       </FormControlPrivate>
                       <FormMessage>
@@ -113,7 +130,7 @@ export default function FormularioEvento() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Correo Electrónico</FormLabel>
+                      <FormLabel>Correo Electrónico *</FormLabel>
                       <FormControlPrivate>
                         <Input
                           type="email"
@@ -125,7 +142,7 @@ export default function FormularioEvento() {
                               ? field.value.join(", ") // Si es un array, convierte a string
                               : field.value // Si es string, úsalo directamente
                           }
-                          placeholder="Ingresa tu correo electronico"
+                          placeholder="jjaimeloza5768@gmail.com"
                         />
                       </FormControlPrivate>
                       <FormMessage>
@@ -139,7 +156,7 @@ export default function FormularioEvento() {
                   name="telefono"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Teléfono</FormLabel>
+                      <FormLabel>Teléfono *</FormLabel>
                       <FormControlPrivate>
                         <Input
                           type="tel"
@@ -152,7 +169,7 @@ export default function FormularioEvento() {
                           onChange={(e) =>
                             field.onChange(e.target.value.replace(/\D/g, ""))
                           } // Evita caracteres no numericos
-                          placeholder="Ingresa un telefono"
+                          placeholder="3325921540"
                         />
                       </FormControlPrivate>
                       <FormMessage>
@@ -177,7 +194,7 @@ export default function FormularioEvento() {
                   name="nombreEvento"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nombre del Evento</FormLabel>
+                      <FormLabel>Nombre del Evento *</FormLabel>
                       <FormControlPrivate>
                         <Input
                           type="string"
@@ -189,7 +206,7 @@ export default function FormularioEvento() {
                               ? field.value.join(", ") // Si es un array, convierte a string
                               : field.value // Si es string, úsalo directamente
                           }
-                          placeholder="Ingresa el nombre de tu evento"
+                          placeholder="Nombre del Evento"
                         />
                       </FormControlPrivate>
                       <FormMessage>
@@ -204,7 +221,7 @@ export default function FormularioEvento() {
                     name="fechas"
                     render={() => (
                       <FormItem>
-                        <FormLabel>Selecciona la fecha del evento </FormLabel>
+                        <FormLabel>Fecha del evento </FormLabel>
                         <Popover>
                           <PopoverTrigger>
                             <FormControlPrivate>
@@ -218,7 +235,9 @@ export default function FormularioEvento() {
                         </Popover>
 
                         <FormMessage>
-                          {form.formState.errors.fechas?.message}
+                          {/* Solo mostrar error si el usuario ha intentado enviar el formulario */}
+                          {form.formState.isSubmitted &&
+                            form.formState.errors.fechas?.message}
                         </FormMessage>
                       </FormItem>
                     )}
@@ -229,7 +248,7 @@ export default function FormularioEvento() {
                     name="horaInicio"
                     render={() => (
                       <FormItem>
-                        <FormLabel>Selecciona la hora del Evento</FormLabel>
+                        <FormLabel>Hora del Evento</FormLabel>
                         <Popover>
                           <PopoverTrigger>
                             <FormControlPrivate>
@@ -260,8 +279,8 @@ export default function FormularioEvento() {
                           <InputLabel>Tipo de Evento</InputLabel>
                           <Select
                             label="Tipo de Evento"
-                            onChange={(value) => field.onChange(value)}
-                            value={field.value as string | undefined}
+                            onChange={(e) => field.onChange(e.target.value)}
+                            value={field.value || ""}
                           >
                             <MenuItem value="publico">Publico</MenuItem>
                             <MenuItem value="privado">Privado</MenuItem>
@@ -361,71 +380,98 @@ export default function FormularioEvento() {
                     Proporcione la ubicacion donde se hara el evento.
                   </p>
                   <Separator />
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 md:grid-cols-3 gap-2">
+                    {/* Select de Estados */}
                     <FormField
                       control={form.control}
-                      name="pais"
+                      name="estado"
                       render={({ field }) => (
                         <FormItem>
                           <FormControl size="small" className=" w-full ">
-                            <InputLabel>Pais</InputLabel>
+                            <InputLabel>Estado</InputLabel>
                             <Select
-                              label="Pais"
-                              onChange={(value) => field.onChange(value)}
-                              value={field.value as string | undefined}
+                              label="Estado"
+                              className="w-full"
+                              value={estadoSeleccionado}
+                              onChange={(event) => {
+                                const nuevoEstado = event.target.value;
+                                setEstadoSeleccionado(nuevoEstado);
+                                field.onChange(nuevoEstado);
+                              }}
                             >
-                              <MenuItem value="mx">Mexico</MenuItem>
-                              <MenuItem value="us">Estados Unidos</MenuItem>
+                              {estados.map((estado) => (
+                                <MenuItem key={estado} value={estado}>
+                                  {estado}
+                                </MenuItem>
+                              ))}
                             </Select>
                           </FormControl>
                           <FormMessage>
-                            {form.formState.errors.pais?.message}
+                            {form.formState.errors.estado?.message}
                           </FormMessage>
                         </FormItem>
                       )}
                     />
 
+                    {/* Select de Municipios */}
                     <FormField
                       control={form.control}
-                      name="ciudad"
+                      name="municipio"
                       render={({ field }) => (
                         <FormItem>
-                          <FormControl size="small" className=" w-full ">
-                            <InputLabel>Ciudad</InputLabel>
+                          <FormControl size="small" className="w-full">
+                            <InputLabel>Municipio</InputLabel>
                             <Select
-                              label="ciudad"
-                              onChange={(value) => field.onChange(value)}
-                              value={field.value as string | undefined}
+                              size="small"
+                              className=" w-full"
+                              label="Municipio"
+                              value={municipioSeleccionado}
+                              onChange={(event) => {
+                                const nuevoMunicipio = event.target.value;
+                                setMunicipioSeleccionado(nuevoMunicipio);
+                                field.onChange(nuevoMunicipio);
+                              }}
+                              disabled={!estadoSeleccionado} // Deshabilita si no hay estado seleccionado
                             >
-                              <MenuItem value="mx">Mexico</MenuItem>
-                              <MenuItem value="us">Estados Unidos</MenuItem>
+                              {municipios.map((municipio) => (
+                                <MenuItem key={municipio} value={municipio}>
+                                  {municipio}
+                                </MenuItem>
+                              ))}
                             </Select>
                           </FormControl>
                           <FormMessage>
-                            {form.formState.errors.pais?.message}
+                            {form.formState.errors.municipio?.message}
                           </FormMessage>
                         </FormItem>
                       )}
                     />
 
+                    {/* Select de Colonias */}
                     <FormField
                       control={form.control}
                       name="colonia"
                       render={({ field }) => (
                         <FormItem>
-                          <FormControl size="small" className=" w-full ">
+                          <FormControl size="small" className="w-full">
                             <InputLabel>Colonia</InputLabel>
                             <Select
+                              size="small"
+                              className=" w-full"
                               label="Colonia"
-                              onChange={(value) => field.onChange(value)}
-                              value={field.value as string | undefined}
+                              value={field.value}
+                              onChange={field.onChange}
+                              disabled={!municipioSeleccionado} // Deshabilita si no hay municipio seleccionado
                             >
-                              <MenuItem value="mx">Olimpica</MenuItem>
-                              <MenuItem value="us">Estados Unidos</MenuItem>
+                              {colonias.map((colonia) => (
+                                <MenuItem key={colonia} value={colonia}>
+                                  {colonia}
+                                </MenuItem>
+                              ))}
                             </Select>
                           </FormControl>
                           <FormMessage>
-                            {form.formState.errors.pais?.message}
+                            {form.formState.errors.colonia?.message}
                           </FormMessage>
                         </FormItem>
                       )}
@@ -437,7 +483,6 @@ export default function FormularioEvento() {
                         name="calle"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Calle</FormLabel>
                             <FormControlPrivate>
                               <Input
                                 type="string"
@@ -449,7 +494,7 @@ export default function FormularioEvento() {
                                     ? field.value.join(", ") // Si es un array, convierte a string
                                     : field.value // Si es string, úsalo directamente
                                 }
-                                placeholder="Ingresa la calle"
+                                placeholder="Nombre de la Calle"
                               />
                             </FormControlPrivate>
                             <FormMessage>
@@ -466,52 +511,25 @@ export default function FormularioEvento() {
                         name="numeroExt"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Numero Exterior</FormLabel>
                             <FormControlPrivate>
                               <Input
                                 type="string"
                                 {...field}
                                 value={
-                                  field.value instanceof Date
-                                    ? field.value.toISOString().split("T")[0] // Convierte a formato YYYY-MM-DD
-                                    : Array.isArray(field.value)
-                                    ? field.value.join(", ") // Si es un array, convierte a string
-                                    : field.value // Si es string, úsalo directamente
-                                }
-                                placeholder="Ingresa el numero exterior"
+                                  typeof field.value === "string"
+                                    ? field.value.replace(/\D/g, "")
+                                    : ""
+                                } // Elimina todo lo que no sea numero
+                                onChange={(e) =>
+                                  field.onChange(
+                                    e.target.value.replace(/\D/g, "")
+                                  )
+                                } // Evita caracteres no numericos
+                                placeholder="Numero del Domicilio"
                               />
                             </FormControlPrivate>
                             <FormMessage>
                               {form.formState.errors.numeroExt?.message}
-                            </FormMessage>
-                          </FormItem>
-                        )}
-                      />
-                    </FormControl>
-
-                    <FormControl>
-                      <FormField
-                        control={form.control}
-                        name="numeroInt"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Numero Interior</FormLabel>
-                            <FormControlPrivate>
-                              <Input
-                                type="string"
-                                {...field}
-                                value={
-                                  field.value instanceof Date
-                                    ? field.value.toISOString().split("T")[0] // Convierte a formato YYYY-MM-DD
-                                    : Array.isArray(field.value)
-                                    ? field.value.join(", ") // Si es un array, convierte a string
-                                    : field.value // Si es string, úsalo directamente
-                                }
-                                placeholder="Ingresa el numero interior"
-                              />
-                            </FormControlPrivate>
-                            <FormMessage>
-                              {form.formState.errors.numeroInt?.message}
                             </FormMessage>
                           </FormItem>
                         )}

@@ -30,7 +30,8 @@
       "@Styles/*": ["./src/app/styles/*"],
       "@Utils/*": ["./src/app/utils/*"],
       "@Data/*": ["./src/app/data/*"],
-      "@Layouts/*": ["./src/app/layouts/*"]
+      "@Layouts/*": ["./src/app/layouts/*"],
+      "@Apis/*": ["./src/app/api/*"]
     }
   },
   "include": [
