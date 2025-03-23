@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
     if (rows.length === 0) {
       return NextResponse.json(
-        { error: "Usuario no encontrado" },
+        { error: "Correo no encontrado" },
         { status: 404 }
       );
     }

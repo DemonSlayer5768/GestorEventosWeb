@@ -1,53 +1,40 @@
 "use client";
-import type React from "react";
-import { useState } from "react";
+
 import { Eye, EyeOff, Lock, Mail, User, Phone } from "lucide-react";
 import { IoPersonCircle } from "react-icons/io5";
+import { useRegister } from "@Hooks/useRegister";
+import CircularIndeterminate from "@Components/ui/ProgresSpin";
 
-export default function RegisterForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [user, setUser] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (!email || !password || !user || !phone) {
-      setError("Por favor llena todos los datos");
-      return;
-    }
-
-    try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user, email, phone, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Error al registrar usuario");
-      }
-
-      console.log("Usuario registrado:", data);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Error desconocido");
-      }
-    }
-  };
+export default function RegisterForm({
+  toggleForms,
+}: {
+  toggleForms: () => void;
+}) {
+  const {
+    showPassword,
+    togglePassword,
+    user,
+    setUser,
+    phone,
+    setPhone,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    error,
+    handleSubmit,
+    loading,
+  } = useRegister();
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-xl overflow-hidden rounded-2xl shadow-xl  bg-white">
+      <div className="w-full max-w-xl overflow-hidden rounded-2xl shadow-xl bg-white">
         <div className="p-8">
+          {loading && ( // Muestra el spinner cuando loading es true
+            <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-70 z-10">
+              <CircularIndeterminate />
+            </div>
+          )}
           <div className="flex justify-center">
             <IoPersonCircle className="text-gray-800 text-7xl" />
           </div>
@@ -60,6 +47,7 @@ export default function RegisterForm() {
           </h3>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Nombre */}
             <div className="space-y-2">
               <label
                 htmlFor="user"
@@ -74,11 +62,14 @@ export default function RegisterForm() {
                   placeholder="Ingresa tu nombre"
                   value={user}
                   onChange={(e) => setUser(e.target.value)}
-                  className="pl-10 w-full h-12 rounded-md cursor-pointer text-gray-900 "
+                  autoComplete="current-name"
+                  className="pl-10 w-full h-12 rounded-md text-gray-900"
                 />
                 <User className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
               </div>
             </div>
+
+            {/* Correo */}
             <div className="space-y-2">
               <label
                 htmlFor="email"
@@ -93,11 +84,14 @@ export default function RegisterForm() {
                   placeholder="Ingresa tu Correo"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 w-full h-12 rounded-md cursor-pointer text-gray-900 "
+                  autoComplete="current-email"
+                  className="pl-10 w-full h-12 rounded-md text-gray-900"
                 />
                 <Mail className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
               </div>
             </div>
+
+            {/* Celular */}
             <div className="space-y-2">
               <label
                 htmlFor="phone"
@@ -109,14 +103,17 @@ export default function RegisterForm() {
                 <input
                   id="phone"
                   type="text"
-                  placeholder="Ingresa tu numero de telefono"
+                  placeholder="Ingresa tu número de teléfono"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="pl-10 w-full h-12 rounded-md cursor-pointer text-gray-900 "
+                  autoComplete="current-phone"
+                  className="pl-10 w-full h-12 rounded-md text-gray-900"
                 />
                 <Phone className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
               </div>
             </div>
+
+            {/* Contraseña */}
             <div className="space-y-2 pt-3 pb-4">
               <label
                 htmlFor="password"
@@ -131,13 +128,15 @@ export default function RegisterForm() {
                   placeholder="Ingresa tu contraseña"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 w-full h-12 rounded-md  cursor-pointer text-gray-900 "
+                  autoComplete="current-password"
+                  className="pl-10 w-full h-12 rounded-md text-gray-900"
                 />
+
                 <Lock className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-2.5 text-gray-400 focus:outline-none"
+                  onClick={togglePassword}
+                  className="absolute right-3 top-2.5 text-gray-400"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" />
@@ -148,16 +147,31 @@ export default function RegisterForm() {
               </div>
             </div>
 
+            {/* Errores */}
             {error && (
               <p className="text-center text-sm text-red-500">{error}</p>
             )}
+
+            {/* Boton de registro */}
             <button
               type="submit"
-              className=" w-full h-10 rounded-md  bg-blue-600 hover:bg-blue-700 "
+              className="w-full h-10 rounded-md bg-blue-600 hover:bg-blue-700"
             >
               Crear Cuenta
             </button>
           </form>
+          <div className="pt-8 px-8 py-4 text-center">
+            <p className="text-sm text-gray-600 ">
+              ¿Ya tienes cuenta?{" "}
+              <button
+                onClick={toggleForms}
+                className="font-medium text-blue-600 hover:text-blue-500"
+                disabled={loading} // Evita cambiar de formulario mientras carga
+              >
+                Iniciar Sesión
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </div>

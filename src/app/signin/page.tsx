@@ -1,16 +1,15 @@
 "use client";
-import { useState } from "react";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import LoginForm from "@Components/login/SingIn";
-import RegisterForm from "@Components/login/Register";
+import LoginForm from "<webPage>/app/components/SingIn/SingIn";
+import RegisterForm from "<webPage>/app/components/SingIn/Register";
+import { useLoginRegister } from "@Hooks/useLoginRegister";
+import { useIsMobile } from "@Hooks/useIsMobile";
+import Aurora from "@Components/ui/Aurora";
+// import Lightning from "@Components/ui/Lightning";
 
 export default function LoginRegisterPage() {
-  const [isSwapped, setIsSwapped] = useState(false);
-
-  const toggleForms = () => {
-    setIsSwapped(!isSwapped);
-  };
+  const { isLogin, toggleForms } = useLoginRegister();
+  const isMobile = useIsMobile();
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -18,23 +17,43 @@ export default function LoginRegisterPage() {
         {/* Sección Izquierda */}
         <div className="relative">
           <AnimatePresence mode="wait">
-            {!isSwapped ? (
+            {isMobile ? (
+              isLogin ? (
+                <motion.div
+                  key="login"
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <LoginForm toggleForms={toggleForms} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="register"
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <RegisterForm toggleForms={toggleForms} />
+                </motion.div>
+              )
+            ) : isLogin ? (
               <motion.div
                 key="image1"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.5 }}
-                className="relative h-full"
+                className="relative w-full h-screen rounded-r-full overflow-hidden"
               >
-                <Image
-                  src="/ImgsCarousel/ImgBoda6.jpg"
-                  alt="Eventos principales"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-r-full"
+                <Aurora
+                  colorStops={["#1414b8", "#0000ff", "#1414b8"]}
+                  amplitude={1.0}
+                  speed={1.5}
                 />
-                <div className="absolute inset-0  rounded-l-2xl"></div>
+                <div className="absolute inset-0 rounded-l-2xl"></div>
               </motion.div>
             ) : (
               <motion.div
@@ -44,54 +63,46 @@ export default function LoginRegisterPage() {
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.5 }}
               >
-                <RegisterForm />
+                <RegisterForm toggleForms={toggleForms} />
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
         {/* Sección Derecha */}
-        <div className="relative">
-          <AnimatePresence mode="wait">
-            {isSwapped ? (
-              <motion.div
-                key="image2"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5 }}
-                className="relative h-full"
-              >
-                <Image
-                  src="/Copas.jpg"
-                  alt="Centro de mesa"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-l-full"
-                />
-                <div className="absolute inset-0 rounded-r-2xl"></div>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="login"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 50 }}
-                transition={{ duration: 0.5 }}
-              >
-                <LoginForm />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Botón de Intercambio */}
-        <button
-          onClick={toggleForms}
-          className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-black text-white px-6 py-3 rounded-lg shadow-md hover:bg-gray-700 transition-all duration-300"
-        >
-          {isSwapped ? "Mostrar Login" : "Mostrar Registro"}
-        </button>
+        {!isMobile && (
+          <div className="relative flex-1">
+            <AnimatePresence mode="wait">
+              {!isLogin ? (
+                <motion.div
+                  key="image2"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.5 }}
+                  className="relative w-full h-screen rounded-l-full overflow-hidden"
+                >
+                  <Aurora
+                    colorStops={["#1f104f", "#241178", "#1f104f"]}
+                    amplitude={1.0}
+                    speed={1.5}
+                  />
+                  <div className="absolute inset-0 rounded-r-2xl"></div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="login"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 50 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <LoginForm toggleForms={toggleForms} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
     </div>
   );
