@@ -399,11 +399,18 @@ export default function FormularioEvento() {
                                 field.onChange(nuevoEstado);
                               }}
                             >
-                              {estados.map((estado) => (
-                                <MenuItem key={estado} value={estado}>
-                                  {estado}
-                                </MenuItem>
-                              ))}
+                              {estados?.length > 0 ? (
+                                estados.map((estado) => (
+                                  <MenuItem
+                                    key={estado.ESTADO_ID}
+                                    value={estado.ESTADO_ID}
+                                  >
+                                    {estado.ESTADO}
+                                  </MenuItem>
+                                ))
+                              ) : (
+                                <MenuItem disabled>Sin estados</MenuItem>
+                              )}
                             </Select>
                           </FormControl>
                           <FormMessage>
@@ -433,11 +440,18 @@ export default function FormularioEvento() {
                               }}
                               disabled={!estadoSeleccionado} // Deshabilita si no hay estado seleccionado
                             >
-                              {municipios.map((municipio) => (
-                                <MenuItem key={municipio} value={municipio}>
-                                  {municipio}
-                                </MenuItem>
-                              ))}
+                              {municipios?.length > 0 ? (
+                                municipios.map((municipio) => (
+                                  <MenuItem
+                                    key={municipio.MUNICIPIO_ID}
+                                    value={municipio.MUNICIPIO_ID}
+                                  >
+                                    {municipio.MUNICIPIO}
+                                  </MenuItem>
+                                ))
+                              ) : (
+                                <MenuItem disabled>Sin Municipios</MenuItem>
+                              )}
                             </Select>
                           </FormControl>
                           <FormMessage>
@@ -457,17 +471,29 @@ export default function FormularioEvento() {
                             <InputLabel>Colonia</InputLabel>
                             <Select
                               size="small"
-                              className=" w-full"
+                              className="w-full"
                               label="Colonia"
-                              value={field.value}
-                              onChange={field.onChange}
-                              disabled={!municipioSeleccionado} // Deshabilita si no hay municipio seleccionado
+                              value={field.value || ""}
+                              onChange={(event) => {
+                                const nuevaColonia = event.target.value;
+                                field.onChange(nuevaColonia);
+                              }}
+                              disabled={!municipioSeleccionado}
                             >
-                              {colonias.map((colonia) => (
-                                <MenuItem key={colonia} value={colonia}>
-                                  {colonia}
-                                </MenuItem>
-                              ))}
+                              {colonias?.length > 0 ? (
+                                colonias.map((colonia, index) => (
+                                  <MenuItem
+                                    key={
+                                      colonia.COLONIA_ID || `colonia-${index}`
+                                    } // 🔹 Usa COLONIA_ID o un fallback único
+                                    value={colonia.COLONIA_ID}
+                                  >
+                                    {colonia.COLONIA}
+                                  </MenuItem>
+                                ))
+                              ) : (
+                                <MenuItem disabled>Sin Colonias</MenuItem>
+                              )}
                             </Select>
                           </FormControl>
                           <FormMessage>
