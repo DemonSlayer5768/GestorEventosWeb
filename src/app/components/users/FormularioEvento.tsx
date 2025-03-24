@@ -39,9 +39,11 @@ export default function FormularioEvento() {
     municipios,
     colonias,
     estadoSeleccionado,
-    setEstadoSeleccionado,
     municipioSeleccionado,
+    coloniaSeleccionada,
+    setEstadoSeleccionado,
     setMunicipioSeleccionado,
+    setColoniaSeleccionada,
     handleDateChange,
     handleTimeChange,
     // setFechas,
@@ -402,7 +404,7 @@ export default function FormularioEvento() {
                               {estados?.length > 0 ? (
                                 estados.map((estado) => (
                                   <MenuItem
-                                    key={estado.ESTADO_ID}
+                                    key={estado.ESTADO_ID} // Asegúrate de que ESTADO_ID sea único
                                     value={estado.ESTADO_ID}
                                   >
                                     {estado.ESTADO}
@@ -443,7 +445,7 @@ export default function FormularioEvento() {
                               {municipios?.length > 0 ? (
                                 municipios.map((municipio) => (
                                   <MenuItem
-                                    key={municipio.MUNICIPIO_ID}
+                                    key={municipio.MUNICIPIO_ID} // Asegúrate de que MUNICIPIO_ID sea único
                                     value={municipio.MUNICIPIO_ID}
                                   >
                                     {municipio.MUNICIPIO}
@@ -471,22 +473,21 @@ export default function FormularioEvento() {
                             <InputLabel>Colonia</InputLabel>
                             <Select
                               size="small"
-                              className="w-full"
+                              className=" w-full"
                               label="Colonia"
-                              value={field.value || ""}
+                              value={coloniaSeleccionada}
                               onChange={(event) => {
                                 const nuevaColonia = event.target.value;
+                                setColoniaSeleccionada(nuevaColonia);
                                 field.onChange(nuevaColonia);
                               }}
-                              disabled={!municipioSeleccionado}
+                              disabled={!municipioSeleccionado} // Deshabilita si no hay municipio
                             >
                               {colonias?.length > 0 ? (
-                                colonias.map((colonia, index) => (
+                                colonias.map((colonia) => (
                                   <MenuItem
-                                    key={
-                                      colonia.COLONIA_ID || `colonia-${index}`
-                                    } // 🔹 Usa COLONIA_ID o un fallback único
-                                    value={colonia.COLONIA_ID}
+                                    key={colonia.ASENTA_ID} // Usa ASENTA_ID como clave única
+                                    value={colonia.ASENTA_ID}
                                   >
                                     {colonia.COLONIA}
                                   </MenuItem>

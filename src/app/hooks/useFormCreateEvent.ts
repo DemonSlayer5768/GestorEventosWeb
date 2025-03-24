@@ -78,10 +78,10 @@ export function useFormularioEvento() {
   const [timeInicio, setTimeInicio] = useState<string | null>(null);
   const [timeFin, setTimeFin] = useState<string | null>(null);
   const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("");
+  const [coloniaSeleccionada, setColoniaSeleccionada] = useState<string>("");
   const [municipioSeleccionado, setMunicipioSeleccionado] =
     useState<string>("");
 
-  // 🔹 Eliminamos setColoniaSeleccionada y usamos form.setValue en su lugar
   const [estados, setEstados] = useState<
     { ESTADO_ID: string; ESTADO: string }[]
   >([]);
@@ -89,21 +89,22 @@ export function useFormularioEvento() {
     { MUNICIPIO_ID: string; MUNICIPIO: string }[]
   >([]);
   const [colonias, setColonias] = useState<
-    { COLONIA_ID: string; COLONIA: string }[]
+    { ASENTA_ID: string; COLONIA: string }[]
   >([]);
 
   const cargarEstados = useCallback(async () => {
     const datos = await obtenerEstados();
-    // console.log("Estados obtenidos:", datos);
     setEstados(datos.estados || []);
   }, []);
 
   const resetMunicipio = useCallback(() => {
-    form.setValue("municipio", ""); // 🔹 Resetea el campo en el formulario
+    form.setValue("municipio", "");
+    setMunicipioSeleccionado(""); // 🔹 Resetea el estado de municipio
   }, [form]);
 
-  const resetColonia = useCallback(() => {
-    form.setValue("colonia", ""); // 🔹 Resetea la colonia en el formulario
+  const resetColonias = useCallback(() => {
+    form.setValue("colonia", "");
+    setColoniaSeleccionada(""); // 🔹 Resetea el estado de las colonias
   }, [form]);
 
   useEffect(() => {
@@ -114,7 +115,7 @@ export function useFormularioEvento() {
     if (!estadoSeleccionado) return;
     obtenerMunicipios(estadoSeleccionado).then((datos) => {
       setMunicipios(datos.municipios || []);
-      resetMunicipio(); // 🔹 Limpia municipio
+      resetMunicipio();
     });
   }, [estadoSeleccionado, resetMunicipio]);
 
@@ -122,9 +123,15 @@ export function useFormularioEvento() {
     if (!estadoSeleccionado || !municipioSeleccionado) return;
     obtenerColonias(estadoSeleccionado, municipioSeleccionado).then((datos) => {
       setColonias(datos.colonias || []);
-      resetColonia(); // 🔹 Limpia colonia cuando cambia el municipio
+      resetColonias();
     });
-  }, [estadoSeleccionado, municipioSeleccionado, resetColonia]);
+  }, [estadoSeleccionado, municipioSeleccionado, resetColonias]);
+
+  useEffect(() => {
+    if (!coloniaSeleccionada) {
+      form.setValue("colonia", "");
+    }
+  }, [estadoSeleccionado, municipioSeleccionado, coloniaSeleccionada, form]);
 
   const handleDateChange = useCallback(
     (nuevasFechas: string[]) => {
@@ -133,7 +140,7 @@ export function useFormularioEvento() {
       form.trigger("fechas"); // 🔹 Dispara la validación manualmente
       // console.log("Fechas seleccionadas:", nuevasFechas);
     },
-    [form] // 🔹 Se agrega `form` a las dependencias
+    [form]
   );
 
   const handleTimeChange = (start: string | null, end: string | null) => {
@@ -146,11 +153,11 @@ export function useFormularioEvento() {
     // console.log("Hora de fin:", end);
   };
 
-  const {
-    formState: { errors },
-  } = form;
+  // const {
+  //   formState: { errors },
+  // } = form;
 
-  console.log(errors);
+  // console.log(errors);
 
   function onSubmit(values: FormValues) {
     console.log("debe de entrar");
@@ -164,9 +171,10 @@ export function useFormularioEvento() {
     colonias,
     estadoSeleccionado,
     municipioSeleccionado,
-
+    coloniaSeleccionada,
     setEstadoSeleccionado,
     setMunicipioSeleccionado,
+    setColoniaSeleccionada,
     handleDateChange,
     handleTimeChange,
     setFechas,

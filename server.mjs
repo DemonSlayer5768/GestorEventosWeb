@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 const API_BASE_URL = "https://api.tau.com.mx/dipomex/v1/";
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.APIKEY;
 
 // 🔹 Ruta raíz para comprobar que el servidor funciona
 app.get("/", (res) => {
