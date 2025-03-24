@@ -8,7 +8,8 @@ import {
   obtenerColonias,
 } from "@Apis/apiDIPOMEX";
 
-// Esquema de validación con Zod
+///////////////////////// MENSAJES DE ERRORES DEL FORMULARIO  ///////////////////////////////////////
+
 const formSchema = z.object({
   nombre: z
     .string()
@@ -38,13 +39,14 @@ const formSchema = z.object({
   horaInicio: z.string().min(1, { message: "La hora del evento es requerida" }),
   horaFin: z.string(),
 
-  codigoPostal: z.string(),
-  estado: z.string(),
-  municipio: z.string(),
-  colonia: z.string(),
+  estado: z.string().min(1, { message: "El estado es requerido" }),
+  municipio: z.string().min(1, { message: "El municipio es requerido" }),
+  colonia: z.string().min(1, { message: "La colonia es requerida" }),
   calle: z.string(),
   numeroExt: z.string(),
 });
+
+///////////////////////// DATROS DEL FORMULARIO  ///////////////////////////////////////
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -64,7 +66,6 @@ export function useFormularioEvento() {
       categoria: "",
       modalidad: "",
       descripcion: "",
-      codigoPostal: "",
       estado: "",
       municipio: "",
       colonia: "",
@@ -73,14 +74,24 @@ export function useFormularioEvento() {
     },
   });
 
+  ///////////////////////// DEFINICION DE VARIABLES DEL FORMULARIO  ///////////////////////////////////////
+
   // 🔹 Memoizar la función para evitar renders innecesarios
   const [fechas, setFechas] = useState<string[]>([]); // (fechas lugar en el que se almacena el valor ) , (setFechas funcion que actualiza el estado )  useState(valorInicial),
   const [timeInicio, setTimeInicio] = useState<string | null>(null);
   const [timeFin, setTimeFin] = useState<string | null>(null);
-  const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("");
-  const [coloniaSeleccionada, setColoniaSeleccionada] = useState<string>("");
-  const [municipioSeleccionado, setMunicipioSeleccionado] =
-    useState<string>("");
+  const [estadoSeleccionado, setEstadoSeleccionado] = useState<{
+    id: string;
+    nombre: string;
+  } | null>(null);
+  const [municipioSeleccionado, setMunicipioSeleccionado] = useState<{
+    id: string;
+    nombre: string;
+  } | null>(null);
+  const [coloniaSeleccionada, setColoniaSeleccionada] = useState<{
+    id: string;
+    nombre: string;
+  } | null>(null);
 
   const [estados, setEstados] = useState<
     { ESTADO_ID: string; ESTADO: string }[]
@@ -92,6 +103,8 @@ export function useFormularioEvento() {
     { ASENTA_ID: string; COLONIA: string }[]
   >([]);
 
+  ///////////////////////// PETICION A LA API DIPOMEX PARA LA UBIACION ///////////////////////////////////////
+
   const cargarEstados = useCallback(async () => {
     const datos = await obtenerEstados();
     setEstados(datos.estados || []);
@@ -99,12 +112,12 @@ export function useFormularioEvento() {
 
   const resetMunicipio = useCallback(() => {
     form.setValue("municipio", "");
-    setMunicipioSeleccionado(""); // 🔹 Resetea el estado de municipio
+    setMunicipioSeleccionado(null); // 🔹 Resetea el estado de municipio
   }, [form]);
 
   const resetColonias = useCallback(() => {
     form.setValue("colonia", "");
-    setColoniaSeleccionada(""); // 🔹 Resetea el estado de las colonias
+    setColoniaSeleccionada(null); // 🔹 Resetea el estado de las colonias
   }, [form]);
 
   useEffect(() => {
@@ -113,7 +126,7 @@ export function useFormularioEvento() {
 
   useEffect(() => {
     if (!estadoSeleccionado) return;
-    obtenerMunicipios(estadoSeleccionado).then((datos) => {
+    obtenerMunicipios(estadoSeleccionado.id).then((datos) => {
       setMunicipios(datos.municipios || []);
       resetMunicipio();
     });
@@ -121,10 +134,12 @@ export function useFormularioEvento() {
 
   useEffect(() => {
     if (!estadoSeleccionado || !municipioSeleccionado) return;
-    obtenerColonias(estadoSeleccionado, municipioSeleccionado).then((datos) => {
-      setColonias(datos.colonias || []);
-      resetColonias();
-    });
+    obtenerColonias(estadoSeleccionado.id, municipioSeleccionado.id).then(
+      (datos) => {
+        setColonias(datos.colonias || []);
+        resetColonias();
+      }
+    );
   }, [estadoSeleccionado, municipioSeleccionado, resetColonias]);
 
   useEffect(() => {
@@ -132,6 +147,16 @@ export function useFormularioEvento() {
       form.setValue("colonia", "");
     }
   }, [estadoSeleccionado, municipioSeleccionado, coloniaSeleccionada, form]);
+
+  // const datosAGuardar = {
+  //   estado: estadoSeleccionado?.nombre,
+  //   municipio: municipioSeleccionado?.nombre,
+  //   colonia: coloniaSeleccionada?.nombre,
+  // };
+
+  // console.log("Datos a guardar:", datosAGuardar);
+
+  ///////////////////////// PARTE PARA OBTENER LAS FECHA  Y HORA DEL EVENTO ///////////////////////////////////////
 
   const handleDateChange = useCallback(
     (nuevasFechas: string[]) => {
@@ -153,17 +178,37 @@ export function useFormularioEvento() {
     // console.log("Hora de fin:", end);
   };
 
+  ///////////////////////// OBTENER LOS DATROS DEL FORMULARIO  ///////////////////////////////////////
   // const {
   //   formState: { errors },
   // } = form;
 
   // console.log(errors);
 
+  // //ID'S
+  // console.log("Estado:", estadoSeleccionado);
+  // console.log("Municipio:", municipioSeleccionado);
+  // console.log("Colonia:", coloniaSeleccionada);
+  // //NOMBRES
+  // console.log("estadoGuardar:", estadoSeleccionado?.nombre);
+  // console.log("municipioGuardar:", municipioSeleccionado?.nombre);
+  // console.log("coloniaGuardar:", coloniaSeleccionada?.nombre);
+
   function onSubmit(values: FormValues) {
-    console.log("debe de entrar");
-    console.log(values);
+    console.log("DATOS DEL FORMULARIO");
+
+    // Reemplazar los valores con los nombres seleccionados
+    const datosCorrectos = {
+      ...values,
+      estado: estadoSeleccionado?.nombre || values.estado,
+      municipio: municipioSeleccionado?.nombre || values.municipio,
+      colonia: coloniaSeleccionada?.nombre || values.colonia,
+    };
+
+    console.log(datosCorrectos);
   }
 
+  ///////////////////////// ENVIAR FUNCIONES A FormularioEvento.tsx ///////////////////////////////////////
   return {
     form,
     estados,

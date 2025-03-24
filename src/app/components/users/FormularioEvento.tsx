@@ -40,7 +40,7 @@ export default function FormularioEvento() {
     colonias,
     estadoSeleccionado,
     municipioSeleccionado,
-    coloniaSeleccionada,
+    // coloniaSeleccionada,
     setEstadoSeleccionado,
     setMunicipioSeleccionado,
     setColoniaSeleccionada,
@@ -389,30 +389,33 @@ export default function FormularioEvento() {
                       name="estado"
                       render={({ field }) => (
                         <FormItem>
-                          <FormControl size="small" className=" w-full ">
+                          <FormControl size="small" className="w-full">
                             <InputLabel>Estado</InputLabel>
                             <Select
                               label="Estado"
                               className="w-full"
-                              value={estadoSeleccionado}
+                              value={field.value} // ← Aquí ya usará solo el ID
                               onChange={(event) => {
-                                const nuevoEstado = event.target.value;
-                                setEstadoSeleccionado(nuevoEstado);
-                                field.onChange(nuevoEstado);
+                                const estado = estados.find(
+                                  (e) => e.ESTADO_ID === event.target.value
+                                );
+                                if (estado) {
+                                  setEstadoSeleccionado({
+                                    id: estado.ESTADO_ID,
+                                    nombre: estado.ESTADO,
+                                  });
+                                  form.setValue("estado", estado.ESTADO_ID); // ← Guarda solo el ID
+                                }
                               }}
                             >
-                              {estados?.length > 0 ? (
-                                estados.map((estado) => (
-                                  <MenuItem
-                                    key={estado.ESTADO_ID} // Asegúrate de que ESTADO_ID sea único
-                                    value={estado.ESTADO_ID}
-                                  >
-                                    {estado.ESTADO}
-                                  </MenuItem>
-                                ))
-                              ) : (
-                                <MenuItem disabled>Sin estados</MenuItem>
-                              )}
+                              {estados.map((estado) => (
+                                <MenuItem
+                                  key={estado.ESTADO_ID}
+                                  value={estado.ESTADO_ID}
+                                >
+                                  {estado.ESTADO}
+                                </MenuItem>
+                              ))}
                             </Select>
                           </FormControl>
                           <FormMessage>
@@ -431,29 +434,35 @@ export default function FormularioEvento() {
                           <FormControl size="small" className="w-full">
                             <InputLabel>Municipio</InputLabel>
                             <Select
-                              size="small"
-                              className=" w-full"
-                              label="Municipio"
-                              value={municipioSeleccionado}
+                              {...field} // Aquí se asocia correctamente con React Hook Form
+                              label="Estado"
+                              className="w-full"
+                              value={field.value} // Se usa directamente del form
                               onChange={(event) => {
-                                const nuevoMunicipio = event.target.value;
-                                setMunicipioSeleccionado(nuevoMunicipio);
-                                field.onChange(nuevoMunicipio);
+                                const municipio = municipios.find(
+                                  (m) => m.MUNICIPIO_ID === event.target.value
+                                );
+                                if (municipio) {
+                                  setMunicipioSeleccionado({
+                                    id: municipio.MUNICIPIO_ID,
+                                    nombre: municipio.MUNICIPIO,
+                                  });
+                                  form.setValue(
+                                    "municipio",
+                                    municipio.MUNICIPIO_ID
+                                  ); // Guardamos solo el ID
+                                }
                               }}
-                              disabled={!estadoSeleccionado} // Deshabilita si no hay estado seleccionado
+                              disabled={!estadoSeleccionado}
                             >
-                              {municipios?.length > 0 ? (
-                                municipios.map((municipio) => (
-                                  <MenuItem
-                                    key={municipio.MUNICIPIO_ID} // Asegúrate de que MUNICIPIO_ID sea único
-                                    value={municipio.MUNICIPIO_ID}
-                                  >
-                                    {municipio.MUNICIPIO}
-                                  </MenuItem>
-                                ))
-                              ) : (
-                                <MenuItem disabled>Sin Municipios</MenuItem>
-                              )}
+                              {municipios.map((municipio) => (
+                                <MenuItem
+                                  key={municipio.MUNICIPIO_ID}
+                                  value={municipio.MUNICIPIO_ID}
+                                >
+                                  {municipio.MUNICIPIO}
+                                </MenuItem>
+                              ))}
                             </Select>
                           </FormControl>
                           <FormMessage>
@@ -472,29 +481,36 @@ export default function FormularioEvento() {
                           <FormControl size="small" className="w-full">
                             <InputLabel>Colonia</InputLabel>
                             <Select
-                              size="small"
-                              className=" w-full"
                               label="Colonia"
-                              value={coloniaSeleccionada}
+                              className="w-full"
+                              value={field.value} // Usamos directamente lo que hay en el form
                               onChange={(event) => {
-                                const nuevaColonia = event.target.value;
-                                setColoniaSeleccionada(nuevaColonia);
-                                field.onChange(nuevaColonia);
+                                const colonia = colonias.find(
+                                  (c) =>
+                                    c.ASENTA_ID.toString() ===
+                                    event.target.value
+                                );
+                                if (colonia) {
+                                  setColoniaSeleccionada({
+                                    id: colonia.ASENTA_ID.toString(),
+                                    nombre: colonia.COLONIA,
+                                  });
+                                  form.setValue(
+                                    "colonia",
+                                    colonia.ASENTA_ID.toString()
+                                  ); // Guardamos solo el ID
+                                }
                               }}
-                              disabled={!municipioSeleccionado} // Deshabilita si no hay municipio
+                              disabled={!municipioSeleccionado}
                             >
-                              {colonias?.length > 0 ? (
-                                colonias.map((colonia) => (
-                                  <MenuItem
-                                    key={colonia.ASENTA_ID} // Usa ASENTA_ID como clave única
-                                    value={colonia.ASENTA_ID}
-                                  >
-                                    {colonia.COLONIA}
-                                  </MenuItem>
-                                ))
-                              ) : (
-                                <MenuItem disabled>Sin Colonias</MenuItem>
-                              )}
+                              {colonias.map((colonia) => (
+                                <MenuItem
+                                  key={colonia.ASENTA_ID}
+                                  value={colonia.ASENTA_ID.toString()}
+                                >
+                                  {colonia.COLONIA}
+                                </MenuItem>
+                              ))}
                             </Select>
                           </FormControl>
                           <FormMessage>
