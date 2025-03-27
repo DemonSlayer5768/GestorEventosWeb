@@ -1,6 +1,6 @@
-import { useRoutes } from "@Hooks/useRoutes";
+import { useRoutes } from "@Lib/hooks/useRoutes";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@Hooks/useAuth"; // 🔹 Importamos useAuth para cerrar sesión
+import { useAuth } from "@Lib/hooks/useAuth"; // 🔹 Importamos useAuth para cerrar sesión
 
 export function useHeader() {
   const routes = useRoutes();

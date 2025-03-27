@@ -7,7 +7,7 @@ import {
   FormControl,
   Button,
 } from "@mui/material";
-import { Filters } from "@Hooks/useEventFilters";
+import { Filters } from "@Lib/hooks/useEventFilters";
 import { DatePickerBasic } from "@Components/ui/DatePickerBasic";
 
 interface EventFiltersProps {

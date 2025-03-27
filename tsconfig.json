@@ -22,15 +22,9 @@
     "paths": {
       "<webPage>/*": ["./src/*"],
       "@Components/*": ["./src/app/components/*"],
-      "@Hooks/*": ["./src/app/hooks/*"],
       "@Lib/*": ["./src/app/lib/*"],
-      "@Pages/*": ["./src/app/pages/*"],
-      "@Services/*": ["./src/app/services/*"],
       "@Store/*": ["./src/app/store/*"],
       "@Styles/*": ["./src/app/styles/*"],
-      "@Utils/*": ["./src/app/utils/*"],
-      "@Data/*": ["./src/app/data/*"],
-      "@Layouts/*": ["./src/app/layouts/*"],
       "@Apis/*": ["./src/app/api/*"]
     }
   },

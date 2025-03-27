@@ -30,7 +30,7 @@ import {
   FormMessage,
 } from "@Components/ui/form";
 import { Separator } from "@Components/ui/separator";
-import { useFormularioEvento } from "@Hooks/useFormCreateEvent";
+import { useFormularioEvento } from "@Lib/hooks/useFormCreateEvent";
 
 export default function FormularioEvento() {
   const {

@@ -2,7 +2,7 @@
 
 import { Eye, EyeOff, Lock, Mail, User, Phone } from "lucide-react";
 import { IoPersonCircle } from "react-icons/io5";
-import { useRegister } from "@Hooks/useRegister";
+import { useRegister } from "@Lib/hooks/useRegister";
 import CircularIndeterminate from "@Components/ui/ProgresSpin";
 
 export default function RegisterForm({

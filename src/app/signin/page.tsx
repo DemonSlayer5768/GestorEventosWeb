@@ -2,8 +2,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import LoginForm from "<webPage>/app/components/SingIn/SingIn";
 import RegisterForm from "<webPage>/app/components/SingIn/Register";
-import { useLoginRegister } from "@Hooks/useLoginRegister";
-import { useIsMobile } from "@Hooks/useIsMobile";
+import { useLoginRegister } from "@Lib/hooks/useLoginRegister";
+import { useIsMobile } from "@Lib/hooks/useIsMobile";
 import Aurora from "@Components/ui/Aurora";
 // import Lightning from "@Components/ui/Lightning";
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "@Hooks/useAuth"; // 🔹 Importamos useAuth
+import { useAuth } from "@Lib/hooks/useAuth"; // 🔹 Importamos useAuth
 
 export function useRegister() {
   const [showPassword, setShowPassword] = useState(false);

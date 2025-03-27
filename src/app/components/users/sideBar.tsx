@@ -5,13 +5,14 @@ import {
   Calendar,
   Package,
   Mail,
-  Ban,
-  Clock,
+  MapPinHouse,
+  TableProperties,
   Settings,
   HelpCircle,
   Plus,
 } from "lucide-react";
 import Link from "next/link";
+import { useRoutes } from "@Lib/hooks/useRoutes";
 
 interface SidebarItemProps {
   href: string;
@@ -48,6 +49,7 @@ const SidebarItem = ({
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const routes = useRoutes();
 
   return (
     <div className="flex">
@@ -71,40 +73,40 @@ const Sidebar = () => {
           <ul className="space-y-6">
             <div className="bg-green-500 rounded-lg hover:bg-green-600 transition">
               <SidebarItem
-                href="/crear-evento"
+                href={routes.crearEvento}
                 icon={Plus}
                 text="Crear Evento"
                 isExpanded={isExpanded}
               />
             </div>
             <SidebarItem
-              href="/mis-eventos"
+              href={routes.usuarios}
               icon={Calendar}
               text="Mis Eventos"
               isExpanded={isExpanded}
             />
             <SidebarItem
-              href="/bandeja"
+              href={routes.bandejaCorreo}
               icon={Mail}
               text="Bandeja"
               isExpanded={isExpanded}
             />
             <SidebarItem
-              href="/paquetes"
+              href={routes.paquetesEventos}
               icon={Package}
               text="Paquetes"
               isExpanded={isExpanded}
             />
             <SidebarItem
-              href="/cancelados"
-              icon={Ban}
-              text="Cancelados"
+              href={routes.catalogoSalones}
+              icon={MapPinHouse}
+              text="Catalogo Salones"
               isExpanded={isExpanded}
             />
             <SidebarItem
-              href="/proximos"
-              icon={Clock}
-              text="Próximos"
+              href={routes.serviciosEventos}
+              icon={TableProperties}
+              text="Servicios"
               isExpanded={isExpanded}
             />
           </ul>

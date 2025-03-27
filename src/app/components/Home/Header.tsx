@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import Image from "next/image";
-import { useRoutes } from "@Hooks/useRoutes";
+import { useRoutes } from "@Lib/hooks/useRoutes";
 
 const Header = ({
   scrollToSection,

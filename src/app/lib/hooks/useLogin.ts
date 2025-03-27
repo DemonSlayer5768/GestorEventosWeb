@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "@Hooks/useAuth";
+import { useAuth } from "@Lib/hooks/useAuth";
 
 export function useLogin() {
   const [showPassword, setShowPassword] = useState(false);

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Bell, User } from "lucide-react";
-import { useHeader } from "@Hooks/useHeaderUsers";
+import { useHeader } from "@Lib/hooks/useHeaderUsers";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
