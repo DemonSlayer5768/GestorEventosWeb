@@ -55,7 +55,7 @@ const Sidebar = () => {
     <div className="flex">
       {/* Sidebar */}
       <div
-        className={`bg-gray-900 text-white min-h-screen flex flex-col transition-all duration-300 ease-in-out
+        className={`bg-blue-950 text-white min-h-screen flex flex-col transition-all duration-300 ease-in-out
         ${isExpanded ? "w-64 p-5" : "w-14 p-2"}`}
       >
         {/* Toggle Button */}

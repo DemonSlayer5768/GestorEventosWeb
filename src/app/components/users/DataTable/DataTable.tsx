@@ -1,7 +1,7 @@
 "use client";
 import { DataGrid } from "@mui/x-data-grid";
 import { columns } from "@Components/users/DataTable/Columns";
-import { rows } from "@Lib/data/users/DataTableRows";
+import { rows } from "@Lib/data/datatTableEventos";
 import Paper from "@mui/material/Paper";
 import EventFilters from "@Components/users/DataTable/TableFilters";
 import { useEventFilters } from "@Lib/hooks/useEventFilters";

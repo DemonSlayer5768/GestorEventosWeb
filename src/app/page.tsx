@@ -1,11 +1,11 @@
 "use client";
 import React, { useRef } from "react";
-import Header from "@Components/Home/Header";
-import Footer from "@Components/Home/footer";
-import TextHero from "@Components/Home/textHero";
-import Pricing from "@Components/Home/PricingCardsTemplate";
-import AboutUs from "@Components/Home/AboutUs";
-import Services from "@Components/Home/Services";
+import Header from "@Components/Inicio/Header";
+import Footer from "@Components/Inicio/footer";
+import TextHero from "@Components/Inicio/textHero";
+import Pricing from "@Components/Inicio/PricingCardsTemplate";
+import AboutUs from "@Components/Inicio/AboutUs";
+import Services from "@Components/Inicio/Services";
 
 export default function HomeMain() {
   const aboutRef = useRef<HTMLDivElement | null>(null);

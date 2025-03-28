@@ -1,5 +1,6 @@
 import Sidebar from "@Components/users/sideBar";
 import Header from "@Components/users/header";
+import SalonCatalog from "@Components/users/catalogo/salonCatalog";
 
 export default function CatalogoSalones() {
   return (
@@ -10,6 +11,7 @@ export default function CatalogoSalones() {
       {/* CONTENIDO (HEADER Y DEMÁS) */}
       <div className="flex flex-col w-full h-screen overflow-hidden">
         <Header />
+        <SalonCatalog />
       </div>
     </div>
   );
