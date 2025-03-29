@@ -2,7 +2,7 @@ interface Routes {
   ///RUTA PRINCIPAL///
   home: string;
   ///RUTAS USUARIOS ///
-  usuarios: string;
+  cliente: string;
   ///RUTA PROVEEDORES///
   proveedores: string;
   ///RUTA ADMINISTRADOR///
@@ -32,7 +32,7 @@ export const useRoutes = (): Routes => {
     login: "/SignIn",
     admin: "/admin",
     proveedores: "/proveedores",
-    usuarios: "/users",
+    cliente: "/users",
     settings: "/settings",
     myPerfil: "/myPerfil",
     crearEvento: "/crear_evento",

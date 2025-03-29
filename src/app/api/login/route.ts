@@ -8,6 +8,7 @@ interface Usuario extends RowDataPacket {
   nombre: string;
   correo: string;
   contraseña: string;
+  tipo: number;
 }
 
 export async function POST(req: Request) {
@@ -49,6 +50,7 @@ export async function POST(req: Request) {
       id: user.id,
       nombre: user.nombre,
       correo: user.correo,
+      tipoUsuario: user.tipo,
     });
   } catch (error) {
     console.error("Error en el servidor:", error);

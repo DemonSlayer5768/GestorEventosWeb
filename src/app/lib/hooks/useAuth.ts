@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useRoutes } from "@Lib/hooks/useRoutes";
 import { useRouter } from "next/navigation";
 
 export function useAuth() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter(); // Inicializa el router
+  const router = useRouter(); // Inicializamos el router
+  const route = useRoutes(); // Obtenemos las rutas definidas
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -16,6 +18,8 @@ export function useAuth() {
 
   async function login(email: string, password: string) {
     try {
+      // console.log("Enviando credenciales:", { email, password });
+
       const response = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -23,16 +27,26 @@ export function useAuth() {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      // console.log("Datos recibidos del servidor:", data);
+
+      if (!response.ok) {
+        console.error("Error en la API:", data.error);
+        throw new Error(data.error);
+      }
 
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
 
-      // 🔹 Redirigir a la página principal
-      router.push("/users");
+      // 🔹 Redirigir según el tipo de usuario
+      if (data.tipoUsuario === 1) {
+        router.push(route.cliente); // Redirige a la ruta de usuarios
+      } else if (data.tipoUsuario === 2) {
+        router.push(route.proveedores); // Redirige a la ruta de proveedores
+      }
 
       return data;
     } catch (error) {
+      console.error("Error en login:", error);
       throw error;
     }
   }

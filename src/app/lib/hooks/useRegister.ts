@@ -9,9 +9,12 @@ export function useRegister() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false); // 🔹 Estado de carga
+  const [typeUser, setTypeUser] = useState(false); // 🔹 Estado del checkbox (false = cliente, true = proveedor)
   const { login } = useAuth(); // 🔹 Obtenemos login() de useAuth
 
   const togglePassword = () => setShowPassword(!showPassword);
+
+  const getUserType = () => (typeUser ? 2 : 1); // 🔹 Devuelve 2 si es proveedor, 1 si es cliente
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,10 +28,18 @@ export function useRegister() {
     }
 
     try {
+      const userType = getUserType(); // 🔹 Determina el tipo de usuario antes de enviarlo
+
       const response = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user, email, phone, password }),
+        body: JSON.stringify({
+          user,
+          email,
+          phone,
+          password,
+          typeUser: userType,
+        }),
       });
 
       const data = await response.json();
@@ -59,6 +70,8 @@ export function useRegister() {
     setPassword,
     error,
     handleSubmit,
+    typeUser,
+    setTypeUser,
     loading, // 🔹 Devuelve loading para deshabilitar botones si es necesario
   };
 }

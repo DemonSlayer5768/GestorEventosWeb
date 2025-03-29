@@ -80,7 +80,7 @@ const Sidebar = () => {
               />
             </div>
             <SidebarItem
-              href={routes.usuarios}
+              href={routes.cliente}
               icon={Calendar}
               text="Mis Eventos"
               isExpanded={isExpanded}

@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
   try {
-    const { user, email, phone, password } = await req.json();
+    const { user, email, phone, password, typeUser } = await req.json();
 
     if (!user || !email || !phone || !password) {
       return NextResponse.json(
@@ -19,8 +19,8 @@ export async function POST(req: Request) {
 
     // Insertar en la base de datos
     const query =
-      "INSERT INTO usuarios (nombre, correo, telefono, contraseña) VALUES (?, ?, ?, ?)";
-    const values = [user, email, phone, hashedPassword];
+      "INSERT INTO usuarios (nombre, correo, telefono, contraseña,tipo) VALUES (?, ?, ?, ?,?)";
+    const values = [user, email, phone, hashedPassword, typeUser];
 
     const [result] = await ConexionDB.execute(query, values);
 

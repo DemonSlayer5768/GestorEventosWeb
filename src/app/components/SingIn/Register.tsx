@@ -23,6 +23,8 @@ export default function RegisterForm({
     setPassword,
     error,
     handleSubmit,
+    typeUser,
+    setTypeUser,
     loading,
   } = useRegister();
 
@@ -160,6 +162,20 @@ export default function RegisterForm({
               Crear Cuenta
             </button>
           </form>
+
+          <div className="pt-2 text-left ">
+            <p className="text-sm text-gray-600 flex items-center">
+              Crear cuenta como proveedor{" "}
+              <input
+                type="checkbox"
+                id="tipoUsuario"
+                checked={typeUser}
+                onChange={(e) => setTypeUser(e.target.checked)}
+                className="ml-2"
+              />
+            </p>
+          </div>
+
           <div className="pt-8 px-8 py-4 text-center">
             <p className="text-sm text-gray-600 ">
               ¿Ya tienes cuenta?{" "}
