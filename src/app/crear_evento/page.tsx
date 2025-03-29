@@ -1,4 +1,4 @@
-import FormularioEvento from "@Components/users/FormularioEvento";
+import FormularioEvento from "@Components/users/Cliente/FormularioEvento";
 
 export default function Usuarios() {
   return (

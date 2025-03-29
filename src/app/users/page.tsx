@@ -1,6 +1,6 @@
-import Sidebar from "@Components/users/sideBar";
-import Header from "@Components/users/header";
-import DataTable from "@Components/users/DataTable/DataTable";
+import Sidebar from "@Components/users/Cliente/sideBar";
+import Header from "@Components/users/Cliente/header";
+import DataTable from "<webPage>/app/components/users/Cliente/DataTable/DataTable";
 
 export default function Usuarios() {
   return (

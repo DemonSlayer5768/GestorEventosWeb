@@ -1,6 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { PointIcon } from "@Components/users/DataTable/iconsStatus";
-import ActionMenu from "@Components/users/DataTable/ActionMenu";
+import { PointIcon } from "<webPage>/app/components/users/Cliente/DataTable/iconsStatus";
+import ActionMenu from "<webPage>/app/components/users/Cliente/DataTable/ActionMenu";
 
 const statusStyles = {
   Activo: { color: "green" },
