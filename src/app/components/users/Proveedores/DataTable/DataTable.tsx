@@ -1,9 +1,9 @@
 "use client";
 import { DataGrid } from "@mui/x-data-grid";
-import { columns } from "@Components/users/Cliente/DataTable/Columns";
+import { columns } from "@Components/users/Proveedores/DataTable/Columns";
 import { rows } from "@Lib/data/datatTableEventos";
 import Paper from "@mui/material/Paper";
-import EventFilters from "@Components/users/Cliente/DataTable/TableFilters";
+import EventFilters from "@Components/users/Proveedores/DataTable/TableFilters";
 import { useEventFilters } from "@Lib/hooks/useEventFilters";
 import { useState } from "react";
 

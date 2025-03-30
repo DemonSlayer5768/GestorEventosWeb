@@ -1,5 +1,6 @@
-import Sidebar from "@Components/users/sideBar";
-import Header from "@Components/users/header";
+import Sidebar from "@Components/users/Proveedores/sideBar";
+import Header from "@Components/users/Proveedores/header";
+import ServiceCatalog from "@Components/users/Proveedores/CatalogoServicios/CatalogoServicios";
 
 export default function serviciosEventos() {
   return (
@@ -10,6 +11,7 @@ export default function serviciosEventos() {
       {/* CONTENIDO (HEADER Y DEMÁS) */}
       <div className="flex flex-col w-full h-screen overflow-hidden">
         <Header />
+        <ServiceCatalog />
       </div>
     </div>
   );

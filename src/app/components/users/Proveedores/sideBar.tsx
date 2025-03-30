@@ -3,8 +3,7 @@
 import { useState } from "react";
 import {
   Menu,
-  Calendar,
-  Package,
+  ClipboardList,
   Mail,
   MapPinHouse,
   TableProperties,
@@ -31,7 +30,7 @@ const SidebarItem = ({
     <li>
       <Link
         href={href}
-        className={`flex items-center  gap-2 p-2 rounded-lg hover:bg-gray-600 transition-all duration-300 ease-in-out
+        className={`flex items-center text-[#ffff]  gap-2 p-2 rounded-lg hover:bg-[#375534] hover:text-[#6B9035]
     ${isExpanded ? "w-full justify-start" : "w-12 justify-center"}`}
       >
         <Icon size={24} />
@@ -55,13 +54,13 @@ const Sidebar = () => {
     <div className="flex">
       {/* Sidebar */}
       <div
-        className={`bg-orange-500 text-white min-h-screen flex flex-col transition-all duration-300 ease-in-out
+        className={`bg-[#0F2A1D] min-h-screen flex flex-col transition-all duration-300 ease-in-out
         ${isExpanded ? "w-64 p-5" : "w-14 p-2"}`}
       >
         {/* Toggle Button */}
         <div className="mt-4 pb-6">
           <button
-            className="p-2 rounded-lg hover:bg-gray-700 transition"
+            className="p-2 rounded-lg  transition"
             onClick={() => setIsExpanded(!isExpanded)}
           >
             <Menu size={24} />
@@ -72,33 +71,28 @@ const Sidebar = () => {
         <nav className="mt-6 flex-1">
           <ul className="space-y-6">
             <SidebarItem
-              href={routes.cliente}
-              icon={Calendar}
-              text="Mis Eventos"
+              href={routes.proveedores}
+              icon={TableProperties}
+              text="Eventos"
+              isExpanded={isExpanded}
+            />
+            <SidebarItem
+              href={routes.serviciosEventos}
+              icon={ClipboardList}
+              text="Mis Servicios"
+              isExpanded={isExpanded}
+            />
+
+            <SidebarItem
+              href={routes.catalogoSalones}
+              icon={MapPinHouse}
+              text="Mis Salones"
               isExpanded={isExpanded}
             />
             <SidebarItem
               href={routes.bandejaCorreo}
               icon={Mail}
-              text="Bandeja"
-              isExpanded={isExpanded}
-            />
-            <SidebarItem
-              href={routes.paquetesEventos}
-              icon={Package}
-              text="Paquetes"
-              isExpanded={isExpanded}
-            />
-            <SidebarItem
-              href={routes.catalogoSalones}
-              icon={MapPinHouse}
-              text="Catalogo Salones"
-              isExpanded={isExpanded}
-            />
-            <SidebarItem
-              href={routes.serviciosEventos}
-              icon={TableProperties}
-              text="Servicios"
+              text="Mensajes"
               isExpanded={isExpanded}
             />
           </ul>
@@ -106,7 +100,7 @@ const Sidebar = () => {
 
         {/* Bottom Section */}
         <div className="mt-auto">
-          <hr className="border-gray-700 my-4 mx-2" />
+          <hr className="my-4 mx-2" />
           <ul className="space-y-4">
             <SidebarItem
               href="/settings"

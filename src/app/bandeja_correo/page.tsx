@@ -1,5 +1,5 @@
-import Sidebar from "@Components/users/sideBar";
-import Header from "@Components/users/header";
+import Sidebar from "@Components/users/Cliente/sideBar";
+import Header from "@Components/users/Cliente/header";
 
 export default function bandejaCorreo() {
   return (

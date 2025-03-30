@@ -1,3 +1,4 @@
+//header proveedores
 "use client";
 
 import { useState } from "react";
@@ -9,7 +10,7 @@ const Header = () => {
   const { myPerfil, Settings, Close } = useHeader();
 
   return (
-    <header className="flex items-center bg-gray-900 text-white p-4 w-full z-10">
+    <header className="bg-[#0F2A1D] flex items-center text-white p-4 w-full z-10">
       {/* Empujar Iconos a la Derecha */}
       <div className="ml-auto flex items-center gap-4">
         {/* Notificaciones */}
