@@ -14,14 +14,14 @@ const Header = () => {
       {/* Empujar Iconos a la Derecha */}
       <div className="ml-auto flex items-center gap-4">
         {/* Notificaciones */}
-        <button className="p-2 rounded-full hover:bg-gray-800">
+        <button className="p-2 rounded-full hover:bg-green-900">
           <Bell size={24} />
         </button>
 
         {/* Menú Usuario */}
         <div className="relative">
           <button
-            className="p-2 rounded-full hover:bg-gray-800"
+            className="p-2 rounded-full hover:bg-green-900"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <User size={24} />
@@ -29,22 +29,22 @@ const Header = () => {
 
           {/* Menú Desplegable */}
           {isMenuOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-gray-800 shadow-lg rounded-md py-2">
+            <div className="absolute right-0 mt-2 w-48 bg-green-900 shadow-lg rounded-md py-2">
               <button
                 onClick={myPerfil}
-                className="block px-4 py-2 w-full text-left hover:bg-gray-700"
+                className="block px-4 py-2 w-full text-left hover:bg-green-700"
               >
                 Mi Perfil
               </button>
               <button
                 onClick={Settings}
-                className="block px-4 py-2 w-full text-left hover:bg-gray-700"
+                className="block px-4 py-2 w-full text-left hover:bg-green-700"
               >
                 Configuración
               </button>
               <button
                 onClick={Close}
-                className="block px-4 py-2 w-full text-left text-red-400 hover:bg-gray-700"
+                className="block px-4 py-2 w-full text-left text-red-400 hover:bg-green-700"
               >
                 Salir
               </button>

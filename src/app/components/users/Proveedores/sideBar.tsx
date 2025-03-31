@@ -1,8 +1,7 @@
-//sidebard de proveedores
 "use client";
-import { useState } from "react";
+import * as React from "react";
 import {
-  Menu,
+  MenuIcon,
   ClipboardList,
   Mail,
   MapPinHouse,
@@ -10,60 +9,34 @@ import {
   Settings,
   HelpCircle,
 } from "lucide-react";
-import Link from "next/link";
-import { useRoutes } from "@Lib/hooks/useRoutes";
-
-interface SidebarItemProps {
-  href: string;
-  icon: React.ComponentType<{ size: number }>;
-  text: string;
-  isExpanded: boolean;
-}
-
-const SidebarItem = ({
-  href,
-  icon: Icon,
-  text,
-  isExpanded,
-}: SidebarItemProps) => {
-  return (
-    <li>
-      <Link
-        href={href}
-        className={`flex items-center text-[#ffff]  gap-2 p-2 rounded-lg hover:bg-[#375534] hover:text-[#6B9035]
-    ${isExpanded ? "w-full justify-start" : "w-12 justify-center"}`}
-      >
-        <Icon size={24} />
-        <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            isExpanded ? "max-w-xs opacity-100 ml-2" : "max-w-0 opacity-0"
-          }`}
-        >
-          <span className="whitespace-nowrap">{text}</span>
-        </div>
-      </Link>
-    </li>
-  );
-};
+import { SidebarItem } from "@Components/users/Proveedores/ItemSideBar";
+import { useSidebar } from "@Lib/hooks/useSideBarProveedor";
 
 const Sidebar = () => {
-  const [isExpanded, setIsExpanded] = useState(true);
-  const routes = useRoutes();
+  const {
+    isExpanded,
+    setIsExpanded,
+    openMenu,
+    handleAgregarClick,
+    router,
+    routes,
+  } = useSidebar();
 
   return (
     <div className="flex">
       {/* Sidebar */}
       <div
-        className={`bg-[#0F2A1D] min-h-screen flex flex-col transition-all duration-300 ease-in-out
-        ${isExpanded ? "w-64 p-5" : "w-14 p-2"}`}
+        className={`bg-[#0F2A1D] min-h-screen flex flex-col transition-all duration-300 ease-in-out ${
+          isExpanded ? "w-64 p-5" : "w-14 p-2"
+        }`}
       >
         {/* Toggle Button */}
         <div className="mt-4 pb-6">
           <button
-            className="p-2 rounded-lg  transition"
+            className="p-2 rounded-lg transition"
             onClick={() => setIsExpanded(!isExpanded)}
           >
-            <Menu size={24} />
+            <MenuIcon size={24} />
           </button>
         </div>
 
@@ -75,25 +48,32 @@ const Sidebar = () => {
               icon={TableProperties}
               text="Eventos"
               isExpanded={isExpanded}
+              onClick={() => router.push(routes.proveedores)}
             />
             <SidebarItem
-              href={routes.serviciosEventosProveedor}
               icon={ClipboardList}
               text="Mis Servicios"
               isExpanded={isExpanded}
+              hasSubmenu
+              isOpen={openMenu === "misServicios"}
+              onClick={() => router.push(routes.serviciosEventosProveedor)}
+              onAgregarClick={handleAgregarClick}
             />
-
             <SidebarItem
-              href={routes.catalogoSalonesProveedor}
               icon={MapPinHouse}
               text="Mis Salones"
               isExpanded={isExpanded}
+              hasSubmenu
+              isOpen={openMenu === "misSalones"}
+              onClick={() => router.push(routes.catalogoSalonesProveedor)}
+              onAgregarClick={handleAgregarClick}
             />
             <SidebarItem
               href={routes.bandejaCorreo}
               icon={Mail}
               text="Mensajes"
               isExpanded={isExpanded}
+              onClick={() => router.push(routes.bandejaCorreo)}
             />
           </ul>
         </nav>
@@ -107,12 +87,14 @@ const Sidebar = () => {
               icon={Settings}
               text="Settings"
               isExpanded={isExpanded}
+              onClick={() => router.push("/settings")}
             />
             <SidebarItem
               href="/help"
               icon={HelpCircle}
               text="Help"
               isExpanded={isExpanded}
+              onClick={() => router.push("/help")}
             />
           </ul>
         </div>

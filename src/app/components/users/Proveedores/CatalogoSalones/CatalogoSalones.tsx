@@ -16,9 +16,9 @@ export default function SalonCatalog() {
   } = useSalonCatalog();
 
   return (
-    <div className="flex flex-col w-7xl min-h-screen overflow-auto items-center py-8 px-4">
+    <div className="flex flex-col w-full min-h-screen overflow-auto items-center py-8 px-4">
       <h1 className="text-3xl text-black font-bold mb-8 text-center">
-        Catálogo de Servicios
+        Catálogo Salones
       </h1>
 
       {/* <TextField
@@ -29,7 +29,8 @@ export default function SalonCatalog() {
         onChange={(e) => setSearchTerm(e.target.value)}
       /> */}
 
-      <div className="grid grid-cols-4 md:grid-cols-4 gap-6">
+      {/* Contenedor del Grid */}
+      <div className="grid grid-cols-1 m-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
         {filteredSalon.map((salon) => (
           <SalonCard
             key={salon.id}
@@ -39,15 +40,11 @@ export default function SalonCatalog() {
         ))}
       </div>
 
-      <div className="bg-blue-600 h-20 w-full">
-        <h1 className="text-black">aqui </h1>
-      </div>
-
-      {/* {filteredsalon.length === 0 && (
-        <p className="text-center text-gray-700 mt-8">
+      {filteredSalon.length === 0 && (
+        <p className="text-center text-red-700 mt-8">
           No se encontraron salones.
         </p>
-      )} */}
+      )}
 
       {selectedSalon && (
         <CreateSalonDialog
