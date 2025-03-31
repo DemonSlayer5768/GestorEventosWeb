@@ -77,14 +77,14 @@ const Sidebar = () => {
               isExpanded={isExpanded}
             />
             <SidebarItem
-              href={routes.serviciosEventos}
+              href={routes.serviciosEventosProveedor}
               icon={ClipboardList}
               text="Mis Servicios"
               isExpanded={isExpanded}
             />
 
             <SidebarItem
-              href={routes.catalogoSalones}
+              href={routes.catalogoSalonesProveedor}
               icon={MapPinHouse}
               text="Mis Salones"
               isExpanded={isExpanded}

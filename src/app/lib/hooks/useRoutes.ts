@@ -20,9 +20,13 @@ interface Routes {
   ///RUTA PAQUETES
   paquetesEventos: string;
   ///RUTA DE CATALOGOS SALONES
-  catalogoSalones: string;
+  catalogoSalonesProveedor: string;
   ///RUTA DE SERVICIOS DE LOS EVENTOS///
-  serviciosEventos: string;
+  serviciosEventosProveedor: string;
+  ///RUTA DE CATALOGOS SALONES
+  catalogoSalonesCliente: string;
+  ///RUTA DE SERVICIOS DE LOS EVENTOS///
+  serviciosEventosCliente: string;
 }
 
 // Exporta la función useRoutes que devuelve un objeto de tipo Routes
@@ -38,7 +42,9 @@ export const useRoutes = (): Routes => {
     crearEvento: "/crear_evento",
     bandejaCorreo: "/bandeja_correo",
     paquetesEventos: "/paquetes_eventos",
-    catalogoSalones: "/catalogo_salones",
-    serviciosEventos: "/servicios_eventos",
+    catalogoSalonesProveedor: "/catalogo_salones_proveedor",
+    serviciosEventosProveedor: "/servicios_eventos_proveedor",
+    catalogoSalonesCliente: "/catalogo_salones_cliente",
+    serviciosEventosCliente: "/servicios_eventos_cliente",
   };
 };

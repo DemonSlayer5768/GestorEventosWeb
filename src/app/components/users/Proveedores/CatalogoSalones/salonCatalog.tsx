@@ -1,8 +1,6 @@
 "use client";
-
-// import TextField from "@mui/material/TextField";
-import SalonCard from "@Components/users/Proveedores/CatalogoServicios/SalonCard";
-import ReservationDialog from "@Components/users/Proveedores/CatalogoServicios/ReservationDialog";
+import ServiceCard from "@Components/users/Proveedores/CatalogoSalones/SalonCard";
+import CreateServiceDialog from "@Components/users/Proveedores/CatalogoServicios/CreateServiceDialog";
 import { useSalonCatalog } from "@Lib/hooks/useSalonCatalog";
 
 export default function SalonCatalog() {
@@ -11,7 +9,7 @@ export default function SalonCatalog() {
     // setSearchTerm,
     selectedSalon,
     setSelectedSalon,
-    filteredSalons,
+    filteredSalon,
   } = useSalonCatalog();
 
   return (
@@ -29,8 +27,8 @@ export default function SalonCatalog() {
       /> */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredSalons.map((salon) => (
-          <SalonCard
+        {filteredSalon.map((salon) => (
+          <ServiceCard
             key={salon.id}
             salon={salon}
             onReserve={() => setSelectedSalon(salon)} // Ahora acepta `Salon`
@@ -38,14 +36,14 @@ export default function SalonCatalog() {
         ))}
       </div>
 
-      {filteredSalons.length === 0 && (
+      {filteredSalon.length === 0 && (
         <p className="text-center mt-8">
           No se encontraron salones que coincidan con tu búsqueda.
         </p>
       )}
 
       {selectedSalon && (
-        <ReservationDialog
+        <CreateServiceDialog
           salon={selectedSalon}
           isOpen={!!selectedSalon}
           onClose={() => setSelectedSalon(null)}

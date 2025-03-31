@@ -8,6 +8,7 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
+// import MultiDatePicker from "@Components/ui/MultiDatePicker";
 
 interface ReservationDialogProps {
   salon: { name: string };
@@ -15,23 +16,24 @@ interface ReservationDialogProps {
   onClose: () => void;
 }
 
-export default function ReservationDialog({
+export default function CreateServiceDialog({
   salon,
   isOpen,
   onClose,
 }: ReservationDialogProps) {
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <DialogTitle>Reservar en {salon.name}</DialogTitle>
+      <DialogTitle>Servicio {salon.name}</DialogTitle>
       <DialogContent>
-        <TextField
+        {/* <MultiDatePicker /> */}
+        {/* <TextField
           margin="dense"
           id="date"
           label="Fecha"
           type="date"
           fullWidth
           InputLabelProps={{ shrink: true }}
-        />
+        /> */}
         <FormControl fullWidth margin="dense">
           <InputLabel id="time-label">Hora</InputLabel>
           <Select labelId="time-label" id="time" defaultValue="">

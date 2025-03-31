@@ -1,6 +1,7 @@
-import Sidebar from "@Components/users/sideBar";
-import Header from "@Components/users/header";
-import SalonCatalog from "@Components/users/catalogo/salonCatalog";
+import Sidebar from "@Components/users/Proveedores/sideBar";
+import Header from "@Components/users/Proveedores/header";
+
+import SalonCatalog from "@Components/users/Proveedores/CatalogoSalones/SalonCatalog";
 
 export default function CatalogoSalones() {
   return (

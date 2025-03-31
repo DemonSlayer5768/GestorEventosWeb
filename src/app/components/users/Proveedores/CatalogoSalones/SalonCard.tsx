@@ -1,23 +1,28 @@
+//salonCard.tsx
+
 import Image from "next/image";
-import { Star, Calendar } from "lucide-react";
+import { Star, ListCheck } from "lucide-react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 
-interface SalonCardProps {
-  salon: {
-    image: string;
-    name: string;
-    location: string;
-    price: string;
-    rating: number;
-  };
+export interface Salon {
+  id: number;
+  image: string;
+  name: string;
+  location: string;
+  price: string;
+  rating: number;
+}
+
+export interface SalonCardProps {
+  salon: Salon;
   onReserve: () => void;
 }
 
-export default function SalonCard({ salon, onReserve }: SalonCardProps) {
+export default function salonCard({ salon, onReserve }: SalonCardProps) {
   return (
     <Card>
       <Image
@@ -42,7 +47,7 @@ export default function SalonCard({ salon, onReserve }: SalonCardProps) {
           fullWidth
           onClick={onReserve}
         >
-          <Calendar className="h-4 w-4 mr-2" /> Reservar
+          <ListCheck className="h-4 w-4 mr-2" /> Modificar
         </Button>
       </CardActions>
     </Card>

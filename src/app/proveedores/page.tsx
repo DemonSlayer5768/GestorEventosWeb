@@ -4,12 +4,12 @@ import DataTable from "@Components/users/Proveedores/DataTable/DataTable";
 
 export default function page() {
   return (
-    <div className="flex h-screen">
+    <div className="flex ">
       {/* SIDEBAR */}
       <Sidebar />
 
       {/* CONTENIDO (HEADER Y DEMÁS) */}
-      <div className=" flex flex-col w-full h-screen overflow-hidden">
+      <div className=" flex flex-col w-full overflow-hidden">
         <Header />
         <DataTable />
       </div>

@@ -16,10 +16,11 @@ export default function ServiceCatalog() {
   } = useServiceCatalog();
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="flex flex-col w-7xl min-h-screen overflow-auto items-center py-8 px-4">
       <h1 className="text-3xl text-black font-bold mb-8 text-center">
         Catálogo de Servicios
       </h1>
+
       {/* <TextField
         label="Buscar por nombre o ubicación"
         variant="outlined"
@@ -28,7 +29,7 @@ export default function ServiceCatalog() {
         onChange={(e) => setSearchTerm(e.target.value)}
       /> */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-4 md:grid-cols-4 gap-6">
         {filteredService.map((service) => (
           <ServiceCard
             key={service.id}
@@ -38,9 +39,15 @@ export default function ServiceCatalog() {
         ))}
       </div>
 
-      {filteredService.length === 0 && (
-        <p className="text-center mt-8">No se encontraron salones.</p>
-      )}
+      <div className="bg-blue-600 h-20 w-full">
+        <h1 className="text-black">aqui </h1>
+      </div>
+
+      {/* {filteredService.length === 0 && (
+        <p className="text-center text-gray-700 mt-8">
+          No se encontraron salones.
+        </p>
+      )} */}
 
       {selectedService && (
         <CreateServiceDialog
