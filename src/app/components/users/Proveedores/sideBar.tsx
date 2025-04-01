@@ -13,14 +13,7 @@ import { SidebarItem } from "@Components/users/Proveedores/ItemSideBar";
 import { useSidebar } from "@Lib/hooks/useSideBarProveedor";
 
 const Sidebar = () => {
-  const {
-    isExpanded,
-    setIsExpanded,
-    openMenu,
-    handleAgregarClick,
-    router,
-    routes,
-  } = useSidebar();
+  const { isExpanded, setIsExpanded, openMenu, router, routes } = useSidebar();
 
   return (
     <div className="flex">
@@ -57,7 +50,6 @@ const Sidebar = () => {
               hasSubmenu
               isOpen={openMenu === "misServicios"}
               onClick={() => router.push(routes.serviciosEventosProveedor)}
-              onAgregarClick={handleAgregarClick}
             />
             <SidebarItem
               icon={MapPinHouse}
@@ -66,7 +58,6 @@ const Sidebar = () => {
               hasSubmenu
               isOpen={openMenu === "misSalones"}
               onClick={() => router.push(routes.catalogoSalonesProveedor)}
-              onAgregarClick={handleAgregarClick}
             />
             <SidebarItem
               href={routes.bandejaCorreo}

@@ -1,5 +1,7 @@
 import React from "react";
 import { Plus } from "lucide-react";
+import AgregarServicioModal from "@Components/users/Proveedores/CatalogoServicios/ServicioAgregarModal";
+import { useSidebar } from "@Lib/hooks/useSideBarProveedor";
 
 interface SidebarItemProps {
   href?: string;
@@ -9,7 +11,6 @@ interface SidebarItemProps {
   hasSubmenu?: boolean;
   isOpen?: boolean;
   onClick?: () => void;
-  onAgregarClick?: () => void;
 }
 
 export const SidebarItem = ({
@@ -19,10 +20,8 @@ export const SidebarItem = ({
   hasSubmenu = false,
   isOpen = false,
   onClick,
-  onAgregarClick,
 }: SidebarItemProps) => {
-  // Si isExpanded es false, también se debe desactivar hasSubmenu
-  const effectiveHasSubmenu = isExpanded ? hasSubmenu : false;
+  const { handleAgregarClick, open, handleClose } = useSidebar();
 
   return (
     <li>
@@ -42,15 +41,16 @@ export const SidebarItem = ({
         </div>
       </button>
 
-      {effectiveHasSubmenu && isOpen && (
+      {hasSubmenu && isOpen && (
         <ul className="ml-6 mt-2 space-y-2">
           <li>
             <button
-              onClick={onAgregarClick}
+              onClick={handleAgregarClick} // Ahora usa directamente handleAgregarClick
               className="flex items-center bg-green-600 w-full text-[#ffff] text-center gap-2 p-2 rounded-lg hover:bg-[#375534] hover:text-[#6B9035]"
             >
               Agregar <Plus />
             </button>
+            <AgregarServicioModal open={open} onClose={handleClose} />
           </li>
         </ul>
       )}
