@@ -32,7 +32,7 @@ export default function AgregarServicioModal({
         <div className="relative flex flex-col bg-white rounded-lg shadow-xl transition-all duration-500 max-h-[90vh] overflow-hidden">
           {/* Contenido scrollable */}
           <div className="overflow-y-auto p-0">
-            <FormularioServicio />
+            <FormularioServicio onClose={onClose} />
           </div>
         </div>
       </div>

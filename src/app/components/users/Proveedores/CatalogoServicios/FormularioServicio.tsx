@@ -4,33 +4,51 @@ import React from "react";
 import {
   Button,
   CardContent,
-  CardHeader,
   TextField,
   MenuItem,
   Select,
   InputLabel,
   FormControl,
 } from "@mui/material";
-import { CardTitle, CardDescription, CardFooter } from "@Components/ui/card";
+import {
+  CardTitle,
+  CardDescription,
+  CardHeader,
+  CardFooter,
+} from "@Components/ui/card";
 import { X } from "lucide-react";
 import { useFormularioServicio } from "@Lib/hooks/useFormularioServicio";
 
-export default function ProductForm() {
+export default function ProductForm({ onClose }: { onClose: () => void }) {
   const {
+    nombre,
+    setNombre,
+    tipo,
+    setTipo,
+    categoria,
+    setCategoria,
+    disponibilidad,
+    setDisponibilidad,
     extras,
     extraInput,
-    extraPriceInput,
     setExtraInput,
-    setExtraPriceInput,
     addExtra,
     removeExtra,
     handleSubmit,
-  } = useFormularioServicio();
+    handleCancel,
+    precioBaseValue,
+    handlePrecioBaseChange,
+    handlePrecioBaseBlur,
+    extraPriceValue,
+    handleExtraPriceChange,
+    handleExtraPriceBlur,
+  } = useFormularioServicio(onClose);
 
   return (
     <div className="w-full">
-      <CardHeader className="sticky top-0 bg-white z-10 border-b p-6">
-        <CardTitle>Formulario de Producto</CardTitle>
+      <CardHeader className=" bg-white ">
+        <CardTitle className="text-gray-800">Formulario de Servcio</CardTitle>
+
         <CardDescription>
           Ingresa los detalles del producto o servicio
         </CardDescription>
@@ -38,12 +56,23 @@ export default function ProductForm() {
 
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-6 p-6">
-          <TextField fullWidth label="Nombre" variant="outlined" required />
+          <TextField
+            fullWidth
+            label="Nombre del servicio"
+            variant="outlined"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            required
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormControl fullWidth>
               <InputLabel>Tipo</InputLabel>
-              <Select required>
+              <Select
+                value={tipo}
+                onChange={(e) => setTipo(e.target.value)}
+                required
+              >
                 <MenuItem value="producto">Producto</MenuItem>
                 <MenuItem value="servicio">Servicio</MenuItem>
                 <MenuItem value="suscripcion">Suscripción</MenuItem>
@@ -52,7 +81,11 @@ export default function ProductForm() {
 
             <FormControl fullWidth>
               <InputLabel>Categoría</InputLabel>
-              <Select required>
+              <Select
+                value={categoria}
+                onChange={(e) => setCategoria(e.target.value)}
+                required
+              >
                 <MenuItem value="tecnologia">Tecnología</MenuItem>
                 <MenuItem value="hogar">Hogar</MenuItem>
                 <MenuItem value="ropa">Ropa</MenuItem>
@@ -63,21 +96,30 @@ export default function ProductForm() {
           </div>
 
           <TextField
+            id="preciobase"
+            label="Precio Base"
+            variant="outlined"
             fullWidth
-            label="Precio"
-            type="number"
-            inputProps={{ min: 0, step: 0.01 }}
-            required
+            value={precioBaseValue}
+            onChange={handlePrecioBaseChange}
+            onBlur={handlePrecioBaseBlur}
           />
-
           <FormControl fullWidth>
             <InputLabel>Disponibilidad</InputLabel>
-            <Select required>
-              <MenuItem value="en_stock">En stock</MenuItem>
-              <MenuItem value="agotado">Agotado</MenuItem>
-              <MenuItem value="bajo_pedido">Bajo pedido</MenuItem>
-              <MenuItem value="pre_venta">Pre-venta</MenuItem>
-              <MenuItem value="disponible_pronto">Disponible pronto</MenuItem>
+            <Select
+              value={disponibilidad}
+              onChange={(e) => setDisponibilidad(e.target.value)}
+              required
+            >
+              <MenuItem value="TODOS">TODOS LOS DIAS</MenuItem>
+              <MenuItem value="L-V">LUNES A VIERNES</MenuItem>
+              <MenuItem value="LUNES">LUNES</MenuItem>
+              <MenuItem value="MARTES">MARTES</MenuItem>
+              <MenuItem value="MIERCOLES">MIERCOLES</MenuItem>
+              <MenuItem value="JUEVES">JUEVES</MenuItem>
+              <MenuItem value="VIERNES">VIERNES</MenuItem>
+              <MenuItem value="SABADO">SABADO</MenuItem>
+              <MenuItem value="DOMINGO">DOMINGO</MenuItem>
             </Select>
           </FormControl>
 
@@ -100,14 +142,19 @@ export default function ProductForm() {
                 className="flex-1"
               />
               <TextField
-                value={extraPriceInput}
-                onChange={(e) => setExtraPriceInput(e.target.value)}
+                value={extraPriceValue}
+                onChange={handleExtraPriceChange}
+                onBlur={handleExtraPriceBlur}
                 placeholder="Precio"
-                type="number"
-                inputProps={{ min: 0, step: 0.01 }}
+                inputProps={{ inputMode: "decimal" }}
                 className="w-24"
               />
-              <Button type="button" onClick={addExtra} variant="contained">
+              <Button
+                type="button"
+                onClick={addExtra}
+                variant="outlined"
+                color="success"
+              >
                 Añadir
               </Button>
             </div>
@@ -117,13 +164,13 @@ export default function ProductForm() {
                 {extras.map((extra, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-1 bg-gray-200 rounded-lg p-2"
+                    className="flex items-center gap-1 bg-blue-800 rounded-lg p-2"
                   >
                     {extra.name} - ${extra.price.toFixed(2)}
                     <button
                       type="button"
                       onClick={() => removeExtra(extra.name)}
-                      className="ml-1 rounded-full hover:bg-gray-300 p-1"
+                      className="ml-1 rounded-full hover:bg-blue-500 p-1"
                     >
                       <X className="h-3 w-3" />
                     </button>
@@ -132,14 +179,22 @@ export default function ProductForm() {
               </div>
             )}
           </div>
-
-          <TextField fullWidth label="Política" multiline rows={4} />
         </CardContent>
 
         <CardFooter className="sticky bottom-0 bg-white border-t p-6">
-          <Button type="submit" variant="contained" fullWidth>
-            Guardar
-          </Button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={handleCancel}
+              fullWidth
+            >
+              Cancelar
+            </Button>
+            <Button type="submit" variant="contained" color="success" fullWidth>
+              Agregar
+            </Button>
+          </div>
         </CardFooter>
       </form>
     </div>
