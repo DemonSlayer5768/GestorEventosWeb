@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useTextFieldCurrency from "@Lib/hooks/useTextFieldCurrency";
+import useImageUploader from "@Lib/hooks/useImageUploader";
 
 export interface Extra {
   name: string;
@@ -11,11 +12,13 @@ export function useFormularioServicio(onCloseModal: () => void) {
   const [nombre, setNombre] = useState("");
   const [tipo, setTipo] = useState("");
   const [categoria, setCategoria] = useState("");
-  const [disponibilidad, setDisponibilidad] = useState("");
+  //   const [disponibilidad, setDisponibilidad] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const [extras, setExtras] = useState<Extra[]>([]);
   const [extraInput, setExtraInput] = useState("");
   const [precioBase, setPrecioBase] = useState("");
   const [extraPrice, setExtraPrice] = useState("");
+  const [imagenes, setImagenes] = useState<File[]>([]);
 
   // Hooks de formateo para cada campo numérico
   const {
@@ -29,6 +32,10 @@ export function useFormularioServicio(onCloseModal: () => void) {
     handleChange: handleExtraPriceChange,
     handleBlur: handleExtraPriceBlur,
   } = useTextFieldCurrency(extraPrice, setExtraPrice);
+
+  // Usar el hook de imágenes y pasarle `setImagenes`
+  const { handleSubmitImages } = useImageUploader(setImagenes);
+  const { clearFiles } = useImageUploader(setImagenes);
 
   const addExtra = () => {
     console.log("si entro a extra");
@@ -57,13 +64,19 @@ export function useFormularioServicio(onCloseModal: () => void) {
   const removeExtra = (extraName: string) => {
     setExtras(extras.filter((e) => e.name !== extraName));
   };
+
+  const handleUpload = (files: File[]) => {
+    console.log("Archivos seleccionados:", files);
+    handleSubmitImages();
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     const precioBaseParsed =
       Number.parseFloat(precioBaseValue.replace(/[$,]/g, "")) || 0;
 
-    if (!tipo || !categoria || !disponibilidad || precioBaseParsed <= 0) {
+    if (!tipo || !categoria || precioBaseParsed <= 0) {
       alert("Por favor, completa todos los campos obligatorios.");
       return;
     }
@@ -72,7 +85,9 @@ export function useFormularioServicio(onCloseModal: () => void) {
       nombre,
       tipo,
       categoria,
-      disponibilidad,
+      //   disponibilidad,
+      descripcion,
+      imagenes,
       precioBase: precioBaseParsed,
       extras,
     });
@@ -83,7 +98,8 @@ export function useFormularioServicio(onCloseModal: () => void) {
     setNombre("");
     setTipo("");
     setCategoria("");
-    setDisponibilidad("");
+    // setDisponibilidad("");
+    setDescripcion("");
     setExtras([]);
     setExtraInput("");
     // setPrecioBase
@@ -94,7 +110,7 @@ export function useFormularioServicio(onCloseModal: () => void) {
     handleExtraPriceChange({
       target: { value: "$" },
     } as React.ChangeEvent<HTMLInputElement>);
-
+    clearFiles(); //eliminar imagenes
     onCloseModal();
   };
 
@@ -106,8 +122,10 @@ export function useFormularioServicio(onCloseModal: () => void) {
     setTipo,
     categoria,
     setCategoria,
-    disponibilidad,
-    setDisponibilidad,
+    // disponibilidad,
+    // setDisponibilidad,
+    descripcion,
+    setDescripcion,
     // Valores y funciones para los TextField con moneda
     extras,
     extraInput,
@@ -121,7 +139,9 @@ export function useFormularioServicio(onCloseModal: () => void) {
     extraPriceValue,
     handleExtraPriceChange,
     handleExtraPriceBlur,
+    handleUpload,
     //cerrar modal,
+    imagenes,
     handleCancel,
   };
 }
