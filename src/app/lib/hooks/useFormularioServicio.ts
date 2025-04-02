@@ -14,9 +14,10 @@ export function useFormularioServicio(onCloseModal: () => void) {
   const [categoria, setCategoria] = useState("");
   //   const [disponibilidad, setDisponibilidad] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const [precioBase, setPrecioBase] = useState("");
+  const [cantidad, setCantidad] = useState("");
   const [extras, setExtras] = useState<Extra[]>([]);
   const [extraInput, setExtraInput] = useState("");
-  const [precioBase, setPrecioBase] = useState("");
   const [extraPrice, setExtraPrice] = useState("");
   const [imagenes, setImagenes] = useState<File[]>([]);
 

@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, User } from "lucide-react";
+import { Bell, User, PanelLeft, PanelLeftClose } from "lucide-react";
 import { useHeader } from "@Lib/hooks/useHeaderUsers";
 
 const Header = () => {
@@ -13,11 +13,13 @@ const Header = () => {
     <header className="bg-[#0F2A1D] flex items-center text-white p-4 w-full z-10">
       {/* Empujar Iconos a la Derecha */}
       <div className="ml-auto flex items-center gap-4">
+        <button className="p-2 rounded-full hover:bg-green-900">
+          <PanelLeft size={24} />
+        </button>
         {/* Notificaciones */}
         <button className="p-2 rounded-full hover:bg-green-900">
           <Bell size={24} />
         </button>
-
         {/* Menú Usuario */}
         <div className="relative">
           <button

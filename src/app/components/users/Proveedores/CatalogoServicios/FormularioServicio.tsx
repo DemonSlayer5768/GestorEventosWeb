@@ -150,15 +150,26 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
 
           <Separator />
           {/*Seccion de precio base*/}
-          <TextField
-            id="preciobase"
-            label="Precio Base"
-            variant="outlined"
-            fullWidth
-            value={precioBaseValue}
-            onChange={handlePrecioBaseChange}
-            onBlur={handlePrecioBaseBlur}
-          />
+          <div className="grid grid-cols-2 gap-6">
+
+            <TextField
+              id="preciobase"
+              label="Precio Base"
+              variant="outlined"
+              fullWidth
+              value={precioBaseValue}
+              onChange={handlePrecioBaseChange}
+              onBlur={handlePrecioBaseBlur}
+            />
+
+            <TextField
+              label='Cantidad'
+              variant="outlined"
+              fullWidth
+            // value={cantidad}
+            // onChange={HandleCantidadChange}
+            />
+          </div>
           {/* Sección de Extras */}
           <div className="space-y-2">
             <InputLabel>Extras</InputLabel>
