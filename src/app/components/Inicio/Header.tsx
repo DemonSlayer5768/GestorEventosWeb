@@ -55,18 +55,18 @@ const Header = ({
     <header
       className={`fixed w-full z-50 transition duration-300
          ${isScrolled ? "shadow-md bg-none" : "bg-transparent"}
-         ${isMobile ? "bg-[#021024] text-white" : "bg-transparent"}`}
+         ${isMobile ? "bg-blue-800 text-white" : "bg-transparent"}`}
     >
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10 h-20">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link href="/" className="flex items-center">
               <Image
-                src="/logoEventify.svg"
+                src="/LOGO-White.svg"
                 alt="Eventify Logo"
-                width={220}
-                height={0}
-                quality={100}
+                width={100}
+                height={100}
+                quality={10}
               />
             </Link>
           </div>
@@ -89,7 +89,7 @@ const Header = ({
           <nav
             className={`hidden md:flex space-x-10 ${
               isScrolled
-                ? " bg-gray-600  px-2 py-2 rounded-xl text-white  "
+                ? " bg-gray-500  px-2 py-2 rounded-xl text-white  "
                 : ""
             }`}
           >
@@ -115,10 +115,10 @@ const Header = ({
 
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <Link href={routes.login} className="flex items-center gap-2">
-              <h1 className="text-center hover:text-blue-600 transition duration-300">
+              <h1 className="flex items-center gap-2  text-center hover:text-blue-600 transition duration-300">
                 Iniciar Sesión
+                <IoPersonCircleOutline className="w-8 h-8" />
               </h1>
-              <IoPersonCircleOutline className="w-8 h-8" />
             </Link>
           </div>
         </div>
@@ -126,14 +126,15 @@ const Header = ({
 
       {/* Menú Móvil */}
       {isMenuOpen && (
-        <div className="md:hidden w-64  bg-[#021024] text-white shadow-md fixed top-20 right-0 z-50">
+        <div className="md:hidden w-64  bg-blue-800 text-white shadow-md fixed top-20 right-0 z-50">
           <div className=" px-4 pt-4 pb-2 space-y-3 ">
             <Link
               href={routes.login}
               onClick={toggleMenu}
               className="flex items-center gap-2 py-2 hover:bg-[#7da0ca] rounded-md transition"
             >
-              <IoPersonCircleOutline className="w-6 h-6" /> Iniciar Sesión
+              <IoPersonCircleOutline className="w-6 h-6 hover:bg-[#7da0ca]" />{" "}
+              Iniciar Sesión
             </Link>
             <button
               onClick={() => {

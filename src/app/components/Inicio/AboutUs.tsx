@@ -6,8 +6,8 @@ export default function AboutUs() {
       <section className="items-center justify-center md: mb-24 py-20">
         <div className="text-center max-w-4xl mx-auto px-4 md:md:py-24 lg:py-5 pt-20">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-light mb-4 tracking-tight">
-            En <strong className="text-blue-400">Eventyfy</strong> te ayudaremos
-            a organizar tu evento soñado
+            En <strong className="text-blue-400">EasyEvent</strong> te
+            ayudaremos a organizar tu evento soñado
           </h1>
           <p className="py-4 text-lg md:text-xl lg:text-2xl max-w-7xl mx-auto leading-relaxed">
             Ponemos el control en tus manos. Desde la elección del lugar hasta

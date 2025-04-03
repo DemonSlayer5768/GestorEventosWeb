@@ -1,12 +1,20 @@
+import SplitText from "@Components/ui/SplitText";
+
 export default function TextHero() {
   return (
     <div className="relative w-full py-32">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
         <div className="mx-auto max-w-2xl text-center">
           {/* Título principal */}
-          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
-            Bienvenido a Eventify
-          </h1>
+          <SplitText
+            text="Bienvenido a EasyEvent PLANNER"
+            className="text-6xl font-semibold text-center"
+            delay={50}
+            animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
+            animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
+            threshold={0.2}
+            rootMargin="-50px"
+          />
           {/* Subtítulo */}
           <h2 className="mt-3 text-xl font-bold text-blue-400 sm:text-2xl md:text-3xl">
             Donde Cada Evento Toma Vida

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 interface SelectProps {
   children: React.ReactNode;
