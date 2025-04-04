@@ -1,16 +1,15 @@
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
 import useTextFieldCurrency from "@Lib/hooks/useTextFieldCurrency";
 import { useTextFieldInteger } from "@Lib/hooks/useTextFiledInteger";
 import { useEstado } from "@Lib/hooks/useEstadosMexico";
 import { useMunicipio } from "@Lib/hooks/useMunicipiosMexico";
 import { useLocalidad } from "@Lib/hooks/useLocalidadMexico";
 
-// Definir la interfaz de "Extra", que tiene un nombre y un precio
 export interface Extra {
   name: string;
   price: number;
 }
-// Hook principal del formulario
+
 export function useFormularioServicio(onCloseModal: () => void) {
   // Definición de los estados del formulario
   const [nombre, setNombre] = useState("");
@@ -26,6 +25,8 @@ export function useFormularioServicio(onCloseModal: () => void) {
   const [estado, setEstado] = useState("");
   const [municipio, setMunicipio] = useState("");
   const [localidad, setLocalidad] = useState("");
+
+  const clearFilesRef = useRef<() => void>(() => {});
 
   // Hooks para formatear los campos numéricos (moneda y enteros)
   const {
@@ -45,19 +46,13 @@ export function useFormularioServicio(onCloseModal: () => void) {
 
   // Función para agregar un extra (producto adicional)
   const addExtra = () => {
-    // Verificar que el nombre del extra no esté vacío y no sea duplicado
     if (
       extraInput.trim() !== "" &&
       !extras.some((e) => e.name === extraInput.trim())
     ) {
-      // Parsear el precio, eliminando el símbolo de dólar y comas
       const price =
         Number.parseFloat(extraPriceValue.replace(/[$,]/g, "")) || 0;
-
-      // Agregar el extra a la lista
       setExtras([...extras, { name: extraInput.trim(), price }]);
-
-      // Limpiar los campos de input de extra después de agregar
       setExtraInput("");
       handleExtraPriceChange({
         target: { value: "$" },
@@ -65,24 +60,34 @@ export function useFormularioServicio(onCloseModal: () => void) {
     }
   };
 
-  // Función para eliminar un extra de la lista
+  // Función para eliminar un extra de la lista de extras
   const removeExtra = (extraName: string) => {
     setExtras(extras.filter((e) => e.name !== extraName));
   };
 
-  // Función para manejar la carga de imágenes (archivos seleccionados)
+  // Función para manejar la carga de imágenes
   const handleUpload = (files: File[]) => {
-    // console.log("Archivos seleccionados:", files);
-    setImagenes(files); // Actualizamos el estado con las nuevas imágenes
+    //agregar el nuevo archivo a la lista de imágenes
+    setImagenes(files);
   };
+
+  const registerClearFiles = useCallback((clearFn: () => void) => {
+    clearFilesRef.current = clearFn;
+  }, []);
+
+  const handleRemoveFile = useCallback((index: number) => {
+    setImagenes((prevFiles) => {
+      const newFiles = [...prevFiles];
+      newFiles.splice(index, 1);
+      return newFiles;
+    });
+  }, []);
 
   // Hook para manejar los estados de México
   const { estados, estadoSeleccionado, setEstadoSeleccionado } = useEstado();
 
-  // Hook para manejar los municipios, dependiendo del estado seleccionado
+  // Hook para manejar los municipios
   const municipioHook = useMunicipio(municipio, estadoSeleccionado);
-
-  // Desestructuración condicional: si hay estado seleccionado, usamos el hook; si no, valores por defecto
   const { municipios, municipioSeleccionado, setMunicipioSeleccionado } =
     estadoSeleccionado
       ? municipioHook
@@ -92,7 +97,7 @@ export function useFormularioServicio(onCloseModal: () => void) {
           setMunicipioSeleccionado: () => {},
         };
 
-  // // Hook para manejar colonias, dependiendo del estado y municipio seleccionados
+  // Hook para manejar colonias
   const localidadHook = useLocalidad(
     {
       id: estadoSeleccionado?.id || "",
@@ -103,8 +108,6 @@ export function useFormularioServicio(onCloseModal: () => void) {
       nombre: municipioSeleccionado?.nombre || "",
     }
   );
-
-  // Desestructuración condicional: si hay estado y municipio, usamos el hook; si no, valores por defecto
   const { colonias, coloniaSeleccionada, setColoniaSeleccionada } =
     estadoSeleccionado && municipioSeleccionado
       ? localidadHook
@@ -117,16 +120,8 @@ export function useFormularioServicio(onCloseModal: () => void) {
   // Función para manejar el envío del formulario
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Parsear el precio base
     const precioBaseParsed =
       Number.parseFloat(precioBaseValue.replace(/[$,]/g, "")) || 0;
-
-    // Validar que los campos obligatorios estén completos
-    // if (!tipo || !categoria || precioBaseParsed <= 0) {
-    //   alert("Por favor, completa todos los campos obligatorios.");
-    //   return;
-    // }
 
     console.log("Formulario enviado", {
       nombre,
@@ -136,16 +131,16 @@ export function useFormularioServicio(onCloseModal: () => void) {
       imagenes,
       precioBase: precioBaseParsed,
       cantidad,
-      estado: estadoSeleccionado?.nombre || "",
-      municipio: municipioSeleccionado?.nombre || "",
-      localidad: coloniaSeleccionada?.nombre || "",
+      estado,
+      municipio,
+      localidad,
       extras,
     });
+    console.log("files:", imagenes);
   };
 
-  // Función para manejar el cancelamiento del formulario (limpiar los campos)
-  const handleCancel = () => {
-    // Resetear todos los campos del formulario
+  // Función para manejar el cancelamiento del formulario
+  const handleCancel = useCallback(() => {
     setNombre("");
     setTipo("");
     setCategoria("");
@@ -159,20 +154,25 @@ export function useFormularioServicio(onCloseModal: () => void) {
     handleExtraPriceChange({
       target: { value: "$" },
     } as React.ChangeEvent<HTMLInputElement>);
-    setImagenes([]); // Limpiar las imágenes seleccionadas
-    setEstadoSeleccionado(null); // Limpiar el estado seleccionado
-    setMunicipioSeleccionado(null); // Limpiar el municipio seleccionado
-    setColoniaSeleccionada(null); // Limpiar la colonia seleccionada
-    setEstado(""); // Limpiar el estado
-    setMunicipio(""); // Limpiar el municipio
-    setLocalidad(""); // Limpiar la localidad
-    setPrecioBase(""); // Limpiar el precio base
-    onCloseModal(); // Cerrar el modal
-  };
+    setImagenes([]);
+    clearFilesRef.current?.();
+    setEstado("");
+    setMunicipio("");
+    setLocalidad("");
+    setEstadoSeleccionado(null);
+    setMunicipioSeleccionado(null);
+    setColoniaSeleccionada(null);
+    onCloseModal();
+  }, [
+    onCloseModal,
+    handlePrecioBaseChange,
+    handleExtraPriceChange,
+    setEstadoSeleccionado,
+    setMunicipioSeleccionado,
+    setColoniaSeleccionada,
+  ]);
 
-  // Retorno de los valores y funciones necesarias para el formulario
   return {
-    // Valores de los campos del estado, municipio y colonia
     estados,
     estadoSeleccionado,
     setEstadoSeleccionado,
@@ -182,7 +182,6 @@ export function useFormularioServicio(onCloseModal: () => void) {
     colonias,
     coloniaSeleccionada,
     setColoniaSeleccionada,
-    // Funciones para manejar los campos de texto
     nombre,
     setNombre,
     tipo,
@@ -197,7 +196,6 @@ export function useFormularioServicio(onCloseModal: () => void) {
     setEstado,
     setMunicipio,
     setLocalidad,
-    // Valores y funciones para el manejo de extras
     extras,
     extraInput,
     setExtraInput,
@@ -205,18 +203,16 @@ export function useFormularioServicio(onCloseModal: () => void) {
     handleCantidadChange,
     addExtra,
     removeExtra,
-    // Funciones para el envío y cancelación del formulario
     handleSubmit,
-    // Campos y funciones para los campos de texto de moneda
     precioBaseValue,
     handlePrecioBaseChange,
     handlePrecioBaseBlur,
     extraPriceValue,
     handleExtraPriceChange,
     handleExtraPriceBlur,
-    // Funciones para la carga de imágenes
-    handleUpload,
-    imagenes,
     handleCancel,
+    registerClearFiles,
+    handleUpload,
+    handleRemoveFile,
   };
 }

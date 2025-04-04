@@ -11,11 +11,6 @@ export const useSidebar = () => {
   const router = useRouter();
   const routes = useRoutes();
 
-  // console.log("isExpanded:", isExpanded);
-  useEffect(() => {
-    console.log("isExpanded cambió:", isExpanded);
-  }, [isExpanded]);
-
   // Determina qué menú debe estar abierto basado en la ruta actual
   useEffect(() => {
     if (pathname.startsWith(routes.serviciosEventosProveedor)) {

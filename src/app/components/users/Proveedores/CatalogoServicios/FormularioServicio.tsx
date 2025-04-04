@@ -1,6 +1,5 @@
 "use client";
-
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import {
   Button,
   CardContent,
@@ -16,15 +15,15 @@ import {
   CardHeader,
   CardFooter,
 } from "@Components/ui/card";
-// import InputFileUpload from "@Components/ui/ImputFiles";
 import { InputImages } from "@Components/ui/ImputImages";
 import { X } from "lucide-react";
 import { useFormularioServicio } from "@Lib/hooks/useFormularioServicio";
 import { Separator } from "@Components/ui/separator";
 
 export default function ProductForm({ onClose }: { onClose: () => void }) {
+  const inputImagesRef = useRef<{ clearFiles: () => void }>(null);
+
   const {
-    // Valores de los campos del estado, municipio y colonia
     estados,
     estadoSeleccionado,
     setEstadoSeleccionado,
@@ -34,15 +33,12 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
     colonias,
     coloniaSeleccionada,
     setColoniaSeleccionada,
-    // Funciones para manejar los campos de texto
     nombre,
     setNombre,
     tipo,
     setTipo,
     categoria,
     setCategoria,
-    // disponibilidad,
-    // setDisponibilidad,
     descripcion,
     setDescripcion,
     extras,
@@ -61,7 +57,15 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
     handleExtraPriceChange,
     handleExtraPriceBlur,
     handleUpload,
+    registerClearFiles,
+    handleRemoveFile,
   } = useFormularioServicio(onClose);
+
+  useEffect(() => {
+    if (inputImagesRef.current) {
+      registerClearFiles(inputImagesRef.current.clearFiles);
+    }
+  }, [registerClearFiles]);
 
   return (
     <div className="w-full">
@@ -149,8 +153,11 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
             // required
           />
 
-          {/*Input para las Imagenes*/}
-          <InputImages onUpload={handleUpload} />
+          <InputImages
+            onUpload={handleUpload}
+            onRemoveFile={handleRemoveFile} // Pasa la función de eliminación
+            ref={inputImagesRef}
+          />
 
           <Separator />
           {/*Seccion de precio base*/}

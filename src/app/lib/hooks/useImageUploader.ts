@@ -35,38 +35,21 @@ export default function useImageUploader(onUpload: (files: File[]) => void) {
       ...prevPreviews,
       ...newFiles.map((file) => URL.createObjectURL(file)),
     ]);
-    onUpload(newFiles); // Notificar al componente padre
+    onUpload(newFiles);
+  };
+
+  const removeFile = (index: number) => {
+    setPreviews((prevPreviews) => {
+      return prevPreviews.filter((_, i) => i !== index);
+    });
   };
 
   const triggerFileInput = () => {
     fileInputRef.current?.click();
   };
 
-  const removeFile = (index: number) => {
-    setPreviews((prevPreviews) => {
-      const newPreviews = prevPreviews.filter((_, i) => i !== index);
-      // Notificar al padre después de la actualización
-      setTimeout(() => {
-        if (fileInputRef.current?.files) {
-          const filesArray = Array.from(fileInputRef.current.files);
-          const newFiles = filesArray.filter((_, i) => i !== index);
-          onUpload(newFiles);
-        } else {
-          onUpload([]);
-        }
-      }, 0);
-      return newPreviews;
-    });
-  };
-
   const clearFiles = () => {
     setPreviews([]);
-    setTimeout(() => {
-      onUpload([]);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-    }, 0);
   };
 
   return {
