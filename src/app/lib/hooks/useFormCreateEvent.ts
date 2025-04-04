@@ -5,7 +5,7 @@ import { useMultiDatePicker } from "@Lib/hooks/useMultiDatePicker";
 import { useTimeChange } from "@Lib/hooks/useTimeChange";
 import { useEstado } from "@Lib/hooks/useEstadosMexico";
 import { useMunicipio } from "@Lib/hooks/useMunicipiosMexico";
-import { useColonia } from "@Lib/hooks/useColoniasMexico";
+import { useLocalidad } from "@Lib/hooks/useLocalidadMexico";
 
 type FlexibleFormValues = { [key: string]: string | number | boolean | null };
 
@@ -60,11 +60,12 @@ export function useFormularioEvento() {
       estadoSeleccionado
     );
 
-  const { colonias, coloniaSeleccionada, setColoniaSeleccionada } = useColonia(
-    form as unknown as UseFormReturn<FlexibleFormValues>, // Tipo flexible aquí
-    estadoSeleccionado,
-    municipioSeleccionado
-  );
+  const { colonias, coloniaSeleccionada, setColoniaSeleccionada } =
+    useLocalidad(
+      form as unknown as UseFormReturn<FlexibleFormValues>, // Tipo flexible aquí
+      estadoSeleccionado,
+      municipioSeleccionado
+    );
 
   function onSubmit(values: FormValues) {
     const datosCorrectos = {

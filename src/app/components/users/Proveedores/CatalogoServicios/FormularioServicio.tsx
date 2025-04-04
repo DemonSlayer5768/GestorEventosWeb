@@ -24,6 +24,17 @@ import { Separator } from "@Components/ui/separator";
 
 export default function ProductForm({ onClose }: { onClose: () => void }) {
   const {
+    // Valores de los campos del estado, municipio y colonia
+    estados,
+    estadoSeleccionado,
+    setEstadoSeleccionado,
+    municipios,
+    municipioSeleccionado,
+    setMunicipioSeleccionado,
+    colonias,
+    coloniaSeleccionada,
+    setColoniaSeleccionada,
+    // Funciones para manejar los campos de texto
     nombre,
     setNombre,
     tipo,
@@ -210,6 +221,91 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               </div>
             )}
           </div>
+          <Separator />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <FormControl fullWidth>
+              <InputLabel>Estado *</InputLabel>
+              <Select
+                value={estadoSeleccionado?.id || ""} // Usa el id del estado seleccionado
+                onChange={(e) => {
+                  const estadoEncontrado = estados.find(
+                    (est) => est.ESTADO_ID === e.target.value
+                  );
+                  if (estadoEncontrado) {
+                    setEstadoSeleccionado({
+                      id: estadoEncontrado.ESTADO_ID,
+                      nombre: estadoEncontrado.ESTADO,
+                    });
+                  }
+                }}
+                label="Estado *"
+                variant="outlined"
+              >
+                {estados.map((estado) => (
+                  <MenuItem key={estado.ESTADO_ID} value={estado.ESTADO_ID}>
+                    {estado.ESTADO} {/* Muestra el nombre del estado */}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth disabled={!estadoSeleccionado}>
+              <InputLabel>Municipio *</InputLabel>
+              <Select
+                value={municipioSeleccionado?.id || ""} // Usa el id del municipio seleccionado
+                onChange={(e) => {
+                  const municipioEncontrado = municipios.find(
+                    (mun) => mun.MUNICIPIO_ID === e.target.value
+                  );
+                  if (municipioEncontrado) {
+                    setMunicipioSeleccionado({
+                      id: municipioEncontrado.MUNICIPIO_ID,
+                      nombre: municipioEncontrado.MUNICIPIO,
+                    });
+                  }
+                }}
+                label="Municipio *"
+                variant="outlined"
+              >
+                {municipios.map((municipio) => (
+                  <MenuItem
+                    key={municipio.MUNICIPIO_ID}
+                    value={municipio.MUNICIPIO_ID}
+                  >
+                    {municipio.MUNICIPIO}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth disabled={!municipioSeleccionado}>
+              <InputLabel>Localidad *</InputLabel>
+              <Select
+                value={coloniaSeleccionada?.id || ""}
+                onChange={(e) => {
+                  const coloniaEncontrada = colonias.find(
+                    (col) => col.ASENTA_ID === e.target.value
+                  );
+                  if (coloniaEncontrada) {
+                    setColoniaSeleccionada({
+                      id: coloniaEncontrada.ASENTA_ID,
+                      nombre: coloniaEncontrada.COLONIA,
+                    });
+                  }
+                }}
+                label="Localidad *"
+                variant="outlined"
+              >
+                {colonias.map((colonia) => (
+                  <MenuItem key={colonia.ASENTA_ID} value={colonia.ASENTA_ID}>
+                    {colonia.COLONIA}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+
+          <Separator />
         </CardContent>
         {/*BOTONES */}
 

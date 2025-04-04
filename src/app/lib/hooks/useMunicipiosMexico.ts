@@ -28,31 +28,3 @@ export function useMunicipio(
 
   return { municipios, municipioSeleccionado, setMunicipioSeleccionado };
 }
-
-// export function useMunicipio(
-//   form: UseFormReturn<{ municipio: string }>,
-//   estadoSeleccionado: { id: string; nombre: string } | null
-// ) {
-//   const [municipios, setMunicipios] = useState<
-//     { MUNICIPIO_ID: string; MUNICIPIO: string }[]
-//   >([]);
-//   const [municipioSeleccionado, setMunicipioSeleccionado] = useState<{
-//     id: string;
-//     nombre: string;
-//   } | null>(null);
-
-//   const resetMunicipio = useCallback(() => {
-//     form.setValue("municipio", "");
-//     setMunicipioSeleccionado(null);
-//   }, [form]);
-
-//   useEffect(() => {
-//     if (!estadoSeleccionado) return;
-//     obtenerMunicipios(estadoSeleccionado.id).then((datos) => {
-//       setMunicipios(datos.municipios || []);
-//       resetMunicipio();
-//     });
-//   }, [estadoSeleccionado, resetMunicipio]);
-
-//   return { municipios, municipioSeleccionado, setMunicipioSeleccionado };
-// }
