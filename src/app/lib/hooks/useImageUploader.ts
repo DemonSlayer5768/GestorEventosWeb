@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 
 export default function useImageUploader(onUpload: (files: File[]) => void) {
-  const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -32,35 +31,28 @@ export default function useImageUploader(onUpload: (files: File[]) => void) {
   };
 
   const updateFiles = (newFiles: File[]) => {
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
     setPreviews((prevPreviews) => [
       ...prevPreviews,
       ...newFiles.map((file) => URL.createObjectURL(file)),
     ]);
+    onUpload(newFiles); // Notificar al componente padre
   };
 
   const removeFile = (index: number) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
+    // Notificar al componente padre que se eliminó un archivo
+    // (necesitarías una forma de manejar esto, quizás con un callback adicional)
   };
 
   const triggerFileInput = () => {
     fileInputRef.current?.click();
   };
 
-  const handleSubmitImages = () => {
-    if (files.length > 0) {
-      onUpload(files);
-    }
-  };
-
   const clearFiles = () => {
-    setFiles([]);
     setPreviews([]);
   };
 
   return {
-    files,
     previews,
     isDragging,
     fileInputRef,
@@ -70,7 +62,6 @@ export default function useImageUploader(onUpload: (files: File[]) => void) {
     handleDragLeave,
     removeFile,
     triggerFileInput,
-    handleSubmitImages,
     clearFiles,
   };
 }

@@ -29,7 +29,7 @@ export default function AgregarServicioModal({
         }`}
       >
         {/* Contenedor del formulario con altura máxima y scroll */}
-        <div className="relative flex flex-col bg-white rounded-lg shadow-xl transition-all duration-500 max-h-[90vh] overflow-hidden">
+        <div className="relative flex flex-col bg-[#ffff] rounded-lg shadow-xl transition-all duration-500 max-h-[90vh] overflow-hidden">
           {/* Contenido scrollable */}
           <div className="overflow-y-auto p-0">
             <FormularioServicio onClose={onClose} />

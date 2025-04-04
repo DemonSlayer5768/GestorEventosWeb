@@ -3,7 +3,6 @@
 import React from "react";
 import {
   Button,
-  //   Checkbox,
   CardContent,
   TextField,
   MenuItem,
@@ -18,7 +17,7 @@ import {
   CardFooter,
 } from "@Components/ui/card";
 // import InputFileUpload from "@Components/ui/ImputFiles";
-import InputImages from "@Components/ui/ImputImages";
+import { InputImages } from "@Components/ui/ImputImages";
 import { X } from "lucide-react";
 import { useFormularioServicio } from "@Lib/hooks/useFormularioServicio";
 import { Separator } from "@Components/ui/separator";
@@ -40,6 +39,8 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
     setExtraInput,
     addExtra,
     removeExtra,
+    cantidad,
+    handleCantidadChange,
     handleSubmit,
     handleCancel,
     precioBaseValue,
@@ -69,7 +70,7 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
             variant="outlined"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            required
+            // required
           />
           {/*Seccion de selects*/}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -80,7 +81,7 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
                 onChange={(e) => setTipo(e.target.value)}
                 label="Tipo *"
                 variant="outlined"
-                required
+                // required
               >
                 <MenuItem value="producto">Producto</MenuItem>
                 <MenuItem value="servicio">Servicio</MenuItem>
@@ -95,7 +96,7 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
                 onChange={(e) => setCategoria(e.target.value)}
                 label="Categoria *"
                 variant="outlined"
-                required
+                // required
               >
                 <MenuItem value="tecnologia">Tecnología</MenuItem>
                 <MenuItem value="hogar">Hogar</MenuItem>
@@ -134,24 +135,15 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
             rows={4}
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
-            required
+            // required
           />
-          {/*Ocultar o no*/}
 
-          {/* <div className="display flex items-center ">
-            <p className="text-gray-700">Cargar Imagenes? {""}</p>
-            <Checkbox />
-          </div> */}
-
-          <div className="">
-            <h2 className="text-xl font-bold mb-4">Subir Imágenes</h2>
-            <InputImages onUpload={handleUpload} />
-          </div>
+          {/*Input para las Imagenes*/}
+          <InputImages onUpload={handleUpload} />
 
           <Separator />
           {/*Seccion de precio base*/}
           <div className="grid grid-cols-2 gap-6">
-
             <TextField
               id="preciobase"
               label="Precio Base"
@@ -163,11 +155,11 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
             />
 
             <TextField
-              label='Cantidad'
+              label="Cantidad"
               variant="outlined"
               fullWidth
-            // value={cantidad}
-            // onChange={HandleCantidadChange}
+              value={cantidad}
+              onChange={handleCantidadChange}
             />
           </div>
           {/* Sección de Extras */}
@@ -224,7 +216,7 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
         <CardFooter className="sticky bottom-0 bg-white border-t p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <Button
-              variant="outlined"
+              variant="contained"
               color="error"
               onClick={handleCancel}
               fullWidth

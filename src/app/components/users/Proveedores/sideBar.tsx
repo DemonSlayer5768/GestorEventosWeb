@@ -1,7 +1,8 @@
 "use client";
 import * as React from "react";
 import {
-  MenuIcon,
+  PanelLeft,
+  PanelLeftClose,
   ClipboardList,
   Mail,
   MapPinHouse,
@@ -11,26 +12,31 @@ import {
 } from "lucide-react";
 import { SidebarItem } from "@Components/users/Proveedores/ItemSideBar";
 import { useSidebar } from "@Lib/hooks/useSideBarProveedor";
+import { Separator } from "@Components/ui/separator";
 
 const Sidebar = () => {
   const { isExpanded, setIsExpanded, openMenu, router, routes } = useSidebar();
 
   return (
-    <div className="flex">
+    <div>
       {/* Sidebar */}
       <div
         className={`bg-[#0F2A1D] min-h-screen flex flex-col transition-all duration-300 ease-in-out ${
-          isExpanded ? "w-64 p-5" : "w-14 p-2"
+          isExpanded ? "w-52 pt-5" : "w-10 pt-5"
         }`}
       >
         {/* Toggle Button */}
-        <div className="mt-4 pb-6">
+
+        <div className="text-end  pt-1 pb-6">
           <button
-            className="p-2 rounded-lg transition"
+            className="rounded-lg transition pr-2  "
             onClick={() => setIsExpanded(!isExpanded)}
           >
-            <MenuIcon size={24} />
+            {!isExpanded && <PanelLeft size={24} />}{" "}
+            {/* Ocultar si está expandido */}
+            {isExpanded && <PanelLeftClose size={24} />}{" "}
           </button>
+          <Separator />
         </div>
 
         {/* Navigation */}
@@ -71,7 +77,7 @@ const Sidebar = () => {
 
         {/* Bottom Section */}
         <div className="mt-auto">
-          <hr className="my-4 mx-2" />
+          <Separator />
           <ul className="space-y-4">
             <SidebarItem
               href="/settings"

@@ -3,10 +3,13 @@ import { ImageIcon, X } from "lucide-react";
 import Image from "next/image";
 import useImageUploader from "@Lib/hooks/useImageUploader";
 
-const InputImages = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
+export const InputImages = ({
+  onUpload,
+}: {
+  onUpload: (files: File[]) => void;
+}) => {
   const {
     previews,
-    // files, llevar datos en el otro form
     isDragging,
     fileInputRef,
     handleFileChange,
@@ -15,8 +18,6 @@ const InputImages = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
     handleDragLeave,
     removeFile,
     triggerFileInput,
-    // handleSubmit
-    // clearFiles, llevar
   } = useImageUploader(onUpload);
 
   return (
@@ -40,7 +41,6 @@ const InputImages = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
           multiple
         />
 
-        {/* Contenedor de carga de imágenes */}
         <div className="flex flex-col items-center justify-center gap-2">
           {!previews.length && (
             <>
@@ -52,7 +52,7 @@ const InputImages = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
                 o arrastra y suelta
               </p>
               <p className="text-xs text-muted-foreground text-gray-800">
-                PNG, JPG, GIF hasta 10MB
+                PNG, JPG hasta 10MB
               </p>
             </>
           )}
@@ -73,7 +73,7 @@ const InputImages = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
                 <Image
                   src={preview || "/placeholder.svg"}
                   alt={`Preview ${index}`}
-                  width={300}
+                  width={100}
                   height={200}
                   className="object-cover rounded-md"
                 />
@@ -91,5 +91,3 @@ const InputImages = ({ onUpload }: { onUpload: (files: File[]) => void }) => {
     </div>
   );
 };
-
-export default InputImages;

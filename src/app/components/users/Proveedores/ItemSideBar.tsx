@@ -28,7 +28,7 @@ export const SidebarItem = ({
       <button
         onClick={onClick}
         className={`flex items-center text-[#ffff] gap-2 p-2 rounded-lg hover:bg-[#375534] hover:text-[#6B9035] ${
-          isExpanded ? "w-full justify-start" : "w-12 justify-center"
+          isExpanded ? "w-full justify-start" : "w-12 justify-center "
         }`}
       >
         <Icon size={24} />
@@ -41,12 +41,12 @@ export const SidebarItem = ({
         </div>
       </button>
 
-      {hasSubmenu && isOpen && (
-        <ul className="ml-6 mt-2 space-y-2">
+      {hasSubmenu && isOpen && isExpanded && (
+        <ul className="ml-10 mt-2 space-y-2">
           <li>
             <button
-              onClick={handleAgregarClick} // Ahora usa directamente handleAgregarClick
-              className="flex items-center bg-green-600 w-full text-[#ffff] text-center gap-2 p-2 rounded-lg hover:bg-[#375534] hover:text-[#6B9035]"
+              onClick={handleAgregarClick}
+              className="flex items-center bg-green-600 w-50 h-8 text-[#ffff] text-center gap-2 p-2 rounded-lg hover:bg-[#375534] hover:text-[#6B9035]"
             >
               Agregar <Plus />
             </button>
