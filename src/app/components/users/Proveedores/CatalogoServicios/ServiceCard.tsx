@@ -24,7 +24,7 @@ export interface ServiceCardProps {
 
 export default function ServiceCard({ service, onReserve }: ServiceCardProps) {
   return (
-    <Card>
+    <Card className="flex flex-col justify-between h-full">
       <Image
         src={service.image}
         alt={service.name}
@@ -33,11 +33,11 @@ export default function ServiceCard({ service, onReserve }: ServiceCardProps) {
         className="object-cover w-full"
       />
       <CardHeader title={service.name} subheader={service.location} />
-      <CardContent>
+      <CardContent className="flex-grow">
         <p className="text-lg font-bold">{service.price}</p>
         <div className="flex items-center">
           <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-          <span className="ml-1 text-sm">{service.rating}</span>
+          <span className="ml-1 break-words">{service.rating}</span>
         </div>
       </CardContent>
       <CardActions>

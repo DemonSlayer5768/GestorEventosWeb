@@ -11,7 +11,9 @@ interface Routes {
   login: string;
   ///RUTA CONFIGURACION///
   settings: string;
-  ///RUTA CONFIGURACION PERFIL///
+  ///RUTA AYUDA///
+  help: string;
+  ///RUTA PERFIL///
   myPerfil: string;
   ///RUTA FORMULARIO///
   crearEvento: string;
@@ -37,6 +39,7 @@ export const useRoutes = (): Routes => {
     admin: "/admin",
     proveedores: "/proveedores",
     cliente: "/users",
+    help: "/help",
     settings: "/settings",
     myPerfil: "/myPerfil",
     crearEvento: "/crear_evento",

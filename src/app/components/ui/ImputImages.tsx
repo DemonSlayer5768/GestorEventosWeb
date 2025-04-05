@@ -89,8 +89,7 @@ export const InputImages = React.forwardRef<InputImagesRef, InputImagesProps>(
                   <Image
                     src={preview || "/placeholder.svg"}
                     alt={`Preview ${index}`}
-                    width={100}
-                    height={200}
+                    fill
                     className="object-cover rounded-md"
                   />
                   <button

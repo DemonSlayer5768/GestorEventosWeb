@@ -21,7 +21,7 @@ const Sidebar = () => {
     <div>
       {/* Sidebar */}
       <div
-        className={`bg-[#0F2A1D] min-h-screen flex flex-col transition-all duration-300 ease-in-out ${
+        className={`bg-[#0F2A1D]  h-full flex flex-col transition-all duration-300 ease-in-out ${
           isExpanded ? "w-52 pt-5" : "w-10 pt-5"
         }`}
       >
@@ -80,14 +80,14 @@ const Sidebar = () => {
           <Separator />
           <ul className="space-y-4">
             <SidebarItem
-              href="/settings"
+              href={routes.settings}
               icon={Settings}
               text="Settings"
               isExpanded={isExpanded}
               onClick={() => router.push("/settings")}
             />
             <SidebarItem
-              href="/help"
+              href={routes.help}
               icon={HelpCircle}
               text="Help"
               isExpanded={isExpanded}

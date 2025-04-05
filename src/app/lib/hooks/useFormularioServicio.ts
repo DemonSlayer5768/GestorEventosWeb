@@ -25,7 +25,6 @@ export function useFormularioServicio(onCloseModal: () => void) {
   const [estado, setEstado] = useState("");
   const [municipio, setMunicipio] = useState("");
   const [localidad, setLocalidad] = useState("");
-
   const clearFilesRef = useRef<() => void>(() => {});
 
   // Hooks para formatear los campos numéricos (moneda y enteros)
@@ -131,9 +130,9 @@ export function useFormularioServicio(onCloseModal: () => void) {
       imagenes,
       precioBase: precioBaseParsed,
       cantidad,
-      estado,
-      municipio,
-      localidad,
+      estado: estadoSeleccionado?.nombre,
+      municipio: municipioSeleccionado?.nombre,
+      localidad: coloniaSeleccionada?.nombre,
       extras,
     });
     console.log("files:", imagenes);
