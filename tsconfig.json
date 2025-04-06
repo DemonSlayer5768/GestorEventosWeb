@@ -21,19 +21,12 @@
     "baseUrl": ".",
     "paths": {
       "<webPage>/*": ["./src/*"],
-      "@Components/*": ["./src/app/components/*"],
-      "@Lib/*": ["./src/app/lib/*"],
-      "@Store/*": ["./src/app/store/*"],
+      "@Components/*": ["./src/components/*"],
+      "@Lib/*": ["./src/lib/*"],
       "@Styles/*": ["./src/app/styles/*"],
       "@Apis/*": ["./src/app/api/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "src/app/lib/conexionDB.js"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

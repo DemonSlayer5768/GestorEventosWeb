@@ -1,7 +1,7 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import LoginForm from "<webPage>/app/components/SingIn/SingIn";
-import RegisterForm from "<webPage>/app/components/SingIn/Register";
+import LoginForm from "@Components/SingIn/SingIn";
+import RegisterForm from "@Components/SingIn/Register";
 import { useLoginRegister } from "@Lib/hooks/useLoginRegister";
 import { useIsMobile } from "@Lib/hooks/useIsMobile";
 import Aurora from "@Components/ui/Aurora";

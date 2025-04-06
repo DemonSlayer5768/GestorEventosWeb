@@ -1,4 +1,4 @@
-interface Routes {
+export interface Routes {
   ///RUTA PRINCIPAL///
   home: string;
   ///RUTAS USUARIOS ///
@@ -35,19 +35,19 @@ interface Routes {
 export const useRoutes = (): Routes => {
   return {
     home: "/",
-    login: "/SignIn",
-    admin: "/admin",
-    proveedores: "/proveedores",
-    cliente: "/users",
-    help: "/help",
-    settings: "/settings",
-    myPerfil: "/myPerfil",
-    crearEvento: "/crear_evento",
-    bandejaCorreo: "/bandeja_correo",
-    paquetesEventos: "/paquetes_eventos",
-    catalogoSalonesProveedor: "/catalogo_salones_proveedor",
-    serviciosEventosProveedor: "/servicios_eventos_proveedor",
-    catalogoSalonesCliente: "/catalogo_salones_cliente",
-    serviciosEventosCliente: "/servicios_eventos_cliente",
+    login: "/Login",
+    admin: "/Administradores",
+    proveedores: "/Proveedores",
+    cliente: "/Clientes",
+    help: "/help", // cambiar por un modal
+    settings: "/settings", // cambiar por un modal
+    myPerfil: "/myPerfil", // cambiar por un modal
+    crearEvento: "/CrearEventoCliente",
+    bandejaCorreo: "/BandejaCorreos",
+    paquetesEventos: "/PaquetesEventos",
+    catalogoSalonesProveedor: "/CatalogoSalonesProveedores",
+    serviciosEventosProveedor: "/ServiciosEventosProveedores",
+    catalogoSalonesCliente: "/CatalogoSalonesClientes",
+    serviciosEventosCliente: "/ServiciosEventosClientes",
   };
 };
