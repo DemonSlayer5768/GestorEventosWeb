@@ -1,4 +1,4 @@
-import { useForm, UseFormReturn } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMultiDatePicker } from "@Lib/hooks/useMultiDatePicker";
@@ -6,8 +6,6 @@ import { useTimeChange } from "@Lib/hooks/useTimeChange";
 import { useEstado } from "@Lib/hooks/useEstadosMexico";
 import { useMunicipio } from "@Lib/hooks/useMunicipiosMexico";
 import { useLocalidad } from "@Lib/hooks/useLocalidadMexico";
-
-type FlexibleFormValues = { [key: string]: string | number | boolean | null };
 
 const formSchema = z.object({
   nombre: z
@@ -51,21 +49,35 @@ export function useFormularioEvento() {
   const { timeInicio, timeFin, handleTimeChange, setTimeInicio, setTimeFin } =
     useTimeChange(form, "horaInicio", "horaFin");
 
+  // Hook para manejar los estados de México
   const { estados, estadoSeleccionado, setEstadoSeleccionado } = useEstado();
 
-  const { municipio } = form.getValues(); // Obtener el valor del campo municipio
-  const { municipios, municipioSeleccionado, setMunicipioSeleccionado } =
-    useMunicipio(
-      municipio, // Solo pasar el valor de municipio
-      estadoSeleccionado
-    );
+  // Hook para manejar los municipios
+  // Uso del hook en el componente
+  const municipioHook = useMunicipio(estadoSeleccionado); // Sólo pasa estadoSeleccionado
 
+  const { municipios, municipioSeleccionado, setMunicipioSeleccionado } =
+    municipioHook;
+
+  // Hook para manejar colonias
+  const localidadHook = useLocalidad(
+    {
+      id: estadoSeleccionado?.id || "",
+      nombre: estadoSeleccionado?.nombre || "",
+    },
+    {
+      id: municipioSeleccionado?.id || "",
+      nombre: municipioSeleccionado?.nombre || "",
+    }
+  );
   const { colonias, coloniaSeleccionada, setColoniaSeleccionada } =
-    useLocalidad(
-      form as unknown as UseFormReturn<FlexibleFormValues>, // Tipo flexible aquí
-      estadoSeleccionado,
-      municipioSeleccionado
-    );
+    estadoSeleccionado && municipioSeleccionado
+      ? localidadHook
+      : {
+          colonias: [],
+          coloniaSeleccionada: null,
+          setColoniaSeleccionada: () => {},
+        };
 
   function onSubmit(values: FormValues) {
     const datosCorrectos = {

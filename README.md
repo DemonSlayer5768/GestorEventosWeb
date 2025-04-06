@@ -7,13 +7,6 @@ Estructura detallada
 │── 📂 DB/ # Configuración de base de datos
 │ │── ConexionDB.js # Archivo de conexión a la base de datos
 │── 📂 src/ # Carpeta principal del código fuente
-| | | ──📂api / # Funciones que manejan peticiones a la API
-| | | | |──📂login
-| | | | | | |──route.ts #hacer peticion para validar al usuario
-| | | | |──📂Register
-| | | | | | |──route.ts #hacer peticion para registrar al usaurio en la db
-| | | | |── apiDIPOMEX.ts
-| | | | |── moreApis.ts
 │ │ │── 📂 components/ # Componentes reutilizables
 │ │ │ | │── 📂 inicio/ # componentes de la pagina inicio
 │ │ │ | │── 📂 SingIn/ # Componentes relacionados con el login
@@ -28,6 +21,13 @@ Estructura detallada
 | | | | |── 📂 utils/ # Funciones auxiliares (formatos de fecha, validaciones, etc.)
 | | │ │ │── 📂 store/ # Gestión de estado global (Redux, Zustand, Context API)
 │ │ |── 📂 app/ # Contenedor principal de la aplicación (Next.js App Router)
+| | | | ──📂api / # Funciones que manejan peticiones a la API
+| | | | | |──📂login
+| | | | | | | |──route.ts #hacer peticion para validar al usuario
+| | | | | |──📂Register
+| | | | | | | |──route.ts #hacer peticion para registrar al usaurio en la db
+| | | | | |── apiDIPOMEX.ts
+| | | | | |── moreApis.ts
 │ | │ │── 📂 Administradores
 | | | | | |──page.tsx
 │ | │ │── 📂 BandejaCorreos

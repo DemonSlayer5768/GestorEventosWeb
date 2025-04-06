@@ -4,7 +4,7 @@ import { useRoutes } from "@Lib/hooks/useRoutes";
 import { useModal } from "@Lib/hooks/useSalonAgregarModal";
 
 export const useSidebar = () => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const pathname = usePathname();
   const { open, handleOpenServicios, handleClose } = useModal(); // Usa el modal

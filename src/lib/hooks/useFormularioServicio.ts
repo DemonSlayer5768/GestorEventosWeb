@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from "react";
-import useTextFieldCurrency from "@Lib/hooks/useTextFieldCurrency";
-import { useTextFieldInteger } from "@Lib/hooks/useTextFiledInteger";
+import { OnlyCurrency } from "@Lib/utils/FilterOnlyValuesCurrency";
+import { OnlyInteger } from "@Lib/utils/FilterOnlyValuesInteger";
 import { useEstado } from "@Lib/hooks/useEstadosMexico";
 import { useMunicipio } from "@Lib/hooks/useMunicipiosMexico";
 import { useLocalidad } from "@Lib/hooks/useLocalidadMexico";
@@ -27,21 +27,36 @@ export function useFormularioServicio(onCloseModal: () => void) {
   const [localidad, setLocalidad] = useState("");
   const clearFilesRef = useRef<() => void>(() => {});
 
+  // Funciones para manejar los cambios en los campos de texto
+  const handleNombreChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setNombre(e.target.value);
+    },
+    []
+  );
+
+  const handleDescripcionChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setDescripcion(e.target.value);
+    },
+    []
+  );
+
   // Hooks para formatear los campos numéricos (moneda y enteros)
   const {
     value: precioBaseValue,
     handleChange: handlePrecioBaseChange,
     handleBlur: handlePrecioBaseBlur,
-  } = useTextFieldCurrency(precioBase, setPrecioBase);
+  } = OnlyCurrency(precioBase, setPrecioBase);
 
   const {
     value: extraPriceValue,
     handleChange: handleExtraPriceChange,
     handleBlur: handleExtraPriceBlur,
-  } = useTextFieldCurrency(extraPrice, setExtraPrice);
+  } = OnlyCurrency(extraPrice, setExtraPrice);
 
   const { value: cantidadValue, handleChange: handleCantidadChange } =
-    useTextFieldInteger(cantidad, setCantidad);
+    OnlyInteger(cantidad, setCantidad);
 
   // Función para agregar un extra (producto adicional)
   const addExtra = () => {
@@ -86,15 +101,11 @@ export function useFormularioServicio(onCloseModal: () => void) {
   const { estados, estadoSeleccionado, setEstadoSeleccionado } = useEstado();
 
   // Hook para manejar los municipios
-  const municipioHook = useMunicipio(municipio, estadoSeleccionado);
+  // Uso del hook en el componente
+  const municipioHook = useMunicipio(estadoSeleccionado); // Sólo pasa estadoSeleccionado
+
   const { municipios, municipioSeleccionado, setMunicipioSeleccionado } =
-    estadoSeleccionado
-      ? municipioHook
-      : {
-          municipios: [],
-          municipioSeleccionado: null,
-          setMunicipioSeleccionado: () => {},
-        };
+    municipioHook;
 
   // Hook para manejar colonias
   const localidadHook = useLocalidad(
@@ -172,6 +183,8 @@ export function useFormularioServicio(onCloseModal: () => void) {
   ]);
 
   return {
+    handleNombreChange,
+    handleDescripcionChange,
     estados,
     estadoSeleccionado,
     setEstadoSeleccionado,

@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { obtenerMunicipios } from "@Apis/apiDIPOMEX";
 
+// Hook para manejar los municipios
 export function useMunicipio(
-  municipio: string, // Ahora solo espera el valor de municipio
   estadoSeleccionado: { id: string; nombre: string } | null
 ) {
   const [municipios, setMunicipios] = useState<
@@ -12,10 +12,10 @@ export function useMunicipio(
   const [municipioSeleccionado, setMunicipioSeleccionado] = useState<{
     id: string;
     nombre: string;
-  } | null>(null); // Inicializa el estado de municipioSeleccionado
+  } | null>(null); // Estado del municipio seleccionado
 
   const resetMunicipio = useCallback(() => {
-    setMunicipioSeleccionado(null); // Resetear municipioSeleccionado
+    setMunicipioSeleccionado(null); // Resetear el municipio seleccionado
   }, []);
 
   useEffect(() => {

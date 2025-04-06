@@ -24,6 +24,8 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
   const inputImagesRef = useRef<{ clearFiles: () => void }>(null);
 
   const {
+    handleNombreChange,
+    handleDescripcionChange,
     estados,
     estadoSeleccionado,
     setEstadoSeleccionado,
@@ -34,13 +36,11 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
     coloniaSeleccionada,
     setColoniaSeleccionada,
     nombre,
-    setNombre,
     tipo,
     setTipo,
     categoria,
     setCategoria,
     descripcion,
-    setDescripcion,
     extras,
     extraInput,
     setExtraInput,
@@ -81,10 +81,10 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
         <CardContent className="space-y-6 p-6">
           <TextField
             fullWidth
-            label="Nombre del servicio"
+            label="Nombre del servicio *"
             variant="outlined"
             value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+            onChange={handleNombreChange}
             // required
           />
           {/*Seccion de selects*/}
@@ -149,7 +149,7 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
             multiline
             rows={4}
             value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
+            onChange={handleDescripcionChange}
             // required
           />
 

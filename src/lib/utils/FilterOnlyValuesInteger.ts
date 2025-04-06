@@ -1,36 +1,33 @@
+//FilterOnlyValuesInteger.ts
+// Este hook se encarga de formatear y validar los valores de entrada para que solo contengan números enteros.
 import { ChangeEvent, useState, useCallback } from "react";
 
-export const useTextFieldInteger = (
+export const OnlyInteger = (
   value: string,
   onChange: (value: string) => void
 ) => {
   const [rawValue, setRawValue] = useState(value || "");
 
-  // Función para formatear el número entero
-  const formatInteger = useCallback((num: string) => {
+  const formatInteger = (num: string) => {
     const parsedNumber = parseInt(num, 10);
-    if (isNaN(parsedNumber)) return ""; // Retorna cadena vacía si no es un número válido
-    return parsedNumber.toLocaleString(""); // Formatea con separadores de miles
-  }, []);
+    if (isNaN(parsedNumber)) return "";
+    return parsedNumber.toLocaleString(""); // Formateo con separadores de miles
+  };
 
-  // Manejador del evento onChange
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      // eslint-disable-next-line prefer-const
-      let inputValue = event.target.value.replace(/\D/g, ""); // Elimina cualquier carácter no numérico
-
+      const inputValue = event.target.value.replace(/\D/g, ""); // Elimina caracteres no numéricos
       setRawValue(inputValue);
       onChange(inputValue);
     },
     [onChange]
   );
 
-  // Manejador del evento onBlur
   const handleBlur = useCallback(() => {
     const formatted = formatInteger(rawValue);
     setRawValue(formatted);
     onChange(formatted);
-  }, [rawValue, formatInteger, onChange]);
+  }, [rawValue, onChange]);
 
   return { value: rawValue, handleChange, handleBlur };
 };
