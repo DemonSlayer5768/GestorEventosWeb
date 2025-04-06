@@ -24,41 +24,42 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
   const inputImagesRef = useRef<{ clearFiles: () => void }>(null);
 
   const {
-    handleNombreChange,
-    handleDescripcionChange,
     estados,
     estadoSeleccionado,
-    setEstadoSeleccionado,
     municipios,
     municipioSeleccionado,
-    setMunicipioSeleccionado,
     colonias,
     coloniaSeleccionada,
-    setColoniaSeleccionada,
     nombre,
     tipo,
-    setTipo,
     categoria,
-    setCategoria,
     descripcion,
     extras,
     extraInput,
-    setExtraInput,
-    addExtra,
-    removeExtra,
-    cantidad,
-    handleCantidadChange,
-    handleSubmit,
-    handleCancel,
+    cantidad: cantidadValue,
     precioBaseValue,
+    extraPriceValue,
+    // Handlers
+    handleNombreChange,
+    handleDescripcionChange,
+    handleTipoChange,
+    handleCategoriaChange,
+    handleExtraInputChange,
+    handleEstadoChange,
+    handleMunicipioChange,
+    handleLocalidadChange,
+    handleCantidadChange,
     handlePrecioBaseChange,
     handlePrecioBaseBlur,
-    extraPriceValue,
     handleExtraPriceChange,
     handleExtraPriceBlur,
+    addExtra,
+    removeExtra,
+    handleSubmit,
+    handleCancel,
     handleUpload,
-    registerClearFiles,
     handleRemoveFile,
+    registerClearFiles,
   } = useFormularioServicio(onClose);
 
   useEffect(() => {
@@ -67,11 +68,17 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
     }
   }, [registerClearFiles]);
 
+  useEffect(() => {
+    return () => {
+      handleNombreChange.cancel?.();
+      handleDescripcionChange.cancel?.();
+    };
+  }, [handleNombreChange, handleDescripcionChange]);
+
   return (
     <div className="w-full">
       <CardHeader className=" bg-white ">
-        <CardTitle className="text-gray-800">Formulario de Servcio</CardTitle>
-
+        <CardTitle className="text-gray-800">Formulario de Servicio</CardTitle>
         <CardDescription>
           Ingresa los detalles del producto o servicio
         </CardDescription>
@@ -81,22 +88,22 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
         <CardContent className="space-y-6 p-6">
           <TextField
             fullWidth
-            label="Nombre del servicio *"
+            label="Nombre del servicio"
             variant="outlined"
             value={nombre}
-            onChange={handleNombreChange}
-            // required
+            onChange={(e) => handleNombreChange(e.target.value)}
+            color="primary"
           />
-          {/*Seccion de selects*/}
+
+          {/* Sección de selects */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormControl fullWidth>
               <InputLabel>Tipo *</InputLabel>
               <Select
                 value={tipo}
-                onChange={(e) => setTipo(e.target.value)}
+                onChange={(e) => handleTipoChange(e.target.value as string)}
                 label="Tipo *"
                 variant="outlined"
-                // required
               >
                 <MenuItem value="producto">Producto</MenuItem>
                 <MenuItem value="servicio">Servicio</MenuItem>
@@ -108,10 +115,11 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               <InputLabel>Categoría *</InputLabel>
               <Select
                 value={categoria}
-                onChange={(e) => setCategoria(e.target.value)}
+                onChange={(e) =>
+                  handleCategoriaChange(e.target.value as string)
+                }
                 label="Categoria *"
                 variant="outlined"
-                // required
               >
                 <MenuItem value="tecnologia">Tecnología</MenuItem>
                 <MenuItem value="hogar">Hogar</MenuItem>
@@ -121,46 +129,25 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               </Select>
             </FormControl>
           </div>
-          {/*Importar imagenes*/}
-          {/* <InputFileUpload /> */}
-          {/* <FormControl fullWidth>
-            <InputLabel>Disponibilidad</InputLabel>
-            <Select
-              value={disponibilidad}
-              onChange={(e) => setDisponibilidad(e.target.value)}
-              label="disponibilidad"
-              variant="outlined"
-              required
-            >
-              <MenuItem value="TODOS">TODOS LOS DIAS</MenuItem>
-              <MenuItem value="L-V">LUNES A VIERNES</MenuItem>
-              <MenuItem value="LUNES">LUNES</MenuItem>
-              <MenuItem value="MARTES">MARTES</MenuItem>
-              <MenuItem value="MIERCOLES">MIERCOLES</MenuItem>
-              <MenuItem value="JUEVES">JUEVES</MenuItem>
-              <MenuItem value="VIERNES">VIERNES</MenuItem>
-              <MenuItem value="SABADO">SABADO</MenuItem>
-              <MenuItem value="DOMINGO">DOMINGO</MenuItem>
-            </Select>
-          </FormControl> */}
+
           <TextField
             fullWidth
             label="Descripción"
             multiline
             rows={4}
             value={descripcion}
-            onChange={handleDescripcionChange}
-            // required
+            onChange={(e) => handleDescripcionChange(e.target.value)}
           />
 
           <InputImages
             onUpload={handleUpload}
-            onRemoveFile={handleRemoveFile} // Pasa la función de eliminación
+            onRemoveFile={handleRemoveFile}
             ref={inputImagesRef}
           />
 
           <Separator />
-          {/*Seccion de precio base*/}
+
+          {/* Sección de precio base */}
           <div className="grid grid-cols-2 gap-6">
             <TextField
               id="preciobase"
@@ -176,17 +163,18 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               label="Cantidad"
               variant="outlined"
               fullWidth
-              value={cantidad}
+              value={cantidadValue}
               onChange={handleCantidadChange}
             />
           </div>
+
           {/* Sección de Extras */}
           <div className="space-y-2">
             <InputLabel>Extras</InputLabel>
             <div className="flex gap-2">
               <TextField
                 value={extraInput}
-                onChange={(e) => setExtraInput(e.target.value)}
+                onChange={(e) => handleExtraInputChange(e.target.value)}
                 placeholder="Nombre del extra"
                 className="flex-1"
               />
@@ -213,13 +201,14 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
                 {extras.map((extra, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-1 bg-blue-800 rounded-lg p-2"
+                    className="flex items-center gap-1 bg-blue-800 rounded-lg p-2 text-white"
                   >
                     {extra.name} - ${extra.price.toFixed(2)}
                     <button
                       type="button"
                       onClick={() => removeExtra(extra.name)}
                       className="ml-1 rounded-full hover:bg-blue-500 p-1"
+                      aria-label={`Eliminar ${extra.name}`}
                     >
                       <X className="h-3 w-3" />
                     </button>
@@ -228,29 +217,22 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               </div>
             )}
           </div>
+
           <Separator />
+
+          {/* Sección de ubicación */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <FormControl fullWidth>
               <InputLabel>Estado *</InputLabel>
               <Select
-                value={estadoSeleccionado?.id || ""} // Usa el id del estado seleccionado
-                onChange={(e) => {
-                  const estadoEncontrado = estados.find(
-                    (est) => est.ESTADO_ID === e.target.value
-                  );
-                  if (estadoEncontrado) {
-                    setEstadoSeleccionado({
-                      id: estadoEncontrado.ESTADO_ID,
-                      nombre: estadoEncontrado.ESTADO,
-                    });
-                  }
-                }}
+                value={estadoSeleccionado?.id || ""}
+                onChange={(e) => handleEstadoChange(e.target.value as string)}
                 label="Estado *"
                 variant="outlined"
               >
                 {estados.map((estado) => (
                   <MenuItem key={estado.ESTADO_ID} value={estado.ESTADO_ID}>
-                    {estado.ESTADO} {/* Muestra el nombre del estado */}
+                    {estado.ESTADO}
                   </MenuItem>
                 ))}
               </Select>
@@ -259,18 +241,10 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
             <FormControl fullWidth disabled={!estadoSeleccionado}>
               <InputLabel>Municipio *</InputLabel>
               <Select
-                value={municipioSeleccionado?.id || ""} // Usa el id del municipio seleccionado
-                onChange={(e) => {
-                  const municipioEncontrado = municipios.find(
-                    (mun) => mun.MUNICIPIO_ID === e.target.value
-                  );
-                  if (municipioEncontrado) {
-                    setMunicipioSeleccionado({
-                      id: municipioEncontrado.MUNICIPIO_ID,
-                      nombre: municipioEncontrado.MUNICIPIO,
-                    });
-                  }
-                }}
+                value={municipioSeleccionado?.id || ""}
+                onChange={(e) =>
+                  handleMunicipioChange(e.target.value as string)
+                }
                 label="Municipio *"
                 variant="outlined"
               >
@@ -289,17 +263,9 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               <InputLabel>Localidad *</InputLabel>
               <Select
                 value={coloniaSeleccionada?.id || ""}
-                onChange={(e) => {
-                  const coloniaEncontrada = colonias.find(
-                    (col) => col.ASENTA_ID === e.target.value
-                  );
-                  if (coloniaEncontrada) {
-                    setColoniaSeleccionada({
-                      id: coloniaEncontrada.ASENTA_ID,
-                      nombre: coloniaEncontrada.COLONIA,
-                    });
-                  }
-                }}
+                onChange={(e) =>
+                  handleLocalidadChange(e.target.value as string)
+                }
                 label="Localidad *"
                 variant="outlined"
               >
@@ -314,8 +280,8 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
 
           <Separator />
         </CardContent>
-        {/*BOTONES */}
 
+        {/* Botones */}
         <CardFooter className="sticky bottom-0 bg-white border-t p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <Button

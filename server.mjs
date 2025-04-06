@@ -7,8 +7,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = 3050;
-const API_BASE_URL = "https://api.tau.com.mx/dipomex/v1/";
+const PORT = process.env.PORT || 3050;
+const API_BASE_URL =
+  process.env.API_BASE_URL || "https://api.tau.com.mx/dipomex/v1/";
 const API_KEY = process.env.APIKEY;
 
 app.use(cors());
@@ -43,11 +44,11 @@ app.get("/api/:tipo", async (req, res) => {
     const data = await response.json();
     res.json(data);
   } catch (error) {
-    console.error("Error al consumir la API externa:", error);
+    console.error("Error al consumir la API externa:", error.message);
     res.status(500).json({ error: error.message });
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });

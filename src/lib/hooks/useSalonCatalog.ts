@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Salons } from "../data/dataSalones";
+import { Salons } from "../DB/dataSalones";
 import { Salon } from "@Components/users/Proveedores/CatalogoSalones/SalonCard";
 
 export function useSalonCatalog() {

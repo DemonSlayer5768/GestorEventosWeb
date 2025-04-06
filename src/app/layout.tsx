@@ -13,7 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Eventify",
+  title: "Easy Events",
+  icons: {
+    icon: "/LOGO.png",
+    shortcut: "/LOGO.png",
+  },
   description: "Gestor de eventos",
 };
 

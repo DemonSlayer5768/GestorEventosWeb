@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import ConexionDB from "@Lib/conexionDB"; // Sigue usando tu conexión
+import ConexionDB from "@Lib/DB/conexionDB"; // Sigue usando tu conexión
 import bcrypt from "bcryptjs";
 import { RowDataPacket, FieldPacket } from "mysql2";
 

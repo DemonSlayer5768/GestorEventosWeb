@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { service } from "../data/dataServices";
+import { service } from "../DB/dataServices";
 import { Service } from "@Components/users/Proveedores/CatalogoServicios/ServiceCard";
 
 export function useServiceCatalog() {
