@@ -30,7 +30,7 @@ export function useRegister() {
     try {
       const userType = getUserType(); // 🔹 Determina el tipo de usuario antes de enviarlo
 
-      const response = await fetch("/api/register", {
+      const response = await fetch("/api/AuthRegister", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

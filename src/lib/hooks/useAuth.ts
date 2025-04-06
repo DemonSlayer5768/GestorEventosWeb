@@ -20,7 +20,7 @@ export function useAuth() {
     try {
       // console.log("Enviando credenciales:", { email, password });
 
-      const response = await fetch("/api/login", {
+      const response = await fetch("/api/AuthLogin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

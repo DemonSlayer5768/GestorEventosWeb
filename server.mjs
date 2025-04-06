@@ -1,3 +1,4 @@
+// server.mjs
 import express from "express";
 import cors from "cors";
 import fetch from "node-fetch";
@@ -7,22 +8,27 @@ dotenv.config();
 
 const app = express();
 const PORT = 3050;
+const API_BASE_URL = "https://api.tau.com.mx/dipomex/v1/";
+const API_KEY = process.env.APIKEY;
 
 app.use(cors());
 app.use(express.json());
 
-const API_BASE_URL = "https://api.tau.com.mx/dipomex/v1/";
-const API_KEY = process.env.APIKEY;
-
-// 🔹 Ruta raíz para comprobar que el servidor funciona
-app.get("/", (res) => {
+// Ruta raíz
+app.get("/", (req, res) => {
   res.send("Servidor funcionando con ES Modules");
 });
 
-// 🔹 Endpoint dinámico para estados, municipios y colonias
+// Ruta dinámica para estados, municipios, colonias
 app.get("/api/:tipo", async (req, res) => {
-  const { tipo } = req.params; // 'estados', 'municipios' o 'colonias'
-  const query = new URLSearchParams(req.query).toString(); // Permite pasar parámetros dinámicos
+  const { tipo } = req.params;
+  const allowed = ["estados", "municipios", "colonias"];
+
+  if (!allowed.includes(tipo)) {
+    return res.status(400).json({ error: "Ruta no permitida" });
+  }
+
+  const query = new URLSearchParams(req.query).toString();
   const url = `${API_BASE_URL}${tipo}?${query}`;
 
   try {
@@ -31,17 +37,17 @@ app.get("/api/:tipo", async (req, res) => {
     });
 
     if (!response.ok) {
-      throw new Error(`Error en la API: ${response.statusText}`);
+      throw new Error(`API Error: ${response.statusText}`);
     }
 
     const data = await response.json();
     res.json(data);
   } catch (error) {
+    console.error("Error al consumir la API externa:", error);
     res.status(500).json({ error: error.message });
   }
 });
 
-// 🔹 Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
