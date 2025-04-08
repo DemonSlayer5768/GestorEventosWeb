@@ -1,5 +1,4 @@
-"use client";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import {
   Button,
   CardContent,
@@ -39,7 +38,6 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
     cantidad: cantidadValue,
     precioBaseValue,
     extraPriceValue,
-    // Handlers
     handleNombreChange,
     handleDescripcionChange,
     handleTipoChange,
@@ -62,22 +60,31 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
     registerClearFiles,
   } = useFormularioServicio(onClose);
 
+  // Registra la función para limpiar los archivos en un solo efecto
   useEffect(() => {
     if (inputImagesRef.current) {
       registerClearFiles(inputImagesRef.current.clearFiles);
     }
-  }, [registerClearFiles]);
-
-  useEffect(() => {
     return () => {
       handleNombreChange.cancel?.();
       handleDescripcionChange.cancel?.();
     };
-  }, [handleNombreChange, handleDescripcionChange]);
+  }, [registerClearFiles, handleNombreChange, handleDescripcionChange]);
+
+  // Memoizar los valores de los selects para evitar renderizados innecesarios
+  const estadosMemo = useMemo(() => estados, [estados]);
+  const municipiosMemo = useMemo(() => municipios, [municipios]);
+  const coloniasMemo = useMemo(() => colonias, [colonias]);
+
+  const handleSelectChange =
+    (handler: (value: string) => void) =>
+    (e: React.ChangeEvent<{ value: unknown }>) => {
+      handler(e.target.value as string);
+    };
 
   return (
     <div className="w-full">
-      <CardHeader className=" bg-white ">
+      <CardHeader className="bg-white">
         <CardTitle className="text-gray-800">Formulario de Servicio</CardTitle>
         <CardDescription>
           Ingresa los detalles del producto o servicio
@@ -92,7 +99,7 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
             variant="outlined"
             value={nombre}
             onChange={(e) => handleNombreChange(e.target.value)}
-            color="primary"
+            required
           />
 
           {/* Sección de selects */}
@@ -101,7 +108,7 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               <InputLabel>Tipo *</InputLabel>
               <Select
                 value={tipo}
-                onChange={(e) => handleTipoChange(e.target.value as string)}
+                onChange={handleSelectChange(handleTipoChange)}
                 label="Tipo *"
                 variant="outlined"
               >
@@ -115,11 +122,10 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               <InputLabel>Categoría *</InputLabel>
               <Select
                 value={categoria}
-                onChange={(e) =>
-                  handleCategoriaChange(e.target.value as string)
-                }
+                onChange={handleSelectChange(handleCategoriaChange)}
                 label="Categoria *"
                 variant="outlined"
+                required
               >
                 <MenuItem value="tecnologia">Tecnología</MenuItem>
                 <MenuItem value="hogar">Hogar</MenuItem>
@@ -136,6 +142,7 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
             multiline
             rows={4}
             value={descripcion}
+            required
             onChange={(e) => handleDescripcionChange(e.target.value)}
           />
 
@@ -154,11 +161,12 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               label="Precio Base"
               variant="outlined"
               fullWidth
+              required
+              inputProps={{ inputMode: "decimal" }}
               value={precioBaseValue}
               onChange={handlePrecioBaseChange}
               onBlur={handlePrecioBaseBlur}
             />
-
             <TextField
               label="Cantidad"
               variant="outlined"
@@ -226,11 +234,12 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               <InputLabel>Estado *</InputLabel>
               <Select
                 value={estadoSeleccionado?.id || ""}
-                onChange={(e) => handleEstadoChange(e.target.value as string)}
+                onChange={handleSelectChange(handleEstadoChange)}
                 label="Estado *"
                 variant="outlined"
+                required
               >
-                {estados.map((estado) => (
+                {estadosMemo.map((estado) => (
                   <MenuItem key={estado.ESTADO_ID} value={estado.ESTADO_ID}>
                     {estado.ESTADO}
                   </MenuItem>
@@ -242,13 +251,12 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               <InputLabel>Municipio *</InputLabel>
               <Select
                 value={municipioSeleccionado?.id || ""}
-                onChange={(e) =>
-                  handleMunicipioChange(e.target.value as string)
-                }
+                onChange={handleSelectChange(handleMunicipioChange)}
                 label="Municipio *"
                 variant="outlined"
+                required
               >
-                {municipios.map((municipio) => (
+                {municipiosMemo.map((municipio) => (
                   <MenuItem
                     key={municipio.MUNICIPIO_ID}
                     value={municipio.MUNICIPIO_ID}
@@ -263,13 +271,12 @@ export default function ProductForm({ onClose }: { onClose: () => void }) {
               <InputLabel>Localidad *</InputLabel>
               <Select
                 value={coloniaSeleccionada?.id || ""}
-                onChange={(e) =>
-                  handleLocalidadChange(e.target.value as string)
-                }
+                onChange={handleSelectChange(handleLocalidadChange)}
                 label="Localidad *"
                 variant="outlined"
+                required
               >
-                {colonias.map((colonia) => (
+                {coloniasMemo.map((colonia) => (
                   <MenuItem key={colonia.ASENTA_ID} value={colonia.ASENTA_ID}>
                     {colonia.COLONIA}
                   </MenuItem>

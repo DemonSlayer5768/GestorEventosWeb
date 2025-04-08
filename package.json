@@ -27,7 +27,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "framer-motion": "^12.5.0",
+    "framer-motion": "^12.6.3",
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.474.0",

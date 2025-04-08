@@ -30,13 +30,29 @@ export default function useImageUploader(onUpload: (files: File[]) => void) {
     setIsDragging(false);
   };
 
-  const updateFiles = (newFiles: File[]) => {
-    setPreviews((prevPreviews) => [
-      ...prevPreviews,
-      ...newFiles.map((file) => URL.createObjectURL(file)),
-    ]);
-    onUpload(newFiles);
+  const convertToBase64 = (file: File) => {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   };
+
+  const updateFiles = async (newFiles: File[]) => {
+    // Enviar los archivos originales a la función onUpload
+    onUpload(newFiles);
+    const base64Files = await Promise.all(newFiles.map(convertToBase64));
+    setPreviews((prevPreviews) => [...prevPreviews, ...base64Files]);
+  };
+
+  // const updateFiles = (newFiles: File[]) => {
+  //   setPreviews((prevPreviews) => [
+  //     ...prevPreviews,
+  //     ...newFiles.map((file) => URL.createObjectURL(file)),
+  //   ]);
+  //   onUpload(newFiles);
+  // };
 
   const removeFile = (index: number) => {
     setPreviews((prevPreviews) => {

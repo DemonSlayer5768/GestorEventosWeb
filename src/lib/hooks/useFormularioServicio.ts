@@ -27,12 +27,12 @@ export function useFormularioServicio(onCloseModal: () => void) {
 
   // Handlers optimizados con useCallback
   const debouncedHandleNombreChange = useMemo(
-    () => debounce((value: string) => setNombre(value), 0.00000000000001),
+    () => debounce((value: string) => setNombre(value), 250),
     []
   );
 
   const debouncedHandleDescripcionChange = useMemo(
-    () => debounce((value: string) => setDescripcion(value), 0.0000000000001),
+    () => debounce((value: string) => setDescripcion(value), 250),
     []
   );
 
@@ -146,6 +146,16 @@ export function useFormularioServicio(onCloseModal: () => void) {
     [municipios, setMunicipioSeleccionado, setColoniaSeleccionada]
   );
 
+  // Función para convertir un archivo a base64
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file); // Convierte el archivo a base64
+    });
+  };
+
   const handleLocalidadChange = useCallback(
     (id: string) => {
       const coloniaEncontrada = colonias.find((col) => col.ASENTA_ID === id);
@@ -159,41 +169,151 @@ export function useFormularioServicio(onCloseModal: () => void) {
     [colonias, setColoniaSeleccionada]
   );
 
-  // Submit y cancel
   const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
+    async (e: React.FormEvent) => {
       e.preventDefault();
+
       const precioBaseParsed =
         Number.parseFloat(precioBaseValue.replace(/[$,]/g, "")) || 0;
 
-      console.log("Formulario enviado", {
-        nombre,
-        tipo,
-        categoria,
-        descripcion,
-        imagenes,
-        precioBase: precioBaseParsed,
-        cantidad,
-        estado: estadoSeleccionado?.nombre,
-        municipio: municipioSeleccionado?.nombre,
-        localidad: coloniaSeleccionada?.nombre,
-        extras,
-      });
+      const storedUser = localStorage.getItem("user");
+      const user = storedUser ? JSON.parse(storedUser) : null;
+      const userId = user?.id || null;
+
+      try {
+        // Convierte las imágenes a base64
+        const imageBase64Promises = imagenes.map((file) =>
+          convertToBase64(file)
+        );
+        const imageBase64Array = await Promise.all(imageBase64Promises);
+
+        // Ahora envía los datos al servidor
+        const response = await fetch("/api/ServiciosInsert", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+            nombre,
+            tipo,
+            categoria,
+            descripcion,
+            imagenes: imageBase64Array, // Envía las imágenes como base64
+            precioBase: precioBaseParsed,
+            cantidad,
+            estadoSeleccionado: estadoSeleccionado?.nombre,
+            municipioSeleccionado: municipioSeleccionado?.nombre,
+            coloniaSeleccionada: coloniaSeleccionada?.nombre,
+            extras,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Error al enviar el servicio");
+        }
+
+        const data = await response.json();
+        console.log("Servicio creado con éxito:", data);
+        onCloseModal();
+      } catch (error) {
+        console.error("Error al enviar el formulario:", error);
+      }
     },
     [
+      precioBaseValue,
       nombre,
       tipo,
       categoria,
       descripcion,
       imagenes,
-      precioBaseValue,
       cantidad,
       estadoSeleccionado,
       municipioSeleccionado,
       coloniaSeleccionada,
       extras,
+      onCloseModal,
     ]
   );
+
+  // Manejo del envío del formulario
+  // const handleSubmit = useCallback(
+  //   async (e: React.FormEvent) => {
+  //     e.preventDefault();
+
+  //     const precioBaseParsed =
+  //       Number.parseFloat(precioBaseValue.replace(/[$,]/g, "")) || 0;
+
+  //     // Obtener el userId del localStorage
+  //     const storedUser = localStorage.getItem("user");
+  //     const user = storedUser ? JSON.parse(storedUser) : null;
+  //     const userId = user?.id || null;
+
+  //     // Enviar datos a la API
+  //     try {
+  //       console.log("Enviando datos:", {
+  //         userId,
+  //         nombre,
+  //         tipo,
+  //         categoria,
+  //         descripcion,
+  //         imagenes,
+  //         precioBase: precioBaseParsed,
+  //         extras,
+  //         // Asegúrate de que estos valores sean correctos
+  //         cantidad: cantidadValue,
+  //         estado: estadoSeleccionado?.nombre,
+  //         municipio: municipioSeleccionado?.nombre,
+  //         localidad: coloniaSeleccionada?.nombre,
+  //       });
+  //       const response = await fetch("/api/ServiciosInsert", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           userId,
+  //           nombre,
+  //           tipo,
+  //           categoria,
+  //           descripcion,
+  //           imagenes: imagenes.map((file) => file.name), // Solo el nombre del archivo
+  //           precioBase: precioBaseParsed,
+  //           cantidad,
+  //           estadoSeleccionado: estadoSeleccionado?.nombre, // Corregido
+  //           municipioSeleccionado: municipioSeleccionado?.nombre, // Corregido
+  //           coloniaSeleccionada: coloniaSeleccionada?.nombre, // Corregido
+  //           extras,
+  //         }),
+  //       });
+
+  //       if (!response.ok) {
+  //         throw new Error("Error al enviar el servicio");
+  //       }
+
+  //       const data = await response.json();
+  //       console.log("Servicio creado con éxito:", data);
+  //       onCloseModal(); // cierra el modal si todo fue bien
+  //     } catch (error) {
+  //       console.error("Error al enviar el formulario:", error);
+  //     }
+  //   },
+  //   [
+  //     precioBaseValue,
+  //     nombre,
+  //     tipo,
+  //     categoria,
+  //     descripcion,
+  //     imagenes,
+  //     cantidad,
+  //     cantidadValue,
+  //     estadoSeleccionado,
+  //     municipioSeleccionado,
+  //     coloniaSeleccionada,
+  //     extras,
+  //     onCloseModal,
+  //   ]
+  // );
 
   const handleCancel = useCallback(() => {
     setNombre("");
