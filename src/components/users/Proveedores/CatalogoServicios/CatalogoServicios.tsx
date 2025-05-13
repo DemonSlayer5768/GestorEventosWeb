@@ -32,7 +32,7 @@ export default function ServiceCatalog() {
                 calificacion: service.rating,
                 imagenes: [service.image],
               }}
-              onReserve={() =>
+              onModify={() =>
                 setSelectedService({
                   id: service.id,
                   nombre: service.name,
@@ -42,6 +42,11 @@ export default function ServiceCatalog() {
                   estado: service.Estado,
                   municipio: service.Municipio,
                   localidad: service.localidad,
+                  extras: service.extras,
+                  descripcion: service.descripcion,
+                  cantidad: service.cantidad,
+                  tipo: service.tipo,
+                  categoria: service.categoria,
                 })
               }
             />

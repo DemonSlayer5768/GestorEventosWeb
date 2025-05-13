@@ -20,6 +20,19 @@ interface Servicio extends RowDataPacket {
   fechaCreacion: Date;
 }
 
+// id: s.id,
+// name: s.nombre,
+// tipo: s.tipo,
+// categoria: s.categoria,
+// descripcion: s.descripcion,
+// image: s.imagenes?.[0] || "/placeholder.svg",
+// price: s.precioBase,
+// cantidad: s.cantidad,
+// Estado: s.estado,
+// Municipio: s.municipio,
+// localidad: s.localidad,
+// extras: s.extras,
+
 export async function GET(req: Request) {
   try {
     // Obtener parámetros de búsqueda de la URL

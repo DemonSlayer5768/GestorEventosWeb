@@ -9,6 +9,12 @@ interface ServicioAPI {
   estado: string;
   imagenes: string[];
   calificacion?: number;
+  tipo?: string;
+  categoria?: string;
+  descripcion?: string;
+  cantidad?: number;
+  extras?: string;
+  fechaCreacion?: Date;
 }
 
 export function useServiceCatalog() {
@@ -28,31 +34,21 @@ export function useServiceCatalog() {
   const filteredService = servicios.map((s) => ({
     id: s.id,
     name: s.nombre,
+    tipo: s.tipo,
+    categoria: s.categoria,
+    descripcion: s.descripcion,
     image: s.imagenes?.[0] || "/placeholder.svg",
     price: s.precioBase,
+    cantidad: s.cantidad,
     Estado: s.estado,
     Municipio: s.municipio,
     localidad: s.localidad,
+    extras: s.extras,
 
     //ubicacion
     ubicacion: ` ${s.municipio}, ${s.estado}`,
     rating: s.calificacion ?? 0,
   }));
-
-  //   id: number;
-  // userId: string;
-  // nombre: string;
-  // tipo: string;
-  // categoria: string;
-  // descripcion: string;
-  // imagenes: string;
-  // precioBase: number;
-  // cantidad: number;
-  // estado: string;
-  // municipio: string;
-  // localidad: string;
-  // extras: string;
-  // fechaCreacion: Date;
 
   return {
     selectedService,

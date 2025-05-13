@@ -20,10 +20,10 @@ export interface Service {
 
 export interface ServiceCardProps {
   service: Service;
-  onReserve: () => void;
+  onModify: () => void;
 }
 
-export default function ServiceCard({ service, onReserve }: ServiceCardProps) {
+export default function ServiceCard({ service, onModify }: ServiceCardProps) {
   return (
     <Card className="flex flex-col h-full rounded-xl shadow-md overflow-hidden">
       {/* Imagen */}
@@ -68,15 +68,15 @@ export default function ServiceCard({ service, onReserve }: ServiceCardProps) {
 
       {/* Botones */}
       <CardActions className="gap-2 px-4 pb-4">
-        <Button
+        {/* <Button
           variant="contained"
           color="primary"
           fullWidth
-          onClick={onReserve}
+          onClick={onModify}
           startIcon={<ListCheck className="h-4 w-4" />}
         >
           Modificar
-        </Button>
+        </Button> */}
         <Button
           variant="contained"
           color="error"
