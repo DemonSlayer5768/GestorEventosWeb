@@ -1,20 +1,40 @@
-import { useState } from "react";
-import { service } from "../DB/dataServices";
-import { Service } from "@Components/users/Proveedores/CatalogoServicios/ServiceCard";
+import { useEffect, useState } from "react";
+
+interface ServicioAPI {
+  id: number;
+  nombre: string;
+  precioBase: number;
+  municipio: string;
+  localidad: string;
+  estado: string;
+  imagenes: string[];
+  calificacion?: number;
+}
 
 export function useServiceCatalog() {
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
-
-  const filteredService = service.filter(
-    (s) =>
-      s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.location.toLowerCase().includes(searchTerm.toLowerCase())
+  const [servicios, setServicios] = useState<ServicioAPI[]>([]);
+  const [selectedService, setSelectedService] = useState<ServicioAPI | null>(
+    null
   );
 
+  useEffect(() => {
+    fetch("/api/getServicios")
+      .then((res) => res.json())
+      .then((data) => {
+        setServicios(data);
+      });
+  }, []);
+
+  const filteredService = servicios.map((s) => ({
+    id: s.id,
+    name: s.nombre,
+    image: s.imagenes?.[0] || "/placeholder.svg",
+    price: `$${s.precioBase}`,
+    location: `${s.localidad}, ${s.municipio}, ${s.estado}`,
+    rating: s.calificacion ?? 0,
+  }));
+
   return {
-    searchTerm,
-    setSearchTerm,
     selectedService,
     setSelectedService,
     filteredService,

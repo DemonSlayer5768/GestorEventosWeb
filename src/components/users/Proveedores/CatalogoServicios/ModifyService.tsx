@@ -1,74 +1,86 @@
+import { useState, useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import Button from "@mui/material/Button";
+import ProductForm from "./FormularioServicio";
 
-interface ReservationDialogProps {
-  salon: { name: string };
+interface Extra {
+  name: string;
+  price: number;
+}
+
+interface ServiceDialogProps {
+  service: {
+    id: string;
+    nombre: string;
+    tipo: string;
+    categoria: string;
+    descripcion: string;
+    precioBase: number;
+    cantidad: number;
+    extras?: Extra[];
+    estadoId?: string;
+    municipioId?: string;
+    coloniaId?: string;
+    imagenes?: string[];
+  };
   isOpen: boolean;
   onClose: () => void;
 }
 
 export default function ModifyService({
-  salon,
+  service,
   isOpen,
   onClose,
-}: ReservationDialogProps) {
+}: ServiceDialogProps) {
+  const [initialValues, setInitialValues] = useState<any>(null);
+
+  useEffect(() => {
+    if (service) {
+      setInitialValues({
+        nombre: service.nombre,
+        tipo: service.tipo,
+        categoria: service.categoria,
+        descripcion: service.descripcion,
+        precioBase: `$${service.precioBase.toFixed(2)}`,
+        cantidad: service.cantidad.toString(),
+        extras: service.extras || [],
+        estadoId: service.estadoId,
+        municipioId: service.municipioId,
+        coloniaId: service.coloniaId,
+        // Nota: Las imágenes necesitarían conversión especial si son URLs/base64
+      });
+    }
+  }, [service]);
+
+  const handleSubmitSuccess = () => {
+    onClose();
+    // Aquí podrías agregar un callback para actualizar la lista de servicios
+  };
+
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <DialogTitle>Servicio {salon.name}</DialogTitle>
-      <DialogContent>
-        {/* <MultiDatePicker /> */}
-        {/* <TextField
-          margin="dense"
-          id="date"
-          label="Fecha"
-          type="date"
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-        /> */}
-        <FormControl fullWidth margin="dense">
-          <InputLabel id="time-label">Hora</InputLabel>
-          <Select labelId="time-label" id="time" defaultValue="">
-            {[
-              "09:00",
-              "10:00",
-              "11:00",
-              "12:00",
-              "13:00",
-              "16:00",
-              "17:00",
-              "18:00",
-            ].map((time) => (
-              <MenuItem key={time} value={time}>
-                {time}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <TextField margin="dense" id="name" label="Nombre" fullWidth />
-        <TextField margin="dense" id="phone" label="Teléfono" fullWidth />
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      fullWidth
+      maxWidth="md"
+      scroll="paper"
+      sx={{
+        "& .MuiDialog-paper": {
+          maxHeight: "90vh",
+        },
+      }}
+    >
+      <DialogTitle>Editar Servicio: {service.nombre}</DialogTitle>
+      <DialogContent dividers>
+        {initialValues && (
+          <ProductForm
+            onClose={handleSubmitSuccess}
+            initialValues={initialValues}
+            isEditMode={true}
+          />
+        )}
       </DialogContent>
-      <DialogActions>
-        <Button variant="outlined" onClick={onClose}>
-          Cancelar
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => {
-            alert("¡Reserva realizada con éxito!");
-            onClose();
-          }}
-        >
-          Confirmar Reserva
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 }

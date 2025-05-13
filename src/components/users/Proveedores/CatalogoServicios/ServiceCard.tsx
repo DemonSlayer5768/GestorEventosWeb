@@ -10,11 +10,11 @@ import Button from "@mui/material/Button";
 
 export interface Service {
   id: number;
-  image: string;
-  name: string;
-  location: string;
-  price: string;
-  rating: number;
+  nombre: string;
+  precioBase: number;
+  municipio: string;
+  calificacion: number;
+  imagenes: string[];
 }
 
 export interface ServiceCardProps {
@@ -26,18 +26,18 @@ export default function ServiceCard({ service, onReserve }: ServiceCardProps) {
   return (
     <Card className="flex flex-col justify-between h-full">
       <Image
-        src={service.image}
-        alt={service.name}
+        src={service.imagenes?.[0] || "/placeholder.svg"}
+        alt={service.nombre}
         width={300}
         height={200}
         className="object-cover w-full"
       />
-      <CardHeader title={service.name} subheader={service.location} />
+      <CardHeader title={service.nombre} subheader={service.municipio} />
       <CardContent className="flex-grow">
-        <p className="text-lg font-bold">{service.price}</p>
+        <p className="text-lg font-bold">${service.precioBase.toFixed(2)}</p>
         <div className="flex items-center">
           <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-          <span className="ml-1 break-words">{service.rating}</span>
+          <span className="ml-1 break-words">{service.calificacion ?? 0}</span>
         </div>
       </CardContent>
       <CardActions>
