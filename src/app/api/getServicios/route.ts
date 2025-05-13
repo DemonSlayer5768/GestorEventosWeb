@@ -37,7 +37,7 @@ export async function GET(req: Request) {
     // Construir la consulta base
     let query = `
       SELECT 
-        id_servicio as id,
+        id as id,
         Usuario_id as userId,
         Nombre as nombre,
         Tipo as tipo,

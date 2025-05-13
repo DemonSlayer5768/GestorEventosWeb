@@ -77,18 +77,28 @@ export default function ServiceCard({ service, onReserve }: ServiceCardProps) {
         >
           Modificar
         </Button>
-
         <Button
           variant="contained"
           color="error"
           fullWidth
-          onClick={() => {
-            console.log(`Eliminar servicio con ID: ${service.id}`);
+          onClick={async () => {
+            try {
+              const res = await fetch(`/api/deleteService/${service.id}`, {
+                method: "DELETE",
+              });
+
+              if (res.ok) {
+                alert("Servicio eliminado correctamente.");
+              } else {
+                const data = await res.json();
+                alert("Error al eliminar: " + data.message);
+              }
+            } catch (error) {
+              alert("Error al conectar con el servidor. " + error);
+            }
           }}
           startIcon={<X className="h-4 w-4" />}
-        >
-          Eliminar
-        </Button>
+        />
       </CardActions>
     </Card>
   );
