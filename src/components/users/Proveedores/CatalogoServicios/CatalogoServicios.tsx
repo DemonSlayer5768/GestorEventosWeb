@@ -23,7 +23,7 @@ export default function ServiceCatalog() {
             service={{
               id: service.id,
               nombre: service.name,
-              precioBase: Number(service.price), // ← convertido a número
+              precioBase: Number(service.price),
               municipio: service.location,
               calificacion: service.rating,
               imagenes: [service.image],
@@ -38,7 +38,6 @@ export default function ServiceCatalog() {
                 imagenes: [service.image],
                 localidad: service.location,
                 estado: service.location,
-                // colonia: service.location,
               })
             }
           />

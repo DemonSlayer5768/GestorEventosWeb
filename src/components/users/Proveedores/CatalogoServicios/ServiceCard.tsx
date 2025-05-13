@@ -13,8 +13,10 @@ export interface Service {
   nombre: string;
   precioBase: number;
   municipio: string;
-  calificacion: number;
-  imagenes: string[];
+  calificacion?: number;
+  imagenes?: string[];
+  localidad?: string; // ← falta
+  estado?: string; // ← falta
 }
 
 export interface ServiceCardProps {
