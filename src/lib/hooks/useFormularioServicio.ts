@@ -1,3 +1,4 @@
+//useFormularioServicio.ts
 import { useState, useCallback, useRef, useMemo } from "react";
 import { OnlyCurrency } from "@Lib/utils/FilterOnlyValuesCurrency";
 import { OnlyInteger } from "@Lib/utils/FilterOnlyValuesInteger";
@@ -27,12 +28,12 @@ export function useFormularioServicio(onCloseModal: () => void) {
 
   // Handlers optimizados con useCallback
   const debouncedHandleNombreChange = useMemo(
-    () => debounce((value: string) => setNombre(value), 250),
+    () => debounce((value: string) => setNombre(value), 0.000001),
     []
   );
 
   const debouncedHandleDescripcionChange = useMemo(
-    () => debounce((value: string) => setDescripcion(value), 250),
+    () => debounce((value: string) => setDescripcion(value), 0.000001),
     []
   );
 

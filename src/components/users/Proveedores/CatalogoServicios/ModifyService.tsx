@@ -8,7 +8,6 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
-// import MultiDatePicker from "@Components/ui/MultiDatePicker";
 
 interface ReservationDialogProps {
   salon: { name: string };
@@ -16,7 +15,7 @@ interface ReservationDialogProps {
   onClose: () => void;
 }
 
-export default function CreateServiceDialog({
+export default function ModifyService({
   salon,
   isOpen,
   onClose,
