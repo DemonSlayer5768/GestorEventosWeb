@@ -1,7 +1,5 @@
-//ServiceCard.tsx
-
 import Image from "next/image";
-import { Star, ListCheck } from "lucide-react";
+import { Star, ListCheck, X } from "lucide-react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -11,12 +9,13 @@ import Button from "@mui/material/Button";
 export interface Service {
   id: number;
   nombre: string;
-  precioBase: number;
-  municipio: string;
+  precioBase: string;
   calificacion?: number;
   imagenes?: string[];
-  localidad?: string; // ← falta
-  estado?: string; // ← falta
+  estado?: string;
+  localidad?: string;
+  municipio?: string;
+  location?: string;
 }
 
 export interface ServiceCardProps {
@@ -26,30 +25,69 @@ export interface ServiceCardProps {
 
 export default function ServiceCard({ service, onReserve }: ServiceCardProps) {
   return (
-    <Card className="flex flex-col justify-between h-full">
-      <Image
-        src={service.imagenes?.[0] || "/placeholder.svg"}
-        alt={service.nombre}
-        width={300}
-        height={200}
-        className="object-cover w-full"
+    <Card className="flex flex-col h-full rounded-xl shadow-md overflow-hidden">
+      {/* Imagen */}
+      <div className="relative w-full h-60">
+        <Image
+          src={service.imagenes?.[0] || "/placeholder.svg"}
+          alt={service.nombre}
+          fill
+          className="object-cover"
+        />
+      </div>
+
+      {/* Título y subtítulo */}
+      <CardHeader
+        className="pb-0"
+        title={
+          <div
+            className="text-md text-blue-800 font-semibold truncate w-full"
+            title={service.nombre}
+          >
+            {service.nombre}
+          </div>
+        }
+        subheader={
+          <div
+            className="text-sm text-gray-800 truncate w-full"
+            title={service.location}
+          >
+            {service.location}
+          </div>
+        }
       />
-      <CardHeader title={service.nombre} subheader={service.municipio} />
-      <CardContent className="flex-grow">
-        <p className="text-lg font-bold">${service.precioBase.toFixed(2)}</p>
-        <div className="flex items-center">
+
+      {/* Contenido */}
+      <CardContent className="flex flex-col gap-2">
+        <p className="text-lg font-bold text-blue-600">${service.precioBase}</p>
+        <div className="flex items-center text-sm text-gray-600">
           <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-          <span className="ml-1 break-words">{service.calificacion ?? 0}</span>
+          <span className="ml-1">{service.calificacion ?? 0}</span>
         </div>
       </CardContent>
-      <CardActions>
+
+      {/* Botones */}
+      <CardActions className="gap-2 px-4 pb-4">
         <Button
           variant="contained"
           color="primary"
           fullWidth
           onClick={onReserve}
+          startIcon={<ListCheck className="h-4 w-4" />}
         >
-          <ListCheck className="h-4 w-4 mr-2" /> Modificar
+          Modificar
+        </Button>
+
+        <Button
+          variant="contained"
+          color="error"
+          fullWidth
+          onClick={() => {
+            console.log(`Eliminar servicio con ID: ${service.id}`);
+          }}
+          startIcon={<X className="h-4 w-4" />}
+        >
+          Eliminar
         </Button>
       </CardActions>
     </Card>

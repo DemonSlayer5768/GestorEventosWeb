@@ -1,61 +1,53 @@
-//CatalogoServicios.tsx
-
 "use client";
+
 import { useServiceCatalog } from "@Lib/hooks/useServiceCatalog";
 import ServiceCard from "@Components/users/Proveedores/CatalogoServicios/ServiceCard";
-
-// import ModifyService from "@Components/users/Proveedores/CatalogoServicios/ModifyService";
 
 export default function ServiceCatalog() {
   const { setSelectedService, filteredService } = useServiceCatalog();
 
   return (
-    <div className="flex flex-col w-full min-h-screen overflow-auto items-center py-8 px-4">
-      <h1 className="text-3xl text-black font-bold mb-8 text-center">
+    <div className="w-full min-h-screen py-10 px-4">
+      <h1 className="text-4xl font-extrabold text-center text-blue-800 mb-10">
         Catálogo de Servicios
       </h1>
 
-      {/* Contenedor del Grid */}
-      <div className="grid grid-cols-1 m-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
-        {filteredService.map((service) => (
-          <ServiceCard
-            key={service.id}
-            service={{
-              id: service.id,
-              nombre: service.name,
-              precioBase: Number(service.price),
-              municipio: service.location,
-              calificacion: service.rating,
-              imagenes: [service.image],
-            }}
-            onReserve={() =>
-              setSelectedService({
+      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-full max-h-full mx-auto px-2">
+        {filteredService.length === 0 ? (
+          <p className="text-center text-gray-500 col-span-full">
+            No hay servicios disponibles.
+          </p>
+        ) : (
+          filteredService.map((service) => (
+            <ServiceCard
+              key={service.id}
+              service={{
                 id: service.id,
                 nombre: service.name,
-                precioBase: Number(service.price),
-                municipio: service.location,
+                precioBase: String(service.price),
+                estado: service.Estado,
+                municipio: service.Municipio,
+                localidad: service.localidad,
+                location: service.ubicacion,
                 calificacion: service.rating,
                 imagenes: [service.image],
-                localidad: service.location,
-                estado: service.location,
-              })
-            }
-          />
-        ))}
+              }}
+              onReserve={() =>
+                setSelectedService({
+                  id: service.id,
+                  nombre: service.name,
+                  precioBase: String(service.price),
+                  calificacion: service.rating,
+                  imagenes: [service.image],
+                  estado: service.Estado,
+                  municipio: service.Municipio,
+                  localidad: service.localidad,
+                })
+              }
+            />
+          ))
+        )}
       </div>
-
-      <div className="bg-blue-600 h-20 w-full mt-8">
-        <h1 className="text-black text-center">aqui</h1>
-      </div>
-      {/* 
-      {selectedService && (
-        <ModifyService
-          key={selectedService.id}
-          service={selectedService}
-          isOpen={!!selectedService}
-          onClose={() => setSelectedService(null)}
-        />
-      )} */}
     </div>
   );
 }

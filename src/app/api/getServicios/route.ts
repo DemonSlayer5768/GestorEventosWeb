@@ -11,7 +11,7 @@ interface Servicio extends RowDataPacket {
   categoria: string;
   descripcion: string;
   imagenes: string;
-  precioBase: number;
+  precioBase: string;
   cantidad: number;
   estado: string;
   municipio: string;
@@ -32,6 +32,7 @@ export async function GET(req: Request) {
     const estado = searchParams.get("estado");
     const municipio = searchParams.get("municipio");
     const localidad = searchParams.get("localidad");
+    const price = searchParams.get("price");
 
     // Construir la consulta base
     let query = `
@@ -85,6 +86,14 @@ export async function GET(req: Request) {
     if (localidad) {
       query += " AND Localidad = ?";
       params.push(localidad);
+    }
+
+    if (price) {
+      const [minPrice, maxPrice] = price.split(",").map(Number);
+      if (!isNaN(minPrice) && !isNaN(maxPrice)) {
+        query += " AND Precio BETWEEN ? AND ?";
+        params.push(minPrice, maxPrice);
+      }
     }
 
     // Ordenar por fecha de creación (más recientes primero)
